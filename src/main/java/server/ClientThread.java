@@ -1,7 +1,7 @@
 package server;
 
-import common.Conversation;
-import common.User;
+import common.model.Conversation;
+import common.model.User;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -30,7 +30,8 @@ public class ClientThread extends Thread {
                 String[] arguments = line.split(":");
 
                 if (arguments.length != 0) {
-                    switch (arguments[0]) {
+                    String command = arguments[0];
+                    switch (command) {
                         case "requestConnection" -> {
                             String username = arguments[1];
                             if (!username.equals("")) {
@@ -39,10 +40,11 @@ public class ClientThread extends Thread {
                                 currentUser = new User(username, clientSocket);
                                 currentUser.setConnected(true);
 
-                                if (MainServer.userRegistry.addUser(currentUser)) {
+                                if (MainServer.userDao.create(currentUser)) {
                                     System.out.println("connection successful");
                                     socOut.println("confirmConnection:" + username + ":0");
                                 } else {
+                                    currentUser = null;
                                     System.out.println("connection failed");
                                     socOut.println("confirmConnection:" + username + ":1");
                                 }
@@ -53,8 +55,15 @@ public class ClientThread extends Thread {
 
                             System.out.println("requestJoinChatroom: " + username);
 
-                            if (MainServer.userRegistry.isConnected(username)) {
-                                currentConversation = new Conversation(currentUser, MainServer.userRegistry.getUser(username));
+                            if (MainServer.userDao.isConnected(username)) {
+//                                currentConversation = new Conversation(currentUser, MainServer.userDao.searchByUsername(username));
+                                User otherUser = MainServer.userDao.searchByUsername(username);
+                                MainServer.conversationDao.create(currentUser, otherUser);
+
+                                currentConversation = MainServer.conversationDao.searchConversationWithBothUsers(currentUser, otherUser);
+
+                                currentConversation.setIsInRoom(currentUser, true);
+
                                 socOut.println("confirmJoinChatroom:" + username + ":0");
                                 System.out.println("confirmJoinChatroom: " + username + ":0");
                             } else {
@@ -62,12 +71,21 @@ public class ClientThread extends Thread {
                                 System.out.println("confirmJoinChatroom: " + username + ":1");
                             }
                         }
-                        case "sendTextMessage" -> {
-                            String confirmMessage = "confirmTextMessage:" + currentUser.getUsername() + ":" + arguments[1];
+                        case "sendMessage" -> {
+                            User otherUser = currentConversation.getOtherUser(currentUser);
+                            String type = arguments[1];
+                            String value = arguments[2];
+
+                            String confirmMessage = "confirmMessage:" + type + ":" + currentUser.getUsername() + ":" + value;
+
                             socOut.println(confirmMessage);
-                            currentConversation.getUser2().sendSocketMessage(confirmMessage);
+
+                            if (currentConversation.getIsInRoom(otherUser)) {
+                                otherUser.sendSocketMessage(confirmMessage);
+                            }
                         }
                         case "quitChatroom" -> {
+                            currentConversation.setIsInRoom(currentUser, false);
                             currentConversation = null;
                             socOut.println("confirmQuitChatroom");
                         }

@@ -1,10 +1,13 @@
-package common;
+package common.model;
+
+import common.utils.Pair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Objects;
 
 public class User {
     private String username;
@@ -57,5 +60,30 @@ public class User {
 
     public String receiveSocketLine() throws IOException {
         return this.socIn.readLine();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
+    }
+
+    public static Pair<User, User> orderTwoUser(User u1, User u2) {
+        Pair<User, User> result;
+
+        if (u1.getUsername().compareTo(u2.getUsername()) <= 0) {
+            result = new Pair<>(u1, u2);
+        } else {
+            result = new Pair<>(u2, u1);
+        }
+
+        return result;
     }
 }

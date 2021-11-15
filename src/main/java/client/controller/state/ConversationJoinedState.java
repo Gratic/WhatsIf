@@ -15,6 +15,7 @@ public class ConversationJoinedState implements State {
         while (continueChatting) {
             while (c.socketIncomingData()) {
                 String message = c.receiveSocketLine();
+
                 System.out.println(message);
             }
 
@@ -25,7 +26,7 @@ public class ConversationJoinedState implements State {
                 case "/reload" -> {
                 }
                 case "/quit" -> continueChatting = false;
-                default -> c.sendSocketMessage("sendTextMessage:" + userAction);
+                default -> c.sendSocketMessage("sendMessage:text:" + userAction);
             }
         }
 

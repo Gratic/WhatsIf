@@ -1,18 +1,18 @@
-package server;
+package server.dao;
 
-import common.User;
+import common.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserRegistry {
+public class UserDao {
     Map<String, User> users;
 
-    public UserRegistry() {
+    public UserDao() {
         users = new HashMap<>();
     }
 
-    public boolean addUser(User newUser) {
+    public boolean create(User newUser) {
         if (users.containsKey(newUser.getUsername())) {
             return false;
         }
@@ -21,7 +21,7 @@ public class UserRegistry {
         return true;
     }
 
-    public User getUser(String username) {
+    public User searchByUsername(String username) {
         return users.get(username);
     }
 

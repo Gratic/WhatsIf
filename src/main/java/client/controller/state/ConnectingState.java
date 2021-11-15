@@ -1,7 +1,7 @@
 package client.controller.state;
 
 import client.controller.Controller;
-import common.User;
+import common.model.User;
 
 import java.io.IOException;
 

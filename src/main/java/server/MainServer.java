@@ -1,14 +1,19 @@
 package server;
 
+import server.dao.ConversationDao;
+import server.dao.UserDao;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MainServer {
-    public static UserRegistry userRegistry;
+    public static UserDao userDao;
+    public static ConversationDao conversationDao;
 
     public static void main(String[] args) {
         ServerSocket listenSocket;
-        userRegistry = new UserRegistry();
+        userDao = new UserDao();
+        conversationDao = new ConversationDao();
 
         if (args.length != 1) {
             System.out.println("Usage: java EchoServer <EchoServer port>");

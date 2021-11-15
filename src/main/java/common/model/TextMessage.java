@@ -1,4 +1,4 @@
-package common;
+package common.model;
 
 
 public class TextMessage extends Message {

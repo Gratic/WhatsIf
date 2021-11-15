@@ -1,8 +1,8 @@
 package client.controller;
 
 import client.controller.state.*;
-import common.Conversation;
-import common.User;
+import common.model.Conversation;
+import common.model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
