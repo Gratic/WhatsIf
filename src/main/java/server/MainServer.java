@@ -1,12 +1,24 @@
 package server;
 
+import server.dao.ConversationDao;
+import server.dao.UserDao;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Main {
-    public static void main(String[] args)
-    {
+/**
+ * MainServer is the starting point.
+ * Listen on port given in the first argument.
+ * Creates a new thread for each connection.
+ */
+public class MainServer {
+    public static UserDao userDao;
+    public static ConversationDao conversationDao;
+
+    public static void main(String[] args) {
         ServerSocket listenSocket;
+        userDao = new UserDao();
+        conversationDao = new ConversationDao();
 
         if (args.length != 1) {
             System.out.println("Usage: java EchoServer <EchoServer port>");

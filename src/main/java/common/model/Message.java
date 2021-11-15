@@ -1,9 +1,9 @@
-package common;
+package common.model;
 
 public class Message {
     protected User sender;
 
-    public Message(User sender){
+    public Message(User sender) {
         this.sender = sender;
     }
 

@@ -1,13 +1,13 @@
-package common;
+package common.model;
 
 
 public class TextMessage extends Message {
 
     private String content;
 
-    public TextMessage(User user, String content){
+    public TextMessage(User user, String content) {
         super(user);
-        this.content=content;
+        this.content = content;
 
     }
 
