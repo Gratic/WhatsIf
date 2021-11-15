@@ -6,6 +6,11 @@ import server.dao.UserDao;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * MainServer is the starting point.
+ * Listen on port given in the first argument.
+ * Creates a new thread for each connection.
+ */
 public class MainServer {
     public static UserDao userDao;
     public static ConversationDao conversationDao;

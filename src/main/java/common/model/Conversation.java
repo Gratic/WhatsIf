@@ -1,21 +1,25 @@
 package common.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * Represents a chat room.
+ */
 public class Conversation {
     private User user1;
     private User user2;
 
-    private boolean isInRoomU1;
-    private boolean isInRoomU2;
+    private final Map<User, Boolean> isInRoom;
 
     private List<Message> messages;
 
     public Conversation(User user1, User user2) {
         this.user1 = user1;
         this.user2 = user2;
-        this.isInRoomU1 = false;
-        this.isInRoomU2 = false;
+
+        isInRoom = new HashMap<>();
     }
 
     public User getUser1() {
@@ -43,23 +47,19 @@ public class Conversation {
     }
 
     public boolean getIsInRoom(User u) {
-        if (user1.equals(u)) {
-            return isInRoomU1;
-        } else if (user2.equals(u)) {
-            return isInRoomU2;
-        }
-
-        return false;
+        return isInRoom.getOrDefault(u, false);
     }
 
     public void setIsInRoom(User u, boolean value) {
-        if (user1.equals(u)) {
-            isInRoomU1 = value;
-        } else if (user2.equals(u)) {
-            isInRoomU2 = value;
-        }
+        isInRoom.put(u, value);
     }
 
+    /**
+     * Get the other participant, other than u.
+     *
+     * @param u a user
+     * @return User, the other user.
+     */
     public User getOtherUser(User u) {
         if (user1.equals(u)) {
             return user2;

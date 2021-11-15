@@ -8,6 +8,10 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 
+/**
+ * ClientThread manages a connection with a client.
+ * Answer and send request from and to client.
+ */
 public class ClientThread extends Thread {
     private final Socket clientSocket;
 
@@ -56,7 +60,6 @@ public class ClientThread extends Thread {
                             System.out.println("requestJoinChatroom: " + username);
 
                             if (MainServer.userDao.isConnected(username)) {
-//                                currentConversation = new Conversation(currentUser, MainServer.userDao.searchByUsername(username));
                                 User otherUser = MainServer.userDao.searchByUsername(username);
                                 MainServer.conversationDao.create(currentUser, otherUser);
 

@@ -2,12 +2,17 @@ package client.controller.state;
 
 import client.controller.Controller;
 
-import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * User Connected State. The user is connected.
+ *
+ * After state(s) possible : Joining Conversation
+ * Before state(s) possible : Connecting, Joining Conversation Failed, Quitting Conversation
+ */
 public class UserConnectedState implements State {
     @Override
-    public void run(Controller c) throws IOException {
+    public void run(Controller c) {
         System.out.println("Connecté !");
 
         Scanner sc = new Scanner(System.in);
@@ -15,11 +20,7 @@ public class UserConnectedState implements State {
         System.out.println("Talk with who ?");
         String username = sc.nextLine();
 
-        c.sendSocketMessage("requestJoinChatroom:" + username);
-
-        while (c.socketIncomingData()) {
-            System.out.println("in buffer:" + c.receiveSocketLine());
-        }
+        c.getCurrentUser().sendSocketMessage("requestJoinChatroom:" + username);
 
         c.setCurrentState(c.joiningConversationState);
     }

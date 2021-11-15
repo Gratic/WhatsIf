@@ -10,8 +10,6 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 public class Controller {
-
-
     private User currentUser;
     private Conversation conversation;
 
@@ -56,12 +54,7 @@ public class Controller {
     }
 
     public void runCurrentState() {
-
-        try {
-            this.currentState.run(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.currentState.run(this);
     }
 
     public Socket getSocket() {
@@ -94,10 +87,6 @@ public class Controller {
 
     public String receiveSocketLine() throws IOException {
         return this.socIn.readLine();
-    }
-
-    public boolean socketIncomingData() throws IOException {
-        return this.socIn.ready();
     }
 
     public User getCurrentUser() {

@@ -9,13 +9,19 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Initial state. The application starts in this state.
+ *
+ * After state(s) possible : Connecting
+ * Before state(s) possible : Connection Failed
+ */
 public class InitState implements State {
 
     Socket connectionSocket = null;
     PrintStream socOut = null;
     BufferedReader socIn = null;
 
-    public void run(Controller c) throws IOException {
+    public void run(Controller c) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Enter your username");

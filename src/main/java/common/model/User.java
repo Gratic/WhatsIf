@@ -9,6 +9,9 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Objects;
 
+/**
+ * Represents a user of the application.
+ */
 public class User {
     private String username;
     private Boolean isConnected;
@@ -54,12 +57,33 @@ public class User {
         this.socket = socket;
     }
 
+    /**
+     * Utility function to send a message on the user's socket.
+     *
+     * @param message the message to send
+     */
     public void sendSocketMessage(String message) {
         this.socOut.println(message);
     }
 
+    /**
+     * Utility function to receive a message from the user's socket.
+     *
+     * @return String, the message
+     * @throws IOException IOException
+     */
     public String receiveSocketLine() throws IOException {
         return this.socIn.readLine();
+    }
+
+    /**
+     * Utility function to determine if there is a message pending.
+     *
+     * @return true if a message is waiting in buffer, else false
+     * @throws IOException IOException
+     */
+    public boolean socketIncomingData() throws IOException {
+        return this.socIn.ready();
     }
 
     @Override
@@ -75,6 +99,13 @@ public class User {
         return Objects.hash(username);
     }
 
+    /**
+     * Utility function to return a pair of alphabetically ordered users.
+     *
+     * @param u1 a user
+     * @param u2 a user
+     * @return A pair of User, first has his lexicographical order before second.
+     */
     public static Pair<User, User> orderTwoUser(User u1, User u2) {
         Pair<User, User> result;
 
