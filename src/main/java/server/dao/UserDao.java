@@ -9,7 +9,7 @@ import java.util.Map;
  * UserDao manages Users.
  */
 public class UserDao {
-    Map<String, User> users;
+    private final Map<String, User> users;
 
     public UserDao() {
         users = new HashMap<>();

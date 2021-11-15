@@ -46,6 +46,10 @@ public class Conversation {
         this.messages = messages;
     }
 
+    public void addMessage(Message message) {
+        this.messages.add(message);
+    }
+
     public boolean getIsInRoom(User u) {
         return isInRoom.getOrDefault(u, false);
     }

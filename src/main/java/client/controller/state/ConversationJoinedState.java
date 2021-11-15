@@ -1,8 +1,12 @@
 package client.controller.state;
 
 import client.controller.Controller;
+import common.model.TextMessage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
@@ -27,11 +31,16 @@ public class ConversationJoinedState implements State {
                     String command = arguments[0];
                     if (command != null && command.equals("confirmMessage")) {
                         String type = arguments[1];
-                        String sender = arguments[2];
-                        String value = arguments[3];
+                        long timestamp = Long.parseLong(arguments[2]);
+                        String sender = arguments[3];
+                        String value = arguments[4];
+
+                        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(timestamp, 0, ZoneId.systemDefault().getRules().getOffset(LocalDateTime.now()));
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("k'h'm");
+                        String date = localDateTime.format(formatter);
 
                         if (type.equals("text")) {
-                            System.out.println(sender + ": " + value);
+                            System.out.println(sender + ":" + date + ": " + value);
                         } else {
                             System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
                         }
@@ -45,7 +54,10 @@ public class ConversationJoinedState implements State {
                     case "/reload" -> {
                     }
                     case "/quit" -> continueChatting = false;
-                    default -> c.getCurrentUser().sendSocketMessage("sendMessage:text:" + userAction);
+                    default -> {
+                        TextMessage message = new TextMessage(c.getCurrentUser(), userAction);
+                        c.getCurrentUser().sendSocketMessage(message.toString());
+                    }
                 }
             }
 

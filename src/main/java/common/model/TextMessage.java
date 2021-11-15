@@ -1,21 +1,11 @@
 package common.model;
 
-
 public class TextMessage extends Message {
-
-    private String content;
-
-    public TextMessage(User user, String content) {
-        super(user);
-        this.content = content;
-
+    public TextMessage(User sender, String content) {
+        super("text", sender, content);
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public TextMessage(long timestamp, User sender, String content) {
+        super("text", timestamp, sender, content);
     }
 }

@@ -1,6 +1,8 @@
 package server;
 
 import common.model.Conversation;
+import common.model.Message;
+import common.model.TextMessage;
 import common.model.User;
 
 import java.io.BufferedReader;
@@ -76,13 +78,26 @@ public class ClientThread extends Thread {
                         }
                         case "sendMessage" -> {
                             User otherUser = currentConversation.getOtherUser(currentUser);
-                            String type = arguments[1];
-                            String value = arguments[2];
 
-                            String confirmMessage = "confirmMessage:" + type + ":" + currentUser.getUsername() + ":" + value;
+                            Message newMessage = null;
+
+                            String type = arguments[1];
+                            String timestamp = arguments[2];
+                            String sender = arguments[3];
+                            String value = arguments[4];
+
+                            User senderUser = MainServer.userDao.searchByUsername(sender);
+
+                            if (type.equals("text") && senderUser != null) {
+                                newMessage = new TextMessage(Long.parseLong(timestamp), senderUser, value);
+                            }
+
+                            if (newMessage != null)
+                                currentConversation.addMessage(newMessage);
+
+                            String confirmMessage = "confirmMessage:" + type + ":" + timestamp + ":" + currentUser.getUsername() + ":" + value;
 
                             socOut.println(confirmMessage);
-
                             if (currentConversation.getIsInRoom(otherUser)) {
                                 otherUser.sendSocketMessage(confirmMessage);
                             }
