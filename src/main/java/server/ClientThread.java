@@ -62,20 +62,18 @@ public class ClientThread extends Thread {
                                 System.out.println("confirmJoinChatroom: " + username + ":1");
                             }
                         }
-                        case "sendMessage" -> {
+                        case "sendTextMessage" -> {
                             String confirmMessage = "confirmTextMessage:" + currentUser.getUsername() + ":" + arguments[1];
                             socOut.println(confirmMessage);
                             currentConversation.getUser2().sendSocketMessage(confirmMessage);
                         }
-                        case "quitConversation" -> {
+                        case "quitChatroom" -> {
                             currentConversation = null;
-                            socOut.println("quitChatroom");
+                            socOut.println("confirmQuitChatroom");
                         }
                         default -> System.out.println("Invalid Command: " + line);
                     }
                 }
-
-                socOut.println(line);
             }
         } catch (Exception e) {
             System.err.println("Error in EchoServer:" + e);

@@ -11,7 +11,7 @@ public class QuittingConversationState implements State {
 
         String[] arguments = message.split(":");
 
-        if (arguments[0] != null && arguments[0].equals("quitChatroom")) {
+        if (arguments[0] != null && arguments[0].equals("confirmQuitChatroom")) {
             // Connection success
             c.setCurrentState(c.userConnectedState);
         } else {

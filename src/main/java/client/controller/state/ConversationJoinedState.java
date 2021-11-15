@@ -28,5 +28,8 @@ public class ConversationJoinedState implements State {
                 default -> c.sendSocketMessage("sendTextMessage:" + userAction);
             }
         }
+
+        c.sendSocketMessage("quitChatroom");
+        c.setCurrentState(c.quittingConversationState);
     }
 }
