@@ -11,17 +11,16 @@ import java.net.Socket;
 
 public class Controller {
     private User currentUser;
-    private Conversation conversation;
 
-    public InitState initState;
-    public ConnectingState connectingState;
-    public ConnectionFailedState connectionFailedState;
-    public UserConnectedState userConnectedState;
-    public JoiningConversationState joiningConversationState;
-    public JoiningConversationFailedState joiningConversationFailedState;
-    public ConversationJoinedState conversationJoinedState;
-    public QuittingConversationState quittingConversationState;
-    public QuittingConversationFailedState quittingConversationFailedState;
+    public final InitState initState;
+    public final ConnectingState connectingState;
+    public final ConnectionFailedState connectionFailedState;
+    public final UserConnectedState userConnectedState;
+    public final JoiningConversationState joiningConversationState;
+    public final JoiningConversationFailedState joiningConversationFailedState;
+    public final ConversationJoinedState conversationJoinedState;
+    public final QuittingConversationState quittingConversationState;
+    public final QuittingConversationFailedState quittingConversationFailedState;
 
     private State currentState;
 
@@ -65,24 +64,12 @@ public class Controller {
         this.socket = socket;
     }
 
-    public PrintStream getSocOut() {
-        return socOut;
-    }
-
     public void setSocOut(PrintStream socOut) {
         this.socOut = socOut;
     }
 
-    public BufferedReader getSocIn() {
-        return socIn;
-    }
-
     public void setSocIn(BufferedReader socIn) {
         this.socIn = socIn;
-    }
-
-    public void sendSocketMessage(String message) {
-        this.socOut.println(message);
     }
 
     public String receiveSocketLine() throws IOException {
