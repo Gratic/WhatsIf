@@ -1,50 +1,77 @@
 package server;
 
+import common.Conversation;
+import common.User;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.util.Collection;
-import java.util.List;
 
 public class ClientThread extends Thread {
-    private Socket clientSocket;
+    private final Socket clientSocket;
 
-    public ClientThread(Socket s) { this.clientSocket = s; }
+    public ClientThread(Socket s) {
+        this.clientSocket = s;
+    }
 
     @Override
     public void run() {
         try {
-            BufferedReader socIn = null;
-            socIn = new BufferedReader(
+            BufferedReader socIn = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
-            SocketAddress addr = clientSocket.getLocalSocketAddress();
-            SocketAddress addr2 = clientSocket.getRemoteSocketAddress();
             PrintStream socOut = new PrintStream(clientSocket.getOutputStream());
+
+            User currentUser = null;
+            Conversation currentConversation = null;
 
             while (true) {
                 String line = socIn.readLine();
-                List<String> arguments = List.of(line.split(":"));
+                String[] arguments = line.split(":");
 
-                System.out.println(addr + ": " + line + ": " + addr2);
-
-                if(arguments.size() != 0)
-                {
-                    switch (arguments.get(0)) {
+                if (arguments.length != 0) {
+                    switch (arguments[0]) {
                         case "requestConnection" -> {
-                            System.out.println(arguments.get(1));
+                            String username = arguments[1];
+                            if (!username.equals("")) {
+                                System.out.println("requestConnection: " + username);
+
+                                currentUser = new User(username, clientSocket);
+                                currentUser.setConnected(true);
+
+                                if (MainServer.userRegistry.addUser(currentUser)) {
+                                    System.out.println("connection successful");
+                                    socOut.println("confirmConnection:" + username + ":0");
+                                } else {
+                                    System.out.println("connection failed");
+                                    socOut.println("confirmConnection:" + username + ":1");
+                                }
+                            }
                         }
-                        case "joinConversation" -> {
+                        case "requestJoinChatroom" -> {
+                            String username = arguments[1];
+
+                            System.out.println("requestJoinChatroom: " + username);
+
+                            if (MainServer.userRegistry.isConnected(username)) {
+                                currentConversation = new Conversation(currentUser, MainServer.userRegistry.getUser(username));
+                                socOut.println("confirmJoinChatroom:" + username + ":0");
+                                System.out.println("confirmJoinChatroom: " + username + ":0");
+                            } else {
+                                socOut.println("confirmJoinChatroom:" + username + ":1");
+                                System.out.println("confirmJoinChatroom: " + username + ":1");
+                            }
                         }
                         case "sendMessage" -> {
+                            String confirmMessage = "confirmTextMessage:" + currentUser.getUsername() + ":" + arguments[1];
+                            socOut.println(confirmMessage);
+                            currentConversation.getUser2().sendSocketMessage(confirmMessage);
                         }
                         case "quitConversation" -> {
-
+                            currentConversation = null;
+                            socOut.println("quitChatroom");
                         }
-                        default -> {
-                            System.out.println("Invalid Command");
-                        }
+                        default -> System.out.println("Invalid Command: " + line);
                     }
                 }
 

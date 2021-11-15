@@ -3,10 +3,12 @@ package server;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Main {
-    public static void main(String[] args)
-    {
+public class MainServer {
+    public static UserRegistry userRegistry;
+
+    public static void main(String[] args) {
         ServerSocket listenSocket;
+        userRegistry = new UserRegistry();
 
         if (args.length != 1) {
             System.out.println("Usage: java EchoServer <EchoServer port>");
