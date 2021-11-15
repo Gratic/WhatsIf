@@ -7,7 +7,7 @@ import java.io.IOException;
 
 /**
  * Connecting State. The application enters this state when trying to connect to a user.
- *
+ * <p>
  * After state(s) possible : User Connected, Connection Failed
  * Before state(s) possible : Initial
  */
@@ -25,6 +25,8 @@ public class ConnectingState implements State {
                 // Connection success
                 c.setCurrentUser(new User(arguments[1], c.getSocket()));
                 c.getCurrentUser().setConnected(true);
+
+                System.out.println("Connecté !");
 
                 c.setCurrentState(c.userConnectedState);
             } else {

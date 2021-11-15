@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 /**
  * Initial state. The application starts in this state.
- *
+ * <p>
  * After state(s) possible : Connecting
  * Before state(s) possible : Connection Failed
  */

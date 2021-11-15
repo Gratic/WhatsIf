@@ -6,7 +6,7 @@ import java.io.IOException;
 
 /**
  * Quitting Conversation State. Trying to quit a conversation.
- *
+ * <p>
  * After state(s) possible : User Connected, Quitting Conversation Failed
  * Before state(s) possible : Conversation Joined
  */

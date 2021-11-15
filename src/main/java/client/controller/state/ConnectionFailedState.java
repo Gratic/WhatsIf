@@ -4,7 +4,7 @@ import client.controller.Controller;
 
 /**
  * Connection Failed State. The application enters this state when it failed to connect to a user.
- *
+ * <p>
  * After state(s) possible : Initial
  * Before state(s) possible : Connecting
  */

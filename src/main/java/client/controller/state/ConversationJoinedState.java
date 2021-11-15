@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /**
  * Conversation Joined State. Successfully joined a conversation. The current user is able to receive message and to send them.
- *
+ * <p>
  * After state(s) possible : Quitting Conversation
  * Before state(s) possible : Joining Conversation, Quitting Conversation Failed
  */
@@ -22,9 +22,22 @@ public class ConversationJoinedState implements State {
                 while (c.getCurrentUser().socketIncomingData()) {
                     String message = c.getCurrentUser().receiveSocketLine();
 
-                    System.out.println(message);
-                }
+                    String[] arguments = message.split(":");
 
+                    String command = arguments[0];
+                    if (command != null && command.equals("confirmMessage")) {
+                        String type = arguments[1];
+                        String sender = arguments[2];
+                        String value = arguments[3];
+
+                        if (type.equals("text")) {
+                            System.out.println(sender + ": " + value);
+                        } else {
+                            System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
+                        }
+                    }
+
+                }
 
                 String userAction = sc.nextLine();
 

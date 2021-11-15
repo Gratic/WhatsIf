@@ -4,7 +4,7 @@ import client.controller.Controller;
 
 /**
  * Quitting Conversation Failed State. Failed to quit a conversation.
- *
+ * <p>
  * After state(s) possible : Conversation Joined
  * Before state(s) possible : Quitting Conversation
  */

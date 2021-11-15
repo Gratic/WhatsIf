@@ -4,7 +4,7 @@ import client.controller.Controller;
 
 /**
  * Joining Conversation Failed State. Failed to connect to the conversation.
- *
+ * <p>
  * After state(s) possible : User Connected
  * Before state(s) possible : Joining Conversation
  */
