@@ -2,7 +2,6 @@ package client.controller.state;
 
 import client.controller.Controller;
 import client.gui.Gui;
-import client.gui.viewstate.UserConnectedViewState;
 
 import java.util.Scanner;
 
@@ -20,12 +19,9 @@ public class UserConnectedState implements State {
         System.out.println("Talk with who ? Or quit using /quit");
         String input = sc.nextLine();
 
-        if(input.equals("/quit"))
-        {
+        if (input.equals("/quit")) {
             c.setCurrentState(c.terminationState);
-        }
-        else
-        {
+        } else {
             c.getCurrentUser().sendSocketMessage("requestJoinChatroom:" + input);
 
             c.setCurrentState(c.joiningConversationState);

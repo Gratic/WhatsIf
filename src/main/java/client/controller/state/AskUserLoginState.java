@@ -10,7 +10,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class AskUserLoginState implements State{
+public class AskUserLoginState implements State {
 
     Socket connectionSocket = null;
     PrintStream socOut = null;
@@ -36,8 +36,6 @@ public class AskUserLoginState implements State{
                 socOut.println("requestConnection:" + username);
 
                 c.setSocket(connectionSocket);
-                c.setSocIn(socIn);
-                c.setSocOut(socOut);
 
                 c.setCurrentState(c.connectingState);
             } catch (IOException e) {

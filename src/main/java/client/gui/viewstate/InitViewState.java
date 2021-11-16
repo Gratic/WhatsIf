@@ -3,12 +3,12 @@ package client.gui.viewstate;
 import client.gui.Gui;
 import client.gui.panel.InitPanel;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class InitViewState extends ViewState{
+public class InitViewState extends ViewState {
 
-    private InitPanel initPanel;
+    private final InitPanel initPanel;
+
     public InitViewState(Gui gui) {
         super(gui);
         initPanel = new InitPanel(gui);
