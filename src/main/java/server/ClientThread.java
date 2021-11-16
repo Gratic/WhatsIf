@@ -17,9 +17,9 @@ public class ClientThread extends Thread {
 
     @Override
     public void run() {
-        try {
-            ConnectionState currentConnection = new ConnectionState(clientSocket);
+        ConnectionState currentConnection = new ConnectionState(clientSocket);
 
+        try {
             while (currentConnection.isAlive()) {
                 String line = currentConnection.receiveSocketLine();
 
@@ -28,10 +28,9 @@ public class ClientThread extends Thread {
                 currentConnection.setCurrentCommand(line);
 
                 String[] arguments = currentConnection.getCurrentArguments();
+                String command = arguments[0];
 
                 Action actionToExecute = null;
-
-                String command = arguments[0];
                 switch (command) {
                     case "requestConnection" -> actionToExecute = new RequestConnectionAction();
                     case "requestJoinChatroom" -> actionToExecute = new RequestJoinChatroom();
@@ -43,10 +42,11 @@ public class ClientThread extends Thread {
 
                 if (actionToExecute != null)
                     actionToExecute.execute(currentConnection);
-
             }
         } catch (Exception e) {
             System.err.println("Error in Client Connection: " + e);
+        } finally {
+            currentConnection.close();
         }
     }
 }

@@ -107,6 +107,18 @@ public class ConnectionState {
         return this.socketUtils.socketIncomingData();
     }
 
+    public void close() {
+        if(getCurrentUser() != null)
+        {
+            getCurrentUser().setConnected(false);
+
+            if(getCurrentConversation() != null)
+                getCurrentConversation().setIsInRoom(getCurrentUser(), false);
+        }
+
+        closeSocket();
+    }
+
     public void closeSocket() {
         if (this.socketUtils != null)
             this.socketUtils.close();
