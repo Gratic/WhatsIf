@@ -1,13 +1,11 @@
 package client.gui;
 
 import client.controller.Controller;
-import client.gui.panel.InitPanel;
 import client.gui.panel.MainPanel;
 import client.gui.viewstate.InitViewState;
 import client.gui.viewstate.ViewState;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class Gui {
@@ -23,7 +21,7 @@ public class Gui {
     protected MainPanel mainPanel;
     protected ViewState currentState;
 
-    public Gui(Controller controller){
+    public Gui(Controller controller) {
         this.controller = controller;
         frame = new JFrame("WhatsIF");
 
@@ -37,13 +35,13 @@ public class Gui {
         frame.setVisible(true);
 
 
-
     }
 
-    public void init(){
+    public void init() {
 
         this.currentState = new InitViewState(this);
     }
+
     public void setCurrentViewState(ViewState currentViewState) {
         this.currentViewState = currentViewState;
     }

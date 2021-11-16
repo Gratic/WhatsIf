@@ -2,12 +2,10 @@ package client.controller;
 
 import client.controller.state.*;
 import client.gui.Gui;
-import common.model.Conversation;
 import common.model.User;
+import common.utils.SocketUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.Socket;
 
 public class Controller {
@@ -29,8 +27,7 @@ public class Controller {
     private State currentState;
 
     private Socket socket;
-    private PrintStream socOut = null;
-    private BufferedReader socIn = null;
+    private SocketUtils socketUtils;
 
 
     public Controller() {
@@ -53,7 +50,6 @@ public class Controller {
     public void init() {
         gui.init();
         setCurrentState(initState);
-
     }
 
     public void setCurrentState(State newState) {
@@ -62,7 +58,7 @@ public class Controller {
     }
 
     public void runCurrentState() {
-        this.currentState.run(this,gui);
+        this.currentState.run(this, gui);
     }
 
     public Socket getSocket() {
@@ -71,18 +67,16 @@ public class Controller {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
-    }
 
-    public void setSocOut(PrintStream socOut) {
-        this.socOut = socOut;
-    }
+        if (this.socketUtils != null) {
+            this.socketUtils.close();
+        }
 
-    public void setSocIn(BufferedReader socIn) {
-        this.socIn = socIn;
+        this.socketUtils = new SocketUtils(socket);
     }
 
     public String receiveSocketLine() throws IOException {
-        return this.socIn.readLine();
+        return this.socketUtils.receiveSocketLine();
     }
 
     public User getCurrentUser() {
@@ -93,33 +87,12 @@ public class Controller {
         this.currentUser = currentUser;
     }
 
-    public void connectingButtonClick(Gui gui, String username, String ip, int port ){
+    public void connectingButtonClick(Gui gui, String username, String ip, int port) {
         this.currentState.connectingButtonClick(this, username, ip, port);
     }
 
-    public void close()
-    {
-        if(socket != null && !socket.isClosed())
-        {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(socIn != null)
-        {
-            try {
-                socIn.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(socOut != null)
-        {
-            socOut.close();
-        }
+    public void closeSocket() {
+        if (this.socketUtils != null)
+            this.socketUtils.close();
     }
 }

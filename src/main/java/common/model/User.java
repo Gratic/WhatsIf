@@ -1,11 +1,9 @@
 package common.model;
 
 import common.utils.Pair;
+import common.utils.SocketUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Objects;
 
@@ -16,21 +14,13 @@ public class User {
     private String username;
     private Boolean isConnected;
     private Socket socket;
-
-    private PrintStream socOut = null;
-    private BufferedReader socIn = null;
+    private SocketUtils socketUtils;
 
     public User(String username, Socket socket) {
         this.username = username;
         this.isConnected = false;
         this.socket = socket;
-
-        try {
-            this.socOut = new PrintStream(socket.getOutputStream());
-            this.socIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.socketUtils = new SocketUtils(socket);
     }
 
     public String getUsername() {
@@ -55,6 +45,11 @@ public class User {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
+
+        if (this.socketUtils != null)
+            this.socketUtils.close();
+
+        this.socketUtils = new SocketUtils(socket);
     }
 
     /**
@@ -63,7 +58,7 @@ public class User {
      * @param message the message to send
      */
     public void sendSocketMessage(String message) {
-        this.socOut.println(message);
+        this.socketUtils.sendSocketMessage(message);
     }
 
     /**
@@ -73,7 +68,7 @@ public class User {
      * @throws IOException IOException
      */
     public String receiveSocketLine() throws IOException {
-        return this.socIn.readLine();
+        return this.socketUtils.receiveSocketLine();
     }
 
     /**
@@ -83,7 +78,7 @@ public class User {
      * @throws IOException IOException
      */
     public boolean socketIncomingData() throws IOException {
-        return this.socIn.ready();
+        return this.socketUtils.socketIncomingData();
     }
 
     @Override
@@ -118,29 +113,7 @@ public class User {
         return result;
     }
 
-    public void close()
-    {
-        if(socket != null && !socket.isClosed())
-        {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(socIn != null)
-        {
-            try {
-                socIn.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(socOut != null)
-        {
-            socOut.close();
-        }
+    public void closeSocket() {
+        this.socketUtils.close();
     }
 }
