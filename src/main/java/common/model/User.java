@@ -117,4 +117,30 @@ public class User {
 
         return result;
     }
+
+    public void close()
+    {
+        if(socket != null && !socket.isClosed())
+        {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(socIn != null)
+        {
+            try {
+                socIn.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(socOut != null)
+        {
+            socOut.close();
+        }
+    }
 }
