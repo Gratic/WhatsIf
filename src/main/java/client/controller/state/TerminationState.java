@@ -1,6 +1,7 @@
 package client.controller.state;
 
 import client.controller.Controller;
+import client.gui.Gui;
 import common.model.TextMessage;
 import common.model.User;
 
@@ -20,7 +21,7 @@ import java.util.Scanner;
  */
 public class TerminationState implements State {
     @Override
-    public void run(Controller c) {
+    public void run(Controller c, Gui gui) {
         User user = c.getCurrentUser();
         if(user != null)
         {

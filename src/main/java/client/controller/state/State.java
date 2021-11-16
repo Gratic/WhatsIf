@@ -8,7 +8,7 @@ public interface State {
     void run(Controller c, Gui gui);
 
     default void connectingButtonClick(Controller controller){
-        controller.setCurrentState(controller.connectingState);
+        //controller.setCurrentState(controller.connectingState);
     }
 }
 
