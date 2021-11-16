@@ -15,6 +15,7 @@ public class Controller {
     private final Gui gui;
 
     public final InitState initState;
+    public final AskUserLoginState askUserLoginState;
     public final ConnectingState connectingState;
     public final ConnectionFailedState connectionFailedState;
     public final UserConnectedState userConnectedState;
@@ -35,6 +36,7 @@ public class Controller {
     public Controller() {
         this.gui = new Gui(this);
         this.initState = new InitState();
+        this.askUserLoginState = new AskUserLoginState();
         this.connectingState = new ConnectingState();
         this.connectionFailedState = new ConnectionFailedState();
         this.userConnectedState = new UserConnectedState();
@@ -91,7 +93,9 @@ public class Controller {
         this.currentUser = currentUser;
     }
 
-    public void connectingButtonClick(Gui gui){this.currentState.connectingButtonClick(this);}
+    public void connectingButtonClick(Gui gui, String username, String ip, int port ){
+        this.currentState.connectingButtonClick(this, username, ip, port);
+    }
 
     public void close()
     {
