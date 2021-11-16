@@ -15,11 +15,19 @@ public class UserConnectedState implements State {
     public void run(Controller c) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Talk with who ?");
-        String username = sc.nextLine();
+        System.out.println("Talk with who ? Or quit using /quit");
+        String input = sc.nextLine();
 
-        c.getCurrentUser().sendSocketMessage("requestJoinChatroom:" + username);
+        if(input.equals("/quit"))
+        {
+            c.setCurrentState(c.terminationState);
+        }
+        else
+        {
+            c.getCurrentUser().sendSocketMessage("requestJoinChatroom:" + input);
 
-        c.setCurrentState(c.joiningConversationState);
+            c.setCurrentState(c.joiningConversationState);
+        }
+
     }
 }

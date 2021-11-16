@@ -31,8 +31,13 @@ public class ClientThread extends Thread {
             User currentUser = null;
             Conversation currentConversation = null;
 
-            while (true) {
+            boolean isConnectionAlive = true;
+
+            while (isConnectionAlive) {
                 String line = socIn.readLine();
+
+                if(line == null) break;
+
                 String[] arguments = line.split(":");
 
                 if (arguments.length != 0) {
@@ -77,42 +82,68 @@ public class ClientThread extends Thread {
                             }
                         }
                         case "sendMessage" -> {
-                            User otherUser = currentConversation.getOtherUser(currentUser);
+                            if(currentConversation != null)
+                            {
+                                Message newMessage = null;
 
-                            Message newMessage = null;
+                                arguments = line.split(":", 5);
 
-                            String type = arguments[1];
-                            String timestamp = arguments[2];
-                            String sender = arguments[3];
-                            String value = arguments[4];
+                                String type = arguments[1];
+                                String timestamp = arguments[2];
+                                String sender = arguments[3];
+                                String value = arguments[4];
 
-                            User senderUser = MainServer.userDao.searchByUsername(sender);
+                                User senderUser = MainServer.userDao.searchByUsername(sender);
 
-                            if (type.equals("text") && senderUser != null) {
-                                newMessage = new TextMessage(Long.parseLong(timestamp), senderUser, value);
-                            }
+                                if (type.equals("text") && senderUser != null) {
+                                    newMessage = new TextMessage(Long.parseLong(timestamp), senderUser, value);
+                                }
 
-                            if (newMessage != null)
-                                currentConversation.addMessage(newMessage);
+                                if (newMessage != null)
+                                    currentConversation.addMessage(newMessage);
 
-                            String confirmMessage = "confirmMessage:" + type + ":" + timestamp + ":" + currentUser.getUsername() + ":" + value;
+                                // Making the confirmation command
+                                if(currentUser != null)
+                                {
+                                    String confirmMessage = "confirmMessage:" + type + ":" + timestamp + ":" + currentUser.getUsername() + ":" + value;
 
-                            socOut.println(confirmMessage);
-                            if (currentConversation.getIsInRoom(otherUser)) {
-                                otherUser.sendSocketMessage(confirmMessage);
-                            }
+                                    // Sending the confirmation command to the sender.
+                                    socOut.println(confirmMessage);
+
+                                    // Sending the confirmation command to the other if he's connected
+                                    User otherUser;
+                                    if((otherUser = currentConversation.getOtherUser(currentUser)) != null)
+                                    {
+                                        if (currentConversation.getIsInRoom(otherUser)) {
+                                            otherUser.sendSocketMessage(confirmMessage);
+                                        }
+                                    }
+                                }
+                            } // if currentConversation != null
                         }
                         case "quitChatroom" -> {
-                            currentConversation.setIsInRoom(currentUser, false);
-                            currentConversation = null;
-                            socOut.println("confirmQuitChatroom");
+                            if(currentConversation != null)
+                            {
+                                currentConversation.setIsInRoom(currentUser, false);
+                                currentConversation = null;
+                                socOut.println("confirmQuitChatroom");
+                            }
+                        }
+                        case "disconnect" -> {
+                            if(currentUser != null)
+                            {
+                                currentUser.sendSocketMessage("confirmDisconnect");
+                                currentUser.setConnected(false);
+                                currentUser.close();
+                                isConnectionAlive = false;
+                            }
                         }
                         default -> System.out.println("Invalid Command: " + line);
                     }
                 }
             }
         } catch (Exception e) {
-            System.err.println("Error in EchoServer:" + e);
+            System.err.println("Error in Client Connection: " + e);
         }
     }
 }

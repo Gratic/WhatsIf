@@ -48,7 +48,7 @@ public class InitState implements State {
             } catch (IOException e) {
                 System.err.println("Couldn't get I/O for "
                         + "the connection to:" + ip);
-                System.exit(1);
+                c.setCurrentState(c.connectionFailedState);
             }
         }
 

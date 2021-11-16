@@ -21,6 +21,7 @@ public class Controller {
     public final ConversationJoinedState conversationJoinedState;
     public final QuittingConversationState quittingConversationState;
     public final QuittingConversationFailedState quittingConversationFailedState;
+    public final TerminationState terminationState;
 
     private State currentState;
 
@@ -39,6 +40,7 @@ public class Controller {
         this.conversationJoinedState = new ConversationJoinedState();
         this.quittingConversationState = new QuittingConversationState();
         this.quittingConversationFailedState = new QuittingConversationFailedState();
+        this.terminationState = new TerminationState();
 
         init();
     }
@@ -82,5 +84,31 @@ public class Controller {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public void close()
+    {
+        if(socket != null && !socket.isClosed())
+        {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(socIn != null)
+        {
+            try {
+                socIn.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(socOut != null)
+        {
+            socOut.close();
+        }
     }
 }
