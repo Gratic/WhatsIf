@@ -1,6 +1,7 @@
 package client.controller.state;
 
 import client.controller.Controller;
+import client.gui.Gui;
 import common.model.TextMessage;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.Scanner;
  */
 public class ConversationJoinedState implements State {
     @Override
-    public void run(Controller c) {
+    public void run(Controller c, Gui gui) {
         Scanner sc = new Scanner(System.in);
         boolean continueChatting = true;
 

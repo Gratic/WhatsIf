@@ -1,6 +1,7 @@
 package client.controller.state;
 
 import client.controller.Controller;
+import client.gui.Gui;
 
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ import java.io.IOException;
  */
 public class QuittingConversationState implements State {
     @Override
-    public void run(Controller c) {
+    public void run(Controller c, Gui gui) {
         try {
             String message = c.getCurrentUser().receiveSocketLine();
 

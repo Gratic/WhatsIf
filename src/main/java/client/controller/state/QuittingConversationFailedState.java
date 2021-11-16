@@ -1,6 +1,7 @@
 package client.controller.state;
 
 import client.controller.Controller;
+import client.gui.Gui;
 
 /**
  * Quitting Conversation Failed State. Failed to quit a conversation.
@@ -10,7 +11,7 @@ import client.controller.Controller;
  */
 public class QuittingConversationFailedState implements State {
     @Override
-    public void run(Controller c) {
+    public void run(Controller c, Gui gui) {
         System.out.println("Quitting failed!");
         c.setCurrentState(c.conversationJoinedState);
     }

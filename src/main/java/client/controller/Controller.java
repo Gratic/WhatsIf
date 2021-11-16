@@ -1,6 +1,7 @@
 package client.controller;
 
 import client.controller.state.*;
+import client.gui.Gui;
 import common.model.Conversation;
 import common.model.User;
 
@@ -11,6 +12,7 @@ import java.net.Socket;
 
 public class Controller {
     private User currentUser;
+    private final Gui gui;
 
     public final InitState initState;
     public final ConnectingState connectingState;
@@ -31,6 +33,7 @@ public class Controller {
 
 
     public Controller() {
+        this.gui = new Gui(this);
         this.initState = new InitState();
         this.connectingState = new ConnectingState();
         this.connectionFailedState = new ConnectionFailedState();
@@ -46,7 +49,9 @@ public class Controller {
     }
 
     public void init() {
+        gui.init();
         setCurrentState(initState);
+
     }
 
     public void setCurrentState(State newState) {
@@ -55,7 +60,7 @@ public class Controller {
     }
 
     public void runCurrentState() {
-        this.currentState.run(this);
+        this.currentState.run(this,gui);
     }
 
     public Socket getSocket() {
@@ -85,6 +90,8 @@ public class Controller {
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
+
+    public void connectingButtonClick(Gui gui){this.currentState.connectingButtonClick(this);}
 
     public void close()
     {
