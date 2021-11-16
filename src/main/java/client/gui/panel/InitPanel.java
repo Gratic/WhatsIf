@@ -11,6 +11,9 @@ public class InitPanel extends GuiPanel implements ActionListener {
 
     private JButton beginButton;
     private JTextField usernameEntry;
+    private JTextField ipEntry;
+    private JTextField portEntry;
+
 
 
     public InitPanel(Gui gui) {
@@ -29,6 +32,14 @@ public class InitPanel extends GuiPanel implements ActionListener {
         usernameEntry.setPreferredSize(new Dimension(200,30));
         this.add(usernameEntry);
 
+        ipEntry = new JTextField("ip address");
+        ipEntry.setPreferredSize(new Dimension(200,30));
+        this.add(ipEntry);
+
+        portEntry = new JTextField("port number");
+        portEntry.setPreferredSize(new Dimension(200,30));
+        this.add(portEntry);
+
         beginButton = new JButton("Begin");
         beginButton.setBackground(new Color(0xBFC5D9));
         beginButton.addActionListener(this);
@@ -42,7 +53,13 @@ public class InitPanel extends GuiPanel implements ActionListener {
         if (e.getSource() == beginButton) {
             System.out.println("Bouton clické");
             System.out.println(usernameEntry.getText());
-            this.gui.getController().connectingButtonClick(this.gui);
+            String username = usernameEntry.getText();
+            String ip = ipEntry.getText();
+            int port = Integer.parseInt(portEntry.getText());
+            System.out.println(username);
+            System.out.println(ip);
+            System.out.println(port);
+            this.gui.getController().connectingButtonClick(this.gui,username,ip,port);
 
 
         }
