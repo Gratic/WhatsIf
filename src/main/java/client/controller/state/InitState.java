@@ -1,6 +1,7 @@
 package client.controller.state;
 
 import client.controller.Controller;
+import client.gui.Gui;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class InitState implements State {
     PrintStream socOut = null;
     BufferedReader socIn = null;
 
-    public void run(Controller c) {
+    public void run(Controller c, Gui gui) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Enter your username");

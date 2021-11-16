@@ -1,6 +1,7 @@
 package client.controller.state;
 
 import client.controller.Controller;
+import client.gui.Gui;
 
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ import java.util.Scanner;
  */
 public class ConnectionFailedState implements State {
     @Override
-    public void run(Controller c) {
+    public void run(Controller c, Gui gui) {
         System.out.println("Connection failed!");
 
         boolean validInput = false;

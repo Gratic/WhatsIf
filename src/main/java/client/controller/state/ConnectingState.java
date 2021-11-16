@@ -1,6 +1,7 @@
 package client.controller.state;
 
 import client.controller.Controller;
+import client.gui.Gui;
 import common.model.User;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.io.IOException;
  */
 public class ConnectingState implements State {
     @Override
-    public void run(Controller c) {
+    public void run(Controller c, Gui gui) {
         try {
             String message = c.receiveSocketLine();
             String[] arguments = message.split(":");
