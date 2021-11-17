@@ -38,6 +38,7 @@ public class AskUserLoginState implements State {
                 c.setSocket(connectionSocket);
 
                 c.setCurrentState(c.connectingState);
+
             } catch (IOException e) {
                 System.err.println("Couldn't get I/O for "
                         + "the connection to:" + ip);

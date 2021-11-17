@@ -2,6 +2,8 @@ package client.controller;
 
 import client.controller.state.*;
 import client.gui.Gui;
+import client.gui.viewstate.UserConnectedViewState;
+import common.model.Conversation;
 import common.model.User;
 import common.utils.SocketUtils;
 
@@ -16,6 +18,7 @@ public class Controller {
     public final AskUserLoginState askUserLoginState;
     public final ConnectingState connectingState;
     public final ConnectionFailedState connectionFailedState;
+    public final AskUserConversationState askUserConversationState;
     public final UserConnectedState userConnectedState;
     public final JoiningConversationState joiningConversationState;
     public final JoiningConversationFailedState joiningConversationFailedState;
@@ -37,6 +40,7 @@ public class Controller {
         this.connectingState = new ConnectingState();
         this.connectionFailedState = new ConnectionFailedState();
         this.userConnectedState = new UserConnectedState();
+        this.askUserConversationState = new AskUserConversationState();
         this.joiningConversationState = new JoiningConversationState();
         this.joiningConversationFailedState = new JoiningConversationFailedState();
         this.conversationJoinedState = new ConversationJoinedState();
@@ -67,6 +71,7 @@ public class Controller {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
+    }
 
         if (this.socketUtils != null) {
             this.socketUtils.close();
@@ -89,6 +94,11 @@ public class Controller {
 
     public void connectingButtonClick(Gui gui, String username, String ip, int port) {
         this.currentState.connectingButtonClick(this, username, ip, port);
+       // gui.setCurrentViewState(new UserConnectedViewState(gui));
+    }
+
+    public void joiningConversationButtonClick(Gui gui, String username){
+        this.currentState.joiningConversationButtonClick(this, username);
     }
 
     public void closeSocket() {

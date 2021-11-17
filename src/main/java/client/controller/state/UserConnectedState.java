@@ -2,6 +2,7 @@ package client.controller.state;
 
 import client.controller.Controller;
 import client.gui.Gui;
+import client.gui.viewstate.UserConnectedViewState;
 
 import java.util.Scanner;
 
@@ -14,18 +15,12 @@ import java.util.Scanner;
 public class UserConnectedState implements State {
     @Override
     public void run(Controller c, Gui gui) {
-        Scanner sc = new Scanner(System.in);
+
+
+        gui.setCurrentViewState(new UserConnectedViewState(gui));
 
         System.out.println("Talk with who ? Or quit using /quit");
-        String input = sc.nextLine();
-
-        if (input.equals("/quit")) {
-            c.setCurrentState(c.terminationState);
-        } else {
-            c.getCurrentUser().sendSocketMessage("requestJoinChatroom:" + input);
-
-            c.setCurrentState(c.joiningConversationState);
-        }
+    }
 
     }
 }

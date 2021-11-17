@@ -1,21 +1,18 @@
 package client.gui.viewstate;
 
-import client.controller.Controller;
 import client.gui.Gui;
-import client.gui.panel.*;
-import common.model.User;
+import client.gui.panel.OpenedConversationPanel;
+import client.gui.panel.UserConnectedPanel;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class UserConnectedViewState extends ViewState{
-
+public class ConversationOpenedViewState extends ViewState{
 
     private UserConnectedPanel userConnectedPanel;
-    private AskConversationPanel askConversationPanel;
 
-    public UserConnectedViewState(Gui gui) {
+    public ConversationOpenedViewState(Gui gui) {
         super(gui);
+        //System.out.println("j'ai changé d'état");
         gui.getMainPanel().removeAll();
         //gui.getFrame().removeAll();
         userConnectedPanel = new UserConnectedPanel(gui);
@@ -27,10 +24,13 @@ public class UserConnectedViewState extends ViewState{
     }
 
     protected void createGuiComponents() {
-        askConversationPanel = new AskConversationPanel(gui);
-        userConnectedPanel.add(askConversationPanel, BorderLayout.CENTER);
+        OpenedConversationPanel openedConversationPanel = new OpenedConversationPanel(gui);
+        userConnectedPanel.add(openedConversationPanel, BorderLayout.CENTER);
         userConnectedPanel.revalidate();
         userConnectedPanel.repaint();
+
+
+
 
     }
 }

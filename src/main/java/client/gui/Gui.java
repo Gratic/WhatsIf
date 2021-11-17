@@ -3,6 +3,7 @@ package client.gui;
 import client.controller.Controller;
 import client.gui.panel.MainPanel;
 import client.gui.viewstate.InitViewState;
+import client.gui.viewstate.UserConnectedViewState;
 import client.gui.viewstate.ViewState;
 
 import javax.swing.*;
@@ -11,15 +12,15 @@ import java.awt.*;
 public class Gui {
 
     protected Controller controller;
-    protected ViewState currentViewState;
+    //protected ViewState currentViewState;
 
 
     protected JFrame frame;
     protected int height = 960;
     protected int width = 1280;
 
-    protected MainPanel mainPanel;
-    protected ViewState currentState;
+    public MainPanel mainPanel;
+    public ViewState currentState;
 
     public Gui(Controller controller) {
         this.controller = controller;
@@ -40,10 +41,11 @@ public class Gui {
     public void init() {
 
         this.currentState = new InitViewState(this);
+        //this.currentState = new UserConnectedViewState(this);
     }
 
     public void setCurrentViewState(ViewState currentViewState) {
-        this.currentViewState = currentViewState;
+        this.currentState = currentViewState;
     }
 
 
@@ -53,5 +55,9 @@ public class Gui {
 
     public Controller getController() {
         return controller;
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 }

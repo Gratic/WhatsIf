@@ -2,6 +2,7 @@ package client.controller.state;
 
 import client.controller.Controller;
 import client.gui.Gui;
+import client.gui.viewstate.ConversationOpenedViewState;
 import common.model.TextMessage;
 
 import java.io.IOException;
@@ -20,8 +21,9 @@ public class ConversationJoinedState implements State {
     @Override
     public void run(Controller c, Gui gui) {
         Scanner sc = new Scanner(System.in);
+        gui.setCurrentViewState(new ConversationOpenedViewState(gui));
         boolean continueChatting = true;
-
+/*
         try {
             while (continueChatting) {
                 while (c.getCurrentUser().socketIncomingData()) {
@@ -68,5 +70,9 @@ public class ConversationJoinedState implements State {
             e.printStackTrace();
             c.setCurrentState(c.joiningConversationFailedState);
         }
+
+ */
     }
+
+
 }

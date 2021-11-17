@@ -12,7 +12,11 @@ public interface State {
         controller.askUserLoginState.setIp(ip);
         controller.askUserLoginState.setPort(port);
         controller.setCurrentState(controller.askUserLoginState);
+    }
 
+    default void joiningConversationButtonClick(Controller controller, String username){
+        controller.askUserConversationState.setOtherUser(username);
+        controller.setCurrentState(controller.askUserConversationState);
     }
 }
 

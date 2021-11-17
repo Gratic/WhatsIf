@@ -9,18 +9,19 @@ import java.awt.event.ActionListener;
 
 public class InitPanel extends GuiPanel implements ActionListener {
 
-    private final JButton beginButton;
-    private final JTextField usernameEntry;
-    private final JTextField ipEntry;
-    private final JTextField portEntry;
+    private JButton beginButton;
+    private JTextField usernameEntry;
+    private JTextField ipEntry;
+    private JTextField portEntry;
+
 
 
     public InitPanel(Gui gui) {
         super(gui);
         setOpaque(true);
-        setPreferredSize(new Dimension(200, 200));
+        setPreferredSize(new Dimension(200,200));
         setBackground(new Color(0x9EE1DE));
-        // setLayout(new BorderLayout());
+       // setLayout(new BorderLayout());
 
         JLabel welcomeLabel = new JLabel(
                 "Welcome !\n Enter your username\n"
@@ -28,15 +29,15 @@ public class InitPanel extends GuiPanel implements ActionListener {
         this.add(welcomeLabel);
 
         usernameEntry = new JTextField("username");
-        usernameEntry.setPreferredSize(new Dimension(200, 30));
+        usernameEntry.setPreferredSize(new Dimension(200,30));
         this.add(usernameEntry);
 
-        ipEntry = new JTextField("ip address");
-        ipEntry.setPreferredSize(new Dimension(200, 30));
+        ipEntry = new JTextField("localhost");
+        ipEntry.setPreferredSize(new Dimension(200,30));
         this.add(ipEntry);
 
-        portEntry = new JTextField("port number");
-        portEntry.setPreferredSize(new Dimension(200, 30));
+        portEntry = new JTextField("8123");
+        portEntry.setPreferredSize(new Dimension(200,30));
         this.add(portEntry);
 
         beginButton = new JButton("Begin");
@@ -46,7 +47,6 @@ public class InitPanel extends GuiPanel implements ActionListener {
         setVisible(true);
 
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         // load action
@@ -59,9 +59,7 @@ public class InitPanel extends GuiPanel implements ActionListener {
             System.out.println(username);
             System.out.println(ip);
             System.out.println(port);
-            this.gui.getController().connectingButtonClick(this.gui, username, ip, port);
-
-
+            this.gui.getController().connectingButtonClick(this.gui,username,ip,port);
         }
 
     }
