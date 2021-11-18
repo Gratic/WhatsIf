@@ -4,10 +4,9 @@ import client.controller.Controller;
 import client.gui.Gui;
 
 public class AskUserConversationState implements State{
-    private String otherUser = null;
     @Override
     public void run(Controller c, Gui gui) {
-
+        String otherUser = c.getUsernameOtherUser();
 
         if(otherUser.equals("/quit"))
         {
@@ -22,11 +21,5 @@ public class AskUserConversationState implements State{
         }
     }
 
-    public String getOtherUser() {
-        return otherUser;
-    }
 
-    public void setOtherUser(String otherUser) {
-        this.otherUser = otherUser;
-    }
 }

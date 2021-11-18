@@ -17,7 +17,7 @@ public class Gui {
 
     protected JFrame frame;
     protected int height = 960;
-    protected int width = 1280;
+    protected int width = 960;
 
     public MainPanel mainPanel;
     public ViewState currentState;
@@ -27,7 +27,6 @@ public class Gui {
         frame = new JFrame("WhatsIF");
 
         frame.setSize(width, height);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainPanel = new MainPanel();
         frame.setLayout(new BorderLayout());

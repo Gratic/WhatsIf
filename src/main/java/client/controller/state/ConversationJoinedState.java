@@ -18,16 +18,18 @@ import java.util.Scanner;
  * Before state(s) possible : Joining Conversation, Quitting Conversation Failed
  */
 public class ConversationJoinedState implements State {
+    private String message;
+    private String userAction="coucou";
     @Override
     public void run(Controller c, Gui gui) {
-        Scanner sc = new Scanner(System.in);
-        gui.setCurrentViewState(new ConversationOpenedViewState(gui));
+      //  Scanner sc = new Scanner(System.in);
+        gui.setCurrentViewState(new ConversationOpenedViewState(gui, c));
         boolean continueChatting = true;
 /*
         try {
             while (continueChatting) {
                 while (c.getCurrentUser().socketIncomingData()) {
-                    String message = c.getCurrentUser().receiveSocketLine();
+                    message = c.getCurrentUser().receiveSocketLine();
 
                     String[] arguments = message.split(":");
 
@@ -51,16 +53,19 @@ public class ConversationJoinedState implements State {
 
                 }
 
-                String userAction = sc.nextLine();
+
 
                 switch (userAction) {
                     case "/reload" -> {
                     }
                     case "/quit" -> continueChatting = false;
                     default -> {
-                        TextMessage message = new TextMessage(c.getCurrentUser(), userAction);
-                        c.getCurrentUser().sendSocketMessage(message.toString());
-                    }
+                        if(userAction!=""){
+                            TextMessage message = new TextMessage(c.getCurrentUser(), userAction);
+                            c.getCurrentUser().sendSocketMessage(message.toString());
+
+                            }
+                        }
                 }
             }
 
@@ -71,8 +76,22 @@ public class ConversationJoinedState implements State {
             c.setCurrentState(c.joiningConversationFailedState);
         }
 
- */
+*/
     }
 
+    public String getMessage() {
+        return message;
+    }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getUserAction() {
+        return userAction;
+    }
+
+    public void setUserAction(String userAction) {
+        this.userAction = userAction;
+    }
 }

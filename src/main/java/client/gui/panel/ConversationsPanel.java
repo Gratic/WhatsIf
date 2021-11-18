@@ -11,7 +11,7 @@ public class ConversationsPanel extends GuiPanel {
         super(gui);
         setOpaque(true);
         setPreferredSize(new Dimension(350,200));
-        setBackground(new Color(0x9EE1DE));
+        setBackground(new Color(0xDDF3EF));
         // setLayout(new BorderLayout());
 
         JLabel welcomeLabel = new JLabel(

@@ -15,8 +15,18 @@ public interface State {
     }
 
     default void joiningConversationButtonClick(Controller controller, String username){
-        controller.askUserConversationState.setOtherUser(username);
+        controller.setUsernameOtherUser(username);
         controller.setCurrentState(controller.askUserConversationState);
+    }
+
+    default void sendingMessageButtonClick(Controller controller, String textMessage){
+        //controller.conversationJoinedState.setUserAction(textMessage);
+    }
+
+    default void quittingConvButtonClick(Controller controller)
+    {
+        controller.getCurrentUser().sendSocketMessage("quitChatroom");
+        controller.setCurrentState(controller.quittingConversationState);
     }
 }
 

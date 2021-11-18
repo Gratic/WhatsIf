@@ -15,7 +15,7 @@ public class AskConversationPanel extends GuiPanel implements ActionListener {
         super(gui);
         setOpaque(true);
         setPreferredSize(new Dimension(350,200));
-        setBackground(new Color(0x9FC5C4));
+        setBackground(new Color(0xCCE8E8));
         setLayout(new FlowLayout());
 
         JLabel welcomeLabel = new JLabel(

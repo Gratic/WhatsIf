@@ -17,7 +17,7 @@ public class UserConnectedState implements State {
     public void run(Controller c, Gui gui) {
 
 
-        gui.setCurrentViewState(new UserConnectedViewState(gui));
+        gui.setCurrentViewState(new UserConnectedViewState(gui, c));
 
         System.out.println("Talk with who ? Or quit using /quit");
     }

@@ -7,11 +7,15 @@ import common.model.Conversation;
 import common.model.User;
 import common.utils.SocketUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.Socket;
 
 public class Controller {
     private User currentUser;
+    private String usernameOtherUser;
+    private Conversation currentConversation;
     private final Gui gui;
 
     public final InitState initState;
@@ -92,7 +96,15 @@ public class Controller {
         this.currentUser = currentUser;
     }
 
-    public void connectingButtonClick(Gui gui, String username, String ip, int port) {
+    public Conversation getCurrentConversation() {
+        return currentConversation;
+    }
+
+    public void setCurrentConversation(Conversation currentConversation) {
+        this.currentConversation = currentConversation;
+    }
+
+    public void connectingButtonClick(Gui gui, String username, String ip, int port ){
         this.currentState.connectingButtonClick(this, username, ip, port);
        // gui.setCurrentViewState(new UserConnectedViewState(gui));
     }
@@ -104,5 +116,21 @@ public class Controller {
     public void closeSocket() {
         if (this.socketUtils != null)
             this.socketUtils.close();
+    }
+
+    public void quittingConvButtonClick(Gui gui)
+    {
+        this.currentState.quittingConvButtonClick(this);
+    }
+    public void sendingButtonClick(Gui gui, String textMessage)
+    {
+        this.currentState.sendingMessageButtonClick(this, textMessage);
+    }
+    public String getUsernameOtherUser() {
+        return usernameOtherUser;
+    }
+
+    public void setUsernameOtherUser(String usernameOtherUser) {
+        this.usernameOtherUser = usernameOtherUser;
     }
 }
