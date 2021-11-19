@@ -3,7 +3,7 @@ package server.action;
 import common.model.Message;
 import common.model.TextMessage;
 import common.model.User;
-import server.ConnectionState;
+import common.utils.ConnectionState;
 import server.MainServer;
 
 public class SendMessageAction implements Action {

@@ -22,6 +22,8 @@ public class QuittingConversationState implements State {
             String command = arguments[0];
             if (command != null && command.equals("confirmQuitChatroom")) {
                 // Connection success
+                c.clearMessagesSent();
+                c.clearMessagesReceived();
                 c.setCurrentState(c.userConnectedState);
             } else {
                 // Connection failed

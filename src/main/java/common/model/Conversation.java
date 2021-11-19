@@ -1,5 +1,6 @@
 package common.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +8,7 @@ import java.util.Map;
 /**
  * Represents a chat room.
  */
-public class Conversation {
+public class Conversation implements Serializable {
     private User user1;
     private User user2;
 
@@ -72,5 +73,10 @@ public class Conversation {
         }
 
         return null;
+    }
+
+    public void sendMessage(TextMessage message)
+    {
+        user1.sendSocketMessage(message.toString());
     }
 }

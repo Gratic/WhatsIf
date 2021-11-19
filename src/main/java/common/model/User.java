@@ -1,20 +1,22 @@
 package common.model;
 
+import common.utils.ConnectionState;
 import common.utils.Pair;
 import common.utils.SocketUtils;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.Objects;
 
 /**
  * Represents a user of the application.
  */
-public class User {
+public class User implements Serializable {
     private String username;
     private Boolean isConnected;
-    private Socket socket;
-    private SocketUtils socketUtils;
+    private transient Socket socket;
+    private transient SocketUtils socketUtils;
 
     public User(String username, Socket socket) {
         this.username = username;
@@ -70,6 +72,9 @@ public class User {
     public String receiveSocketLine() throws IOException {
         return this.socketUtils.receiveSocketLine();
     }
+
+
+
 
     /**
      * Utility function to determine if there is a message pending.

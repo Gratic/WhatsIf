@@ -11,8 +11,6 @@ public class SentMessagePanel extends MessagePanel {
     {
         super(gui);
         setBackground(new Color(0x3D6581));
-        JLabel person = new JLabel("You : ");
-        this.add(person);
     }
 
 }

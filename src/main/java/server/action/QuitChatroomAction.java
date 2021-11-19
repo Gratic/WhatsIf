@@ -1,6 +1,6 @@
 package server.action;
 
-import server.ConnectionState;
+import common.utils.ConnectionState;
 
 public class QuitChatroomAction implements Action {
     @Override

@@ -20,13 +20,23 @@ public interface State {
     }
 
     default void sendingMessageButtonClick(Controller controller, String textMessage){
-        //controller.conversationJoinedState.setUserAction(textMessage);
+        controller.conversationJoinedState.sendMessage(controller,textMessage);
     }
 
     default void quittingConvButtonClick(Controller controller)
     {
         controller.getCurrentUser().sendSocketMessage("quitChatroom");
         controller.setCurrentState(controller.quittingConversationState);
+    }
+
+    default void retryConnectingButtonClick(Controller controller)
+    {
+        controller.setCurrentState(controller.initState);
+    }
+
+    default void quittingConnectingButtonClick(Controller controller)
+    {
+        controller.setCurrentState(controller.terminationState);
     }
 }
 

@@ -2,7 +2,9 @@ package client.controller.state;
 
 import client.controller.Controller;
 import client.gui.Gui;
+import client.gui.viewstate.ConnectingFailedViewState;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.Scanner;
 
 /**
@@ -16,25 +18,7 @@ public class ConnectionFailedState implements State {
     public void run(Controller c, Gui gui) {
         System.out.println("Connection failed!");
 
-        boolean validInput = false;
-        boolean userWantToQuit = false;
+        gui.setCurrentViewState(new ConnectingFailedViewState(gui));
 
-        Scanner sc = new Scanner(System.in);
-        while (!validInput) {
-            System.out.println("Do you want to retry ? (y/n)");
-            String input = sc.nextLine();
-
-            if (input.equals("y")) {
-                userWantToQuit = true;
-                validInput = true;
-            } else if (input.equals("n")) {
-                validInput = true;
-            }
-        }
-
-        if (userWantToQuit)
-            c.setCurrentState(c.terminationState);
-        else
-            c.setCurrentState(c.initState);
     }
 }

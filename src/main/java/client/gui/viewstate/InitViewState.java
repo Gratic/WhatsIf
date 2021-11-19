@@ -15,6 +15,7 @@ public class InitViewState extends ViewState implements ActionListener {
     public InitViewState(Gui gui) {
         super(gui);
         initPanel = new InitPanel(gui);
+        gui.getMainPanel().removeAll();
         createGuiComponents();
         gui.getMainPanel().add(initPanel, BorderLayout.CENTER);
         initPanel.revalidate();

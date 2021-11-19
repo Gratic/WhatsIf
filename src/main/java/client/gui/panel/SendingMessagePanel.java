@@ -19,19 +19,12 @@ public class SendingMessagePanel extends GuiPanel implements ActionListener {
         setLayout(new BorderLayout());
 
 
-        messageArea = new JTextArea();
-        messageArea.setPreferredSize(new Dimension(600,100));
-        messageArea.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        this.add(messageArea, BorderLayout.CENTER);
-
-        sendMessageButton = new JButton("Send");
-        sendMessageButton.addActionListener(this);
-        this.add(sendMessageButton, BorderLayout.EAST);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("clické "+messageArea.getText());
         this.gui.getController().sendingButtonClick(this.gui,messageArea.getText());
+
     }
 }

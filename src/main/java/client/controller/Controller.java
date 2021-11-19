@@ -2,20 +2,23 @@ package client.controller;
 
 import client.controller.state.*;
 import client.gui.Gui;
-import client.gui.viewstate.UserConnectedViewState;
 import common.model.Conversation;
+import common.model.TextMessage;
 import common.model.User;
+import common.utils.ConnectionState;
 import common.utils.SocketUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     private User currentUser;
     private String usernameOtherUser;
     private Conversation currentConversation;
+    private List<TextMessage> messagesSent;
+    private List<TextMessage> messagesReceived;
     private final Gui gui;
 
     public final InitState initState;
@@ -36,9 +39,13 @@ public class Controller {
     private Socket socket;
     private SocketUtils socketUtils;
 
+    public ConnectionState currentConnection;
+
 
     public Controller() {
         this.gui = new Gui(this);
+        this.messagesSent = new ArrayList<>();
+        this.messagesReceived = new ArrayList<>();
         this.initState = new InitState();
         this.askUserLoginState = new AskUserLoginState();
         this.connectingState = new ConnectingState();
@@ -51,7 +58,6 @@ public class Controller {
         this.quittingConversationState = new QuittingConversationState();
         this.quittingConversationFailedState = new QuittingConversationFailedState();
         this.terminationState = new TerminationState();
-
         init();
     }
 
@@ -75,13 +81,21 @@ public class Controller {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
-    }
 
         if (this.socketUtils != null) {
             this.socketUtils.close();
         }
 
         this.socketUtils = new SocketUtils(socket);
+
+    }
+
+    public ConnectionState getCurrentConnection() {
+        return currentConnection;
+    }
+
+    public void setCurrentConnection(ConnectionState currentConnection) {
+        this.currentConnection = currentConnection;
     }
 
     public String receiveSocketLine() throws IOException {
@@ -113,6 +127,15 @@ public class Controller {
         this.currentState.joiningConversationButtonClick(this, username);
     }
 
+    public void retryConnectingButtonClick (Gui gui){
+        this.currentState.retryConnectingButtonClick(this);
+    }
+
+    public void quitConnectingButtonClick (Gui gui)
+    {
+        this.currentState.quittingConnectingButtonClick(this);
+    }
+
     public void closeSocket() {
         if (this.socketUtils != null)
             this.socketUtils.close();
@@ -122,6 +145,7 @@ public class Controller {
     {
         this.currentState.quittingConvButtonClick(this);
     }
+
     public void sendingButtonClick(Gui gui, String textMessage)
     {
         this.currentState.sendingMessageButtonClick(this, textMessage);
@@ -133,4 +157,41 @@ public class Controller {
     public void setUsernameOtherUser(String usernameOtherUser) {
         this.usernameOtherUser = usernameOtherUser;
     }
+
+    public List<TextMessage> getMessagesSent() {
+        return messagesSent;
+    }
+
+    public void setMessagesSent(List<TextMessage> messagesSent) {
+        this.messagesSent = messagesSent;
+    }
+
+    public List<TextMessage> getMessagesReceived() {
+        return messagesReceived;
+    }
+
+    public void setMessagesReceived(List<TextMessage> messagesReceived) {
+        this.messagesReceived = messagesReceived;
+    }
+
+    public void clearMessagesSent()
+    {
+        this.messagesSent.clear();
+    }
+
+    public void clearMessagesReceived()
+    {
+        this.messagesReceived.clear();
+    }
+
+    public void addMessageSent(TextMessage message)
+    {
+        messagesSent.add(message);
+    }
+
+    public void addMessageReceived(TextMessage message)
+    {
+        messagesReceived.add(message);
+    }
+
 }

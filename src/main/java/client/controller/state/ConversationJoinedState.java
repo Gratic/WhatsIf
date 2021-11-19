@@ -3,13 +3,13 @@ package client.controller.state;
 import client.controller.Controller;
 import client.gui.Gui;
 import client.gui.viewstate.ConversationOpenedViewState;
+import common.model.Conversation;
 import common.model.TextMessage;
+import common.model.User;
+import common.utils.ConnectionState;
+import common.utils.Pair;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
 /**
  * Conversation Joined State. Successfully joined a conversation. The current user is able to receive message and to send them.
@@ -25,6 +25,14 @@ public class ConversationJoinedState implements State {
       //  Scanner sc = new Scanner(System.in);
         gui.setCurrentViewState(new ConversationOpenedViewState(gui, c));
         boolean continueChatting = true;
+        System.out.println("yo");
+
+
+
+
+
+
+
 /*
         try {
             while (continueChatting) {
@@ -93,5 +101,13 @@ public class ConversationJoinedState implements State {
 
     public void setUserAction(String userAction) {
         this.userAction = userAction;
+    }
+
+    public void sendMessage(Controller controller, String text)
+    {
+        System.out.println("message sent : "+text);
+        TextMessage message = new TextMessage(controller.getCurrentUser(), userAction);
+        controller.getCurrentUser().sendSocketMessage(message.toString());
+        controller.addMessageSent(message);
     }
 }

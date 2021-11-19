@@ -16,10 +16,6 @@ public class MessagesContainerPanel extends GuiPanel{
         setBackground(new Color(0xC9E4E7));
         setLayout(new FlowLayout());
         setBorder(null);
-        SentMessagePanel sent= new SentMessagePanel(gui);
-        ReceivedMessagePanel received = new ReceivedMessagePanel(gui);
-        this.add(sent);
-        this.add(received);
     }
 
 }

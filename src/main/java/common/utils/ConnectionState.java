@@ -1,13 +1,14 @@
-package server;
+package common.utils;
 
 import common.model.Conversation;
 import common.model.User;
 import common.utils.SocketUtils;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.Socket;
 
-public class ConnectionState {
+public class ConnectionState implements Serializable {
     private User currentUser;
     private Conversation currentConversation;
     private Socket currentSocket;
@@ -86,6 +87,8 @@ public class ConnectionState {
     public void sendSocketMessage(String message) {
         this.socketUtils.sendSocketMessage(message);
     }
+
+
 
     /**
      * Utility function to receive a message from the user's socket.

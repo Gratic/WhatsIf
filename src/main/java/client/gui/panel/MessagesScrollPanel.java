@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class MessagesScrollPanel extends JScrollPane {
 
+    private MessagesContainerPanel messagesContainerPanel;
     public MessagesScrollPanel(Gui gui) {
         super();
         setOpaque(true);
@@ -17,8 +18,12 @@ public class MessagesScrollPanel extends JScrollPane {
         setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
         setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 
-        MessagesContainerPanel messagesContainerPanel = new MessagesContainerPanel(gui);
+        messagesContainerPanel = new MessagesContainerPanel(gui);
         this.getViewport().add(messagesContainerPanel);
         repaint();
+    }
+
+    public MessagesContainerPanel getMessagesContainerPanel() {
+        return messagesContainerPanel;
     }
 }

@@ -16,6 +16,7 @@ public class ConnectingState implements State {
     @Override
     public void run(Controller c, Gui gui) {
         try {
+            System.out.println("connecting");
             String message = c.receiveSocketLine();
             String[] arguments = message.split(":");
 

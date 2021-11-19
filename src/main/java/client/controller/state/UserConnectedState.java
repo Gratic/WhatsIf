@@ -22,5 +22,5 @@ public class UserConnectedState implements State {
         System.out.println("Talk with who ? Or quit using /quit");
     }
 
-    }
+
 }

@@ -10,6 +10,7 @@ public class OpenedConversationPanel extends GuiPanel {
 
     private SendingMessagePanel sendingMessagePanel;
     private InfosConvPanel infosConvPanel;
+    private MessagesScrollPanel scroll;
     Controller controller;
     public OpenedConversationPanel(Gui gui, Controller controller) {
         super(gui);
@@ -27,9 +28,15 @@ public class OpenedConversationPanel extends GuiPanel {
         this.add(sendingMessagePanel, BorderLayout.SOUTH);
         infosConvPanel = new InfosConvPanel(gui, controller);
         this.add(infosConvPanel, BorderLayout.NORTH);
-        MessagesScrollPanel scroll = new MessagesScrollPanel(gui);
+        scroll = new MessagesScrollPanel(gui);
         this.add(scroll, BorderLayout.CENTER);
+    }
 
+    public MessagesScrollPanel getScroll() {
+        return scroll;
+    }
 
+    public SendingMessagePanel getSendingMessagePanel() {
+        return sendingMessagePanel;
     }
 }

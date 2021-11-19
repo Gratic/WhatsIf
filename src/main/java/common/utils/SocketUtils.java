@@ -1,15 +1,16 @@
 package common.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import common.model.Conversation;
+import common.model.User;
+
+import java.io.*;
 import java.net.Socket;
 
 public class SocketUtils {
     private final Socket socket;
-    private BufferedReader socIn;
     private PrintStream socOut;
+    private BufferedReader socIn;
+
 
     public SocketUtils(Socket socket) {
         this.socket = socket;
@@ -17,6 +18,8 @@ public class SocketUtils {
         try {
             this.socOut = new PrintStream(socket.getOutputStream());
             this.socIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,6 +34,7 @@ public class SocketUtils {
         this.socOut.println(message);
     }
 
+
     /**
      * Utility function to receive a message from the user's socket.
      *
@@ -40,6 +44,7 @@ public class SocketUtils {
     public String receiveSocketLine() throws IOException {
         return this.socIn.readLine();
     }
+
 
     /**
      * Utility function to determine if there is a message pending.
