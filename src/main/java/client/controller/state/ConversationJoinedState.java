@@ -1,7 +1,9 @@
 package client.controller.state;
 
+import client.SocketThread;
 import client.controller.Controller;
 import client.gui.Gui;
+import client.gui.panel.OpenedConversationPanel;
 import client.gui.viewstate.ConversationOpenedViewState;
 import common.model.Conversation;
 import common.model.TextMessage;
@@ -24,15 +26,21 @@ public class ConversationJoinedState implements State {
     private String message;
     private String receivedMessageContent;
     private File file;
+    private SocketThread thread;
+    private Gui gui;
+
 
     @Override
     public void run(Controller c, Gui gui) {
+        this.gui=gui;
+        ConversationOpenedViewState conversationOpenedViewState = new ConversationOpenedViewState(gui,c);
 
-        gui.setCurrentViewState(new ConversationOpenedViewState(gui, c));
-
-
+        gui.setConversationOpenedViewState(conversationOpenedViewState);
+        gui.setCurrentViewState(gui.getConversationOpenedViewState());
             file = new File("conversations/"+c.getCurrentUser().getUsername()+"_"+c.getUsernameOtherUser());
 
+            thread = new SocketThread(c.getCurrentUser().getSocket(), c);
+            thread.start();
             /*PrintWriter printWriter = new PrintWriter(fileWriter);
             printWriter.println(receivedMessageContent);*/
 
@@ -124,13 +132,11 @@ public class ConversationJoinedState implements State {
         this.receivedMessageContent = receivedMessageContent;
     }
 
-    public void receiveMessage(Controller controller){
-        try{
-            message = controller.getCurrentUser().receiveSocketLine();
-            String[] arguments = message.split(":");
+    public void receiveMessage(Controller controller, String message){
 
-            String command = arguments[0];
-            if (command != null && command.equals("confirmMessage")) {
+                System.out.println("message "+ message);
+
+                String[] arguments = message.split(":");
                 String type = arguments[1];
                 long timestamp = Long.parseLong(arguments[2]);
                 String sender = arguments[3];
@@ -156,13 +162,12 @@ public class ConversationJoinedState implements State {
                     }
 
                     controller.addMessageReceived(receivedMessageContent);
+
+                    gui.getConversationOpenedViewState().receiveMessage();
                 } else {
                     System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
                 }
-            }
-        }catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+
+
     }
 }

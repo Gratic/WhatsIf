@@ -24,10 +24,10 @@ public interface State {
         controller.conversationJoinedState.sendMessage(controller,textMessage);
     }
 
-    default void receivingMessageButtonClick(Controller controller)
+    /*default void receivingMessageButtonClick(Controller controller)
     {
         controller.conversationJoinedState.receiveMessage(controller);
-    }
+    }*/
 
     default void quittingConvButtonClick(Controller controller)
     {

@@ -2,6 +2,7 @@ package client.gui;
 
 import client.controller.Controller;
 import client.gui.panel.MainPanel;
+import client.gui.viewstate.ConversationOpenedViewState;
 import client.gui.viewstate.InitViewState;
 import client.gui.viewstate.UserConnectedViewState;
 import client.gui.viewstate.ViewState;
@@ -22,8 +23,13 @@ public class Gui {
     public MainPanel mainPanel;
     public ViewState currentState;
 
+    private ConversationOpenedViewState conversationOpenedViewState;
+
     public Gui(Controller controller) {
         this.controller = controller;
+
+
+
         frame = new JFrame("WhatsIF");
 
         frame.setSize(width, height);
@@ -58,5 +64,13 @@ public class Gui {
 
     public JFrame getFrame() {
         return frame;
+    }
+
+    public ConversationOpenedViewState getConversationOpenedViewState() {
+        return conversationOpenedViewState;
+    }
+
+    public void setConversationOpenedViewState(ConversationOpenedViewState conversationOpenedViewState) {
+        this.conversationOpenedViewState = conversationOpenedViewState;
     }
 }

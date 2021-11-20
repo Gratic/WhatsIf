@@ -152,10 +152,12 @@ public class Controller {
         this.currentState.sendingMessageButtonClick(this, textMessage);
     }
 
-    public void receivingButtonClick (Gui gui)
+   /* public void receivingButtonClick (Gui gui)
     {
         this.currentState.receivingMessageButtonClick(this);
     }
+
+    */
     public String getUsernameOtherUser() {
         return usernameOtherUser;
     }
