@@ -23,6 +23,11 @@ public interface State {
         controller.conversationJoinedState.sendMessage(controller,textMessage);
     }
 
+    default void receivingMessageButtonClick(Controller controller)
+    {
+        controller.conversationJoinedState.receiveMessage(controller);
+    }
+
     default void quittingConvButtonClick(Controller controller)
     {
         controller.getCurrentUser().sendSocketMessage("quitChatroom");
@@ -38,6 +43,7 @@ public interface State {
     {
         controller.setCurrentState(controller.terminationState);
     }
+
 }
 
 

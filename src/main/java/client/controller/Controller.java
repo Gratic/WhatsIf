@@ -18,7 +18,7 @@ public class Controller {
     private String usernameOtherUser;
     private Conversation currentConversation;
     private List<TextMessage> messagesSent;
-    private List<TextMessage> messagesReceived;
+    private List<String> messagesReceived;
     private final Gui gui;
 
     public final InitState initState;
@@ -150,6 +150,11 @@ public class Controller {
     {
         this.currentState.sendingMessageButtonClick(this, textMessage);
     }
+
+    public void receivingButtonClick (Gui gui)
+    {
+        this.currentState.receivingMessageButtonClick(this);
+    }
     public String getUsernameOtherUser() {
         return usernameOtherUser;
     }
@@ -166,11 +171,11 @@ public class Controller {
         this.messagesSent = messagesSent;
     }
 
-    public List<TextMessage> getMessagesReceived() {
+    public List<String> getMessagesReceived() {
         return messagesReceived;
     }
 
-    public void setMessagesReceived(List<TextMessage> messagesReceived) {
+    public void setMessagesReceived(List<String> messagesReceived) {
         this.messagesReceived = messagesReceived;
     }
 
@@ -189,7 +194,7 @@ public class Controller {
         messagesSent.add(message);
     }
 
-    public void addMessageReceived(TextMessage message)
+    public void addMessageReceived(String message)
     {
         messagesReceived.add(message);
     }

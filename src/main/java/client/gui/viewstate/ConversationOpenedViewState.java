@@ -3,6 +3,7 @@ package client.gui.viewstate;
 import client.controller.Controller;
 import client.gui.Gui;
 import client.gui.panel.OpenedConversationPanel;
+import client.gui.panel.ReceivedMessagePanel;
 import client.gui.panel.SendingMessagePanel;
 import client.gui.panel.UserConnectedPanel;
 import jdk.jshell.Snippet;
@@ -19,6 +20,8 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
     private OpenedConversationPanel openedConversationPanel;
     private JButton sendMessageButton;
     private JTextArea messageArea;
+    private JButton receiveMessageButton;
+    private int previousNumberOfMessages = 0;
 
     public ConversationOpenedViewState(Gui gui, Controller c) {
         super(gui);
@@ -39,7 +42,10 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         openedConversationPanel = new OpenedConversationPanel(gui, controller);
         sendMessageButton = new JButton("Send");
         sendMessageButton.addActionListener(this);
+        receiveMessageButton = new JButton(("Receive"));
+        receiveMessageButton.addActionListener(this);
         openedConversationPanel.getSendingMessagePanel().add(sendMessageButton, BorderLayout.EAST);
+        openedConversationPanel.getSendingMessagePanel().add(receiveMessageButton, BorderLayout.WEST);
         messageArea = new JTextArea();
         messageArea.setPreferredSize(new Dimension(600,100));
         messageArea.setBorder(BorderFactory.createLineBorder(Color.black, 1));
@@ -67,6 +73,31 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
             openedConversationPanel.getScroll().repaint();
             openedConversationPanel.revalidate();
             openedConversationPanel.repaint();
+        }if (e.getSource()==receiveMessageButton){
+            this.controller.receivingButtonClick(this.gui);
+            if(this.controller.getMessagesReceived().size()!=0 && this.controller.getMessagesReceived().size()!=previousNumberOfMessages){
+                for(String s : this.controller.getMessagesReceived())
+                {
+                    System.out.println(s);
+                }
+                previousNumberOfMessages=this.controller.getMessagesReceived().size();
+                String message = this.controller.getMessagesReceived().get(this.controller.getMessagesReceived().size()-1);
+                ReceivedMessagePanel received = new ReceivedMessagePanel(gui);
+                System.out.println(message);
+                JLabel messageLabel = new JLabel(message);
+                received.add(messageLabel);
+                openedConversationPanel.getScroll().getMessagesContainerPanel().add(received);
+                openedConversationPanel.getScroll().getMessagesContainerPanel().revalidate();
+                openedConversationPanel.getScroll().getMessagesContainerPanel().repaint();
+                openedConversationPanel.getScroll().revalidate();
+                openedConversationPanel.getScroll().repaint();
+                openedConversationPanel.revalidate();
+                openedConversationPanel.repaint();
+            }else
+            {
+                System.out.println("No new message found");
+            }
+
         }
 
 
