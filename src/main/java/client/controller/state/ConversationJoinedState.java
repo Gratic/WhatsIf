@@ -140,7 +140,7 @@ public class ConversationJoinedState implements State {
 
     public void sendMessage(Controller controller, String text)
     {
-        TextMessage message = new TextMessage(controller.getCurrentUser(), userAction);
+        TextMessage message = new TextMessage(controller.getCurrentUser(), text);
         controller.getCurrentUser().sendSocketMessage(message.toString());
         controller.addMessageSent(message);
         System.out.println("message sent : "+text);
@@ -172,7 +172,7 @@ public class ConversationJoinedState implements State {
 
                 if (type.equals("text")) {
                     System.out.println(sender + ":" + date + ": " + value);
-                    setReceivedMessageContent(date + ": " + value);
+                    setReceivedMessageContent(sender + ":" + date + ": " + value);
                     controller.addMessageReceived(receivedMessageContent);
                 } else {
                     System.out.println("WARNING: the message received is a type unknown. (" + type + ")");

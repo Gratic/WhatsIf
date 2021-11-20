@@ -148,6 +148,7 @@ public class Controller {
 
     public void sendingButtonClick(Gui gui, String textMessage)
     {
+
         this.currentState.sendingMessageButtonClick(this, textMessage);
     }
 

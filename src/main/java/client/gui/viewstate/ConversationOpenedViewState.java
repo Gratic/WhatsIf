@@ -61,9 +61,9 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==sendMessageButton)
         {
-            System.out.println("clické "+messageArea.getText());
+            System.out.println("clickéeeeee "+messageArea.getText());
             this.gui.getController().sendingButtonClick(this.gui,messageArea.getText());
-            SendingMessagePanel send = new SendingMessagePanel(gui);
+            /*SendingMessagePanel send = new SendingMessagePanel(gui);
             JLabel message = new JLabel(messageArea.getText());
             send.add(message);
             openedConversationPanel.getScroll().getMessagesContainerPanel().add(send);
@@ -72,7 +72,7 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
             openedConversationPanel.getScroll().revalidate();
             openedConversationPanel.getScroll().repaint();
             openedConversationPanel.revalidate();
-            openedConversationPanel.repaint();
+            openedConversationPanel.repaint();*/
         }if (e.getSource()==receiveMessageButton){
             this.controller.receivingButtonClick(this.gui);
             if(this.controller.getMessagesReceived().size()!=0 && this.controller.getMessagesReceived().size()!=previousNumberOfMessages){

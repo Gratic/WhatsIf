@@ -20,6 +20,7 @@ public interface State {
     }
 
     default void sendingMessageButtonClick(Controller controller, String textMessage){
+
         controller.conversationJoinedState.sendMessage(controller,textMessage);
     }
 
