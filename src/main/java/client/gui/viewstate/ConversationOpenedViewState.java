@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 public class ConversationOpenedViewState extends ViewState implements ActionListener {
 
@@ -22,16 +23,33 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
     private JTextArea messageArea;
     private JButton receiveMessageButton;
     private int previousNumberOfMessages = 0;
+    private File file;
+    private BufferedReader reader;
 
     public ConversationOpenedViewState(Gui gui, Controller c) {
         super(gui);
         this.controller = c;
+        file = new File("conversations/"+c.getCurrentUser().getUsername()+"_"+c.getUsernameOtherUser());
+
+
 
         //System.out.println("j'ai changé d'état");
         gui.getMainPanel().removeAll();
         //gui.getFrame().removeAll();
         userConnectedPanel = new UserConnectedPanel(gui, controller);
         createGuiComponents();
+        try{
+            reader = new BufferedReader(new FileReader(file));
+            String message = reader.readLine();
+            while(message!=null)
+            {
+                addMessagePanel(message);
+                message = reader.readLine();
+            }
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         gui.getMainPanel().add(userConnectedPanel, BorderLayout.CENTER);
 
         gui.getMainPanel().revalidate();
@@ -63,16 +81,6 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         {
             System.out.println("clickéeeeee "+messageArea.getText());
             this.gui.getController().sendingButtonClick(this.gui,messageArea.getText());
-            /*SendingMessagePanel send = new SendingMessagePanel(gui);
-            JLabel message = new JLabel(messageArea.getText());
-            send.add(message);
-            openedConversationPanel.getScroll().getMessagesContainerPanel().add(send);
-            openedConversationPanel.getScroll().getMessagesContainerPanel().revalidate();
-            openedConversationPanel.getScroll().getMessagesContainerPanel().repaint();
-            openedConversationPanel.getScroll().revalidate();
-            openedConversationPanel.getScroll().repaint();
-            openedConversationPanel.revalidate();
-            openedConversationPanel.repaint();*/
         }if (e.getSource()==receiveMessageButton){
             this.controller.receivingButtonClick(this.gui);
             if(this.controller.getMessagesReceived().size()!=0 && this.controller.getMessagesReceived().size()!=previousNumberOfMessages){
@@ -82,25 +90,26 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
                 }
                 previousNumberOfMessages=this.controller.getMessagesReceived().size();
                 String message = this.controller.getMessagesReceived().get(this.controller.getMessagesReceived().size()-1);
-                ReceivedMessagePanel received = new ReceivedMessagePanel(gui);
-                System.out.println(message);
-                JLabel messageLabel = new JLabel(message);
-                received.add(messageLabel);
-                openedConversationPanel.getScroll().getMessagesContainerPanel().add(received);
-                openedConversationPanel.getScroll().getMessagesContainerPanel().revalidate();
-                openedConversationPanel.getScroll().getMessagesContainerPanel().repaint();
-                openedConversationPanel.getScroll().revalidate();
-                openedConversationPanel.getScroll().repaint();
-                openedConversationPanel.revalidate();
-                openedConversationPanel.repaint();
+                addMessagePanel(message);
             }else
             {
                 System.out.println("No new message found");
             }
 
         }
+    }
 
-
-
+    public void addMessagePanel(String message)
+    {
+        ReceivedMessagePanel received = new ReceivedMessagePanel(gui);
+        JLabel messageLabel = new JLabel(message);
+        received.add(messageLabel);
+        openedConversationPanel.getScroll().getMessagesContainerPanel().add(received);
+        openedConversationPanel.getScroll().getMessagesContainerPanel().revalidate();
+        openedConversationPanel.getScroll().getMessagesContainerPanel().repaint();
+        openedConversationPanel.getScroll().revalidate();
+        openedConversationPanel.getScroll().repaint();
+        openedConversationPanel.revalidate();
+        openedConversationPanel.repaint();
     }
 }

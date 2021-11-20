@@ -9,7 +9,7 @@ import common.model.User;
 import common.utils.ConnectionState;
 import common.utils.Pair;
 
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -23,44 +23,21 @@ import java.time.format.DateTimeFormatter;
 public class ConversationJoinedState implements State {
     private String message;
     private String receivedMessageContent;
-    private String userAction="coucou";
+    private File file;
+
     @Override
     public void run(Controller c, Gui gui) {
-      //  Scanner sc = new Scanner(System.in);
+
         gui.setCurrentViewState(new ConversationOpenedViewState(gui, c));
-        boolean continueChatting = true;
-        System.out.println("yo");
 
 
-            /*
-            try{
-                message = c.getCurrentUser().receiveSocketLine();
-                String[] arguments = message.split(":");
+            file = new File("conversations/"+c.getCurrentUser().getUsername()+"_"+c.getUsernameOtherUser());
 
-                String command = arguments[0];
-                if (command != null && command.equals("confirmMessage")) {
-                    String type = arguments[1];
-                    long timestamp = Long.parseLong(arguments[2]);
-                    String sender = arguments[3];
-                    String value = arguments[4];
+            /*PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.println(receivedMessageContent);*/
 
-                    LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(timestamp, 0, ZoneId.systemDefault().getRules().getOffset(LocalDateTime.now()));
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("k'h'm");
-                    String date = localDateTime.format(formatter);
 
-                    if (type.equals("text")) {
-                        System.out.println(sender + ":" + date + ": " + value);
-                        c.addMessageReceived(receivedMessageContent);
-                    } else {
-                        System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
-                    }
-                }
-            }catch (IOException e)
-            {
-                e.printStackTrace();
-            }
 
-             */
 
 
 
@@ -130,13 +107,6 @@ public class ConversationJoinedState implements State {
         this.message = message;
     }
 
-    public String getUserAction() {
-        return userAction;
-    }
-
-    public void setUserAction(String userAction) {
-        this.userAction = userAction;
-    }
 
     public void sendMessage(Controller controller, String text)
     {
@@ -173,6 +143,18 @@ public class ConversationJoinedState implements State {
                 if (type.equals("text")) {
                     System.out.println(sender + ":" + date + ": " + value);
                     setReceivedMessageContent(sender + ":" + date + ": " + value);
+                    try{
+                        FileWriter write = new FileWriter(file, true);
+                        write.write(sender + ":" + date + ":" + value);
+                        write.write("\n");
+                        write.close();
+
+
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+
                     controller.addMessageReceived(receivedMessageContent);
                 } else {
                     System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
