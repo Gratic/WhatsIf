@@ -22,7 +22,7 @@ public class SendMessageAction implements Action {
             User senderUser = MainServer.userDao.searchByUsername(sender);
 
             if (type.equals("text") && senderUser != null) {
-                newMessage = new TextMessage(Long.parseLong(timestamp), senderUser, value);
+                newMessage = new TextMessage(Long.parseLong(timestamp), senderUser.getUsername(), value);
             }
 
             if (newMessage != null)

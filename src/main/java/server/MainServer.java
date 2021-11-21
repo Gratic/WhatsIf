@@ -1,5 +1,9 @@
 package server;
 
+import common.model.Conversation;
+import common.model.Message;
+import common.model.TextMessage;
+import common.model.User;
 import server.dao.ConversationDao;
 import server.dao.UserDao;
 
@@ -18,8 +22,35 @@ public class MainServer {
     public static void main(String[] args) {
         ServerSocket listenSocket;
         userDao = new UserDao();
-        conversationDao = new ConversationDao();
+        conversationDao = ConversationDao.getInstance();
 
+//        User u1 = new User("alexis");
+//        User u2 = new User("florie");
+//
+//        long id = conversationDao.create(u1, u2);
+//        System.out.println("Id=" + id);
+//
+//        Conversation conv = conversationDao.searchConversationWithId(id);
+//        conv.addMessage(new TextMessage(conv.getId(), u1.getUsername(), "salut !"));
+//        conv.addMessage(new TextMessage(conv.getId(), u2.getUsername(), "hello !"));
+//
+//        conversationDao.persistAll();
+
+        conversationDao.loadConversations();
+        Conversation conv = conversationDao.searchConversationWithId(1L);
+
+        System.out.println("conv id=" + conv.getId());
+        System.out.println("user size=" + conv.getUsernames().size());
+        System.out.println("user 1=" + conv.getUsernames().get(0));
+        System.out.println("user 2=" + conv.getUsernames().get(1));
+
+        for(Message message : conv.getMessages())
+        {
+            System.out.println(message);
+        }
+
+
+        /*
         if (args.length != 1) {
             System.out.println("Usage: java EchoServer <EchoServer port>");
             System.exit(1);
@@ -35,6 +66,6 @@ public class MainServer {
             }
         } catch (Exception e) {
             System.err.println("Error in MainServer: " + e);
-        }
+        }*/
     }
 }

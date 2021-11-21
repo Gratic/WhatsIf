@@ -1,23 +1,27 @@
 package common.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Objects;
 
-public class Message {
+public class Message implements Serializable {
+    protected long conversationId;
     protected String type;
     private long timestamp;
-    protected User sender;
+    protected String sender;
     protected String value;
 
-    public Message(String type, User sender, String value) {
+    public Message(long conversationId, String type, String sender, String value) {
+        this.conversationId = conversationId;
         this.type = type;
         this.timestamp = LocalDateTime.now(ZoneId.systemDefault()).toEpochSecond(ZoneId.systemDefault().getRules().getOffset(LocalDateTime.now()));
         this.sender = sender;
         this.value = value;
     }
 
-    public Message(String type, long timestamp, User sender, String value) {
+    public Message(long conversationId, String type, long timestamp, String sender, String value) {
+        this.conversationId = conversationId;
         this.type = type;
         this.timestamp = timestamp;
         this.sender = sender;
@@ -40,11 +44,11 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-    public User getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
@@ -54,6 +58,14 @@ public class Message {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public long getConversationId() {
+        return conversationId;
+    }
+
+    public void setConversationId(long conversationId) {
+        this.conversationId = conversationId;
     }
 
     @Override
@@ -71,6 +83,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return "sendMessage:" + type + ':' + timestamp + ':' + sender + ':' + value;
+        return "sendMessage:" + conversationId + ':' + hashCode() + ':' + type + ':' + timestamp + ':' + sender + ':' + value;
     }
 }

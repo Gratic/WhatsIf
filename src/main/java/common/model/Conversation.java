@@ -1,26 +1,48 @@
 package common.model;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Represents a chat room.
  */
 public class Conversation implements Serializable {
-    private User user1;
-    private User user2;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    private final Map<User, Boolean> isInRoom;
+    private long id;
 
-    private List<Message> messages;
+    private transient User user1;
+    private transient User user2;
 
-    public Conversation(User user1, User user2) {
+    private final List<String> usernames;
+    private transient final Map<User, Boolean> isInRoom;
+
+    private final List<Message> messages;
+
+    public Conversation(long id)
+    {
+        this.id = id;
+        this.user1 = null;
+        this.user2 = null;
+
+        messages = Collections.synchronizedList(new ArrayList<>());
+        usernames = Collections.synchronizedList(new ArrayList<>());
+        isInRoom = new HashMap<>();
+    }
+
+    public Conversation(long id, User user1, User user2) {
+        this.id = id;
         this.user1 = user1;
         this.user2 = user2;
 
         isInRoom = new HashMap<>();
+
+        messages = Collections.synchronizedList(new ArrayList<>());
+        usernames = Collections.synchronizedList(new ArrayList<>());
+        usernames.add(user1.getUsername());
+        usernames.add(user2.getUsername());
     }
 
     public User getUser1() {
@@ -41,10 +63,6 @@ public class Conversation implements Serializable {
 
     public List<Message> getMessages() {
         return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
     }
 
     public void addMessage(Message message) {
@@ -73,6 +91,19 @@ public class Conversation implements Serializable {
         }
 
         return null;
+    }
+
+    public long getId()
+    {
+        return id;
+    }
+
+    public List<String> getUsernames()
+    {return usernames;}
+
+    public void addUsername(String username)
+    {
+        usernames.add(username);
     }
 
     public void sendMessage(TextMessage message)
