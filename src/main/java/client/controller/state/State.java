@@ -42,6 +42,11 @@ public interface State {
         controller.setCurrentState(controller.terminationState);
     }
 
+    default void disconnectButtonClick(Controller controller)
+    {
+        controller.setCurrentState(controller.terminationState);
+    }
+
 }
 
 

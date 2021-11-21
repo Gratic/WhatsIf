@@ -13,11 +13,13 @@ import common.model.User;
 public class TerminationState implements State {
     @Override
     public void run(Controller c, Gui gui) {
+        System.out.println("disconnected");
         User user = c.getCurrentUser();
         if (user != null) {
             user.closeSocket();
         }
 
         c.closeSocket();
+        c.setCurrentState(c.initState);
     }
 }

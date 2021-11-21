@@ -5,11 +5,13 @@ import client.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class UserPanel extends GuiPanel {
+public class UserPanel extends GuiPanel implements ActionListener {
 
     private final Controller controller;
-
+    private final JButton disconnect;
     public UserPanel(Gui gui, Controller controller) {
         super(gui);
         this.controller = controller;
@@ -22,6 +24,18 @@ public class UserPanel extends GuiPanel {
                 "Hello " + controller.getCurrentUser().getUsername() + " ! "
         );
         this.add(welcomeLabel, BorderLayout.EAST);
+
+        disconnect = new JButton("disconnect");
+        disconnect.addActionListener(this);
+        this.add(disconnect, BorderLayout.WEST);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==disconnect){
+            this.controller.disconnectButtonClick(this.gui);
+        }
 
     }
 }
