@@ -17,9 +17,7 @@ public class UserConnectedViewState extends ViewState {
     public UserConnectedViewState(Gui gui, Controller controller) {
         super(gui);
         this.controller = controller;
-        //System.out.println("j'ai changé d'état");
         gui.getMainPanel().removeAll();
-        //gui.getFrame().removeAll();
         userConnectedPanel = new UserConnectedPanel(gui, controller);
         createGuiComponents();
         gui.getMainPanel().add(userConnectedPanel, BorderLayout.CENTER);

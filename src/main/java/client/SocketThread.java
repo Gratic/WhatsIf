@@ -23,12 +23,13 @@ public class SocketThread extends Thread {
         try {
             while (inConversation) {
 
+
                 String line = controller.getCurrentUser().receiveSocketLine();
-                System.out.println("ligne : " + line);
+                System.out.println("ici aussi");
+
 
                 if (line == null) break;
 
-                //currentConnection.setCurrentCommand(line);
 
                 String[] arguments = line.split(":");
                 String command = arguments[0];
@@ -43,6 +44,7 @@ public class SocketThread extends Thread {
                         controller.clearMessagesReceived();
                         controller.setCurrentState(controller.userConnectedState);
                     }
+                    
                     default -> controller.setCurrentState(controller.quittingConversationFailedState);
                 }
 

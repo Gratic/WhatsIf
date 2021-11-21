@@ -145,6 +145,11 @@ public class Controller {
         this.currentState.quittingConvButtonClick(this);
     }
 
+    public void disconnectButtonClick (Gui gui)
+    {
+        this.currentState.disconnectButtonClick(this);
+    }
+
     public void sendingButtonClick(Gui gui, String textMessage) {
 
         this.currentState.sendingMessageButtonClick(this, textMessage);
