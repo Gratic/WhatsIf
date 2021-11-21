@@ -6,7 +6,9 @@ import common.utils.Pair;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +21,7 @@ public class ConversationDao {
     private static long nextID = -1L;
     private final static String dataLocation = "data/server/";
     private final static String idLocation = dataLocation + "id/";
-    private final static String convLocation = dataLocation + "conv/";
+    private final static String convLocation = dataLocation + "conversations/";
     private static ConversationDao conversationDaoSingleton = null;
 
     public static ConversationDao getInstance()
@@ -36,22 +38,22 @@ public class ConversationDao {
     private ConversationDao()
     {
         conversations = new ConcurrentHashMap<>();
+        loadConversations();
     }
 
     /**
      * Creates a new conversation.
      *
-     * @param u1 a user
-     * @param u2 a user
+     * @param usernames usernames
      * @return true if created, else false.
      */
-    public long create(String u1, String u2) {
+    public long create(List<String> usernames) {
         long currentId = nextID;
 
         if (conversations.containsKey(nextID))
             return -1;
         else {
-            conversations.put(nextID, new Conversation(nextID, u1, u2));
+            conversations.put(nextID, new Conversation(nextID, usernames));
             nextID++;
             persistId();
         }
@@ -59,17 +61,25 @@ public class ConversationDao {
         return currentId;
     }
 
-    /**
-     * Finds and retrieve the conversation of user u1 and user u2.
-     *
-     * @param u1 a user
-     * @param u2 a user
-     * @return a conversation, null if not existing.
-     */
-    public Conversation searchConversationWithBothUsers(User u1, User u2) {
-        //TODO: change
-        Pair<User, User> users = User.orderTwoUser(u1, u2);
-        return conversations.getOrDefault(0L, null);
+    public List<Conversation> searchConversationThatIncludeUsername(String username)
+    {
+        List<Conversation> result = new ArrayList<>();
+
+        for(Conversation conversation : conversations.values())
+        {
+            int nbParticipants = conversation.numberOfParticipants();
+            for(int i = 0; i < nbParticipants; i++)
+            {
+                String user = conversation.getUsername(i);
+                if(user.equals(username))
+                {
+                    result.add(conversation);
+                    break;
+                }
+            }
+        }
+
+        return result;
     }
 
     public Conversation searchConversationWithId(long id)
@@ -79,17 +89,20 @@ public class ConversationDao {
 
     public void loadConversations()
     {
-        //TODO: load nextID
         File f = new File(convLocation);
 
-        for(String path : f.list())
+        if(f.exists())
         {
-            Conversation conversation = loadConversation(convLocation + path);
-            if(conversation != null)
+            for(String path : f.list())
             {
-                conversations.put(conversation.getId(), conversation);
+                Conversation conversation = loadConversation(convLocation + path);
+                if(conversation != null)
+                {
+                    conversations.put(conversation.getId(), conversation);
+                }
             }
         }
+
     }
 
     public Conversation loadConversation(String path)

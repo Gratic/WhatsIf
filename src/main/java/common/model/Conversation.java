@@ -24,13 +24,16 @@ public class Conversation implements Serializable {
         usernames = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public Conversation(long id, String user1, String user2) {
+    public Conversation(long id, List<String> usernames) {
         this.id = id;
 
         messages = Collections.synchronizedList(new ArrayList<>());
-        usernames = Collections.synchronizedList(new ArrayList<>());
-        addUsername(user1);
-        addUsername(user2);
+        this.usernames = Collections.synchronizedList(new ArrayList<>());
+
+        for(String username : usernames)
+        {
+            addUsername(username);
+        }
     }
 
     public String getUsername(int index)

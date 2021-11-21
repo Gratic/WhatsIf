@@ -9,6 +9,8 @@ import server.dao.UserDao;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * MainServer is the starting point.
@@ -21,38 +23,41 @@ public class MainServer {
 
     public static void main(String[] args) {
         ServerSocket listenSocket;
-        userDao = new UserDao();
+        userDao = UserDao.getInstance();
         conversationDao = ConversationDao.getInstance();
 
         /* PERSISTANCE - MISE EN FICHIER */
-//        User u1 = new User("alexis");
-//        User u2 = new User("florie");
+//        userDao.create(new User("alexis"));
+//        userDao.create(new User("florie"));
 //
-//        long id = conversationDao.create(u1, u2);
+//        userDao.persistAll();
+//
+//        List<String> usernames = new ArrayList<>();
+//        usernames.add("alexis");
+//        usernames.add("florie");
+//
+//        long id = conversationDao.create(usernames);
 //        System.out.println("Id=" + id);
 //
 //        Conversation conv = conversationDao.searchConversationWithId(id);
-//        conv.addMessage(new TextMessage(conv.getId(), u1.getUsername(), "salut !"));
-//        conv.addMessage(new TextMessage(conv.getId(), u2.getUsername(), "hello !"));
+//        conv.addMessage(new TextMessage(conv.getId(), usernames.get(0), "salut !"));
+//        conv.addMessage(new TextMessage(conv.getId(), usernames.get(1), "hello !"));
 //
 //        conversationDao.persistAll();
 
         /* PERSISTANCE - CHARGEMENT DES DONNEES */
-        conversationDao.loadConversations();
-        Conversation conv = conversationDao.searchConversationWithId(1L);
+//        Conversation conv = conversationDao.searchConversationWithId(0L);
+//
+//        System.out.println("conv id=" + conv.getId());
+//        System.out.println("user size=" + conv.numberOfParticipants());
+//        System.out.println("user 1=" + conv.getUsername(0));
+//        System.out.println("user 2=" + conv.getUsername(1));
+//
+//        for(Message message : conv.getMessages())
+//        {
+//            System.out.println(message);
+//        }
 
-        System.out.println("conv id=" + conv.getId());
-        System.out.println("user size=" + conv.numberOfParticipants());
-        System.out.println("user 1=" + conv.getUsername(0));
-        System.out.println("user 2=" + conv.getUsername(1));
-
-        for(Message message : conv.getMessages())
-        {
-            System.out.println(message);
-        }
-
-
-        /*
         if (args.length != 1) {
             System.out.println("Usage: java EchoServer <EchoServer port>");
             System.exit(1);
@@ -68,6 +73,6 @@ public class MainServer {
             }
         } catch (Exception e) {
             System.err.println("Error in MainServer: " + e);
-        }*/
+        }
     }
 }
