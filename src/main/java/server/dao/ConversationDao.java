@@ -45,14 +45,13 @@ public class ConversationDao {
      * @param u2 a user
      * @return true if created, else false.
      */
-    public long create(User u1, User u2) {
-        Pair<User, User> users = User.orderTwoUser(u1, u2);
+    public long create(String u1, String u2) {
         long currentId = nextID;
 
         if (conversations.containsKey(nextID))
             return -1;
         else {
-            conversations.put(nextID, new Conversation(nextID, users.getFirst(), users.getSecond()));
+            conversations.put(nextID, new Conversation(nextID, u1, u2));
             nextID++;
             persistId();
         }

@@ -17,11 +17,9 @@ public class RequestJoinChatroom implements Action {
 
         if (MainServer.userDao.isConnected(username)) {
             User otherUser = MainServer.userDao.searchByUsername(username);
-            MainServer.conversationDao.create(currentConnection.getCurrentUser(), otherUser);
+            MainServer.conversationDao.create(currentConnection.getCurrentUser().getUsername(), otherUser.getUsername());
 
             currentConnection.setCurrentConversation(MainServer.conversationDao.searchConversationWithBothUsers(currentConnection.getCurrentUser(), otherUser));
-
-            currentConnection.getCurrentConversation().setIsInRoom(currentConnection.getCurrentUser(), true);
 
             currentConnection.sendSocketMessage("confirmJoinChatroom:" + username + ":0");
 

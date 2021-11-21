@@ -37,11 +37,7 @@ public class SendMessageAction implements Action {
 
                 // Sending the confirmation command to the other if he's connected
                 User otherUser;
-                if ((otherUser = currentConnection.getCurrentConversation().getOtherUser(currentConnection.getCurrentUser())) != null) {
-                    if (currentConnection.getCurrentConversation().getIsInRoom(otherUser)) {
-                        otherUser.sendSocketMessage(confirmMessage);
-                    }
-                }
+                //TODO: send message to others participants
             }
         } // if currentConversation != null
     }

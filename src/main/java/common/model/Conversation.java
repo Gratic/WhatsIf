@@ -13,52 +13,37 @@ public class Conversation implements Serializable {
 
     private long id;
 
-    private transient User user1;
-    private transient User user2;
-
     private final List<String> usernames;
-    private transient final Map<User, Boolean> isInRoom;
-
     private final List<Message> messages;
 
     public Conversation(long id)
     {
         this.id = id;
-        this.user1 = null;
-        this.user2 = null;
 
         messages = Collections.synchronizedList(new ArrayList<>());
         usernames = Collections.synchronizedList(new ArrayList<>());
-        isInRoom = new HashMap<>();
     }
 
-    public Conversation(long id, User user1, User user2) {
+    public Conversation(long id, String user1, String user2) {
         this.id = id;
-        this.user1 = user1;
-        this.user2 = user2;
-
-        isInRoom = new HashMap<>();
 
         messages = Collections.synchronizedList(new ArrayList<>());
         usernames = Collections.synchronizedList(new ArrayList<>());
-        usernames.add(user1.getUsername());
-        usernames.add(user2.getUsername());
+        addUsername(user1);
+        addUsername(user2);
     }
 
-    public User getUser1() {
-        return user1;
+    public String getUsername(int index)
+    {
+        return usernames.get(index);
     }
 
-    public void setUser1(User user1) {
-        this.user1 = user1;
-    }
-
-    public User getUser2() {
-        return user2;
-    }
-
-    public void setUser2(User user2) {
-        this.user2 = user2;
+    public void addUsername(String username)
+    {
+        if(!usernames.contains(username))
+        {
+            usernames.add(username);
+        }
     }
 
     public List<Message> getMessages() {
@@ -69,28 +54,23 @@ public class Conversation implements Serializable {
         this.messages.add(message);
     }
 
-    public boolean getIsInRoom(User u) {
-        return isInRoom.getOrDefault(u, false);
-    }
-
-    public void setIsInRoom(User u, boolean value) {
-        isInRoom.put(u, value);
-    }
-
     /**
      * Get the other participant, other than u.
      *
      * @param u a user
      * @return User, the other user.
      */
-    public User getOtherUser(User u) {
-        if (user1.equals(u)) {
-            return user2;
-        } else if (user2.equals(u)) {
-            return user1;
+    public List<String> getOtherUsers(String u) {
+        List<String> result = new ArrayList<>();
+        for(String username : usernames)
+        {
+            if(!username.equals(u))
+            {
+                result.add(username);
+            }
         }
 
-        return null;
+        return result;
     }
 
     public long getId()
@@ -98,16 +78,8 @@ public class Conversation implements Serializable {
         return id;
     }
 
-    public List<String> getUsernames()
-    {return usernames;}
-
-    public void addUsername(String username)
+    public int numberOfParticipants()
     {
-        usernames.add(username);
-    }
-
-    public void sendMessage(TextMessage message)
-    {
-        user1.sendSocketMessage(message.toString());
+        return usernames.size();
     }
 }

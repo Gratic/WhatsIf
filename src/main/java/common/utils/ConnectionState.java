@@ -114,9 +114,6 @@ public class ConnectionState implements Serializable {
         if(getCurrentUser() != null)
         {
             getCurrentUser().setConnected(false);
-
-            if(getCurrentConversation() != null)
-                getCurrentConversation().setIsInRoom(getCurrentUser(), false);
         }
 
         closeSocket();

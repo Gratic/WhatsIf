@@ -24,6 +24,7 @@ public class MainServer {
         userDao = new UserDao();
         conversationDao = ConversationDao.getInstance();
 
+        /* PERSISTANCE - MISE EN FICHIER */
 //        User u1 = new User("alexis");
 //        User u2 = new User("florie");
 //
@@ -36,13 +37,14 @@ public class MainServer {
 //
 //        conversationDao.persistAll();
 
+        /* PERSISTANCE - CHARGEMENT DES DONNEES */
         conversationDao.loadConversations();
         Conversation conv = conversationDao.searchConversationWithId(1L);
 
         System.out.println("conv id=" + conv.getId());
-        System.out.println("user size=" + conv.getUsernames().size());
-        System.out.println("user 1=" + conv.getUsernames().get(0));
-        System.out.println("user 2=" + conv.getUsernames().get(1));
+        System.out.println("user size=" + conv.numberOfParticipants());
+        System.out.println("user 1=" + conv.getUsername(0));
+        System.out.println("user 2=" + conv.getUsername(1));
 
         for(Message message : conv.getMessages())
         {
