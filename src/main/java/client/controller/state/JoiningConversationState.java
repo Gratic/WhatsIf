@@ -25,7 +25,6 @@ public class JoiningConversationState implements State {
             if (command != null && command.equals("confirmJoinChatroom") && returnValue.equals("0")) {
                 // Connection success
                 System.out.println("You started a conversation with " + username + ". Be friendly ;) !");
-
                 c.setCurrentState(c.conversationJoinedState);
             } else {
                 // Connection failed

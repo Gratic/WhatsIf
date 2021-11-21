@@ -1,6 +1,7 @@
 package common.utils;
 
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Objects;
  * @param <T> anything
  * @param <K> anything
  */
-public class Pair<T, K> {
+public class Pair<T, K> implements Serializable {
     private T first;
     private K second;
 

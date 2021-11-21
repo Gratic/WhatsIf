@@ -2,6 +2,7 @@ package client.controller.state;
 
 import client.controller.Controller;
 import client.gui.Gui;
+import common.utils.ConnectionState;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class AskUserLoginState implements State {
         String username = sc.nextLine();
          */
 
+        System.out.println("asking state");
         if (username != null && !username.equals("")) {
 
             try {
@@ -36,8 +38,11 @@ public class AskUserLoginState implements State {
                 socOut.println("requestConnection:" + username);
 
                 c.setSocket(connectionSocket);
+                c.setCurrentConnection(new ConnectionState(connectionSocket));
+                System.out.println("asking stateee");
 
                 c.setCurrentState(c.connectingState);
+
             } catch (IOException e) {
                 System.err.println("Couldn't get I/O for "
                         + "the connection to:" + ip);

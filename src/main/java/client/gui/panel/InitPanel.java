@@ -31,11 +31,11 @@ public class InitPanel extends GuiPanel implements ActionListener {
         usernameEntry.setPreferredSize(new Dimension(200, 30));
         this.add(usernameEntry);
 
-        ipEntry = new JTextField("ip address");
+        ipEntry = new JTextField("localhost");
         ipEntry.setPreferredSize(new Dimension(200, 30));
         this.add(ipEntry);
 
-        portEntry = new JTextField("port number");
+        portEntry = new JTextField("8123");
         portEntry.setPreferredSize(new Dimension(200, 30));
         this.add(portEntry);
 
@@ -60,8 +60,6 @@ public class InitPanel extends GuiPanel implements ActionListener {
             System.out.println(ip);
             System.out.println(port);
             this.gui.getController().connectingButtonClick(this.gui, username, ip, port);
-
-
         }
 
     }

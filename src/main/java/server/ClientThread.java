@@ -1,5 +1,6 @@
 package server;
 
+import common.utils.ConnectionState;
 import server.action.*;
 
 import java.net.Socket;

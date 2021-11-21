@@ -1,7 +1,7 @@
 package server.action;
 
 import common.model.User;
-import server.ConnectionState;
+import common.utils.ConnectionState;
 import server.MainServer;
 
 public class RequestConnectionAction implements Action {

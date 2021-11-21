@@ -8,4 +8,5 @@ public class TextMessage extends Message {
     public TextMessage(long timestamp, User sender, String content) {
         super("text", timestamp, sender, content);
     }
+
 }

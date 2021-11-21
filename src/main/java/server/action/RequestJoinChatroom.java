@@ -1,12 +1,15 @@
 package server.action;
 
 import common.model.User;
-import server.ConnectionState;
+import common.utils.ConnectionState;
+import common.utils.Pair;
 import server.MainServer;
+
+import java.io.IOException;
 
 public class RequestJoinChatroom implements Action {
     @Override
-    public void execute(ConnectionState currentConnection) {
+    public void execute(ConnectionState currentConnection) throws IOException {
         String[] arguments = currentConnection.getCurrentArguments();
         String username = arguments[1];
 
@@ -21,6 +24,8 @@ public class RequestJoinChatroom implements Action {
             currentConnection.getCurrentConversation().setIsInRoom(currentConnection.getCurrentUser(), true);
 
             currentConnection.sendSocketMessage("confirmJoinChatroom:" + username + ":0");
+
+
             System.out.println("confirmJoinChatroom: " + username + ":0");
         } else {
             currentConnection.sendSocketMessage("confirmJoinChatroom:" + username + ":1");
