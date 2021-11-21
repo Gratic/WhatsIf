@@ -3,15 +3,12 @@ package client.controller.state;
 import client.SocketThread;
 import client.controller.Controller;
 import client.gui.Gui;
-import client.gui.panel.OpenedConversationPanel;
 import client.gui.viewstate.ConversationOpenedViewState;
-import common.model.Conversation;
 import common.model.TextMessage;
-import common.model.User;
-import common.utils.ConnectionState;
-import common.utils.Pair;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -32,17 +29,16 @@ public class ConversationJoinedState implements State {
 
     @Override
     public void run(Controller c, Gui gui) {
-        this.gui=gui;
-        ConversationOpenedViewState conversationOpenedViewState = new ConversationOpenedViewState(gui,c);
+        this.gui = gui;
+        ConversationOpenedViewState conversationOpenedViewState = new ConversationOpenedViewState(gui, c);
 
         gui.setConversationOpenedViewState(conversationOpenedViewState);
         gui.setCurrentViewState(gui.getConversationOpenedViewState());
-            file = new File("conversations/"+c.getCurrentUser().getUsername()+"_"+c.getUsernameOtherUser());
+        file = new File("conversations/" + c.getCurrentUser().getUsername() + "_" + c.getUsernameOtherUser());
 
-            thread = new SocketThread(c.getCurrentUser().getSocket(), c);
-            thread.start();
-            /*PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.println(receivedMessageContent);*/
+
+        thread = new SocketThread(c.getCurrentUser().getSocket(), c);
+        thread.start();
 
 
 
@@ -116,12 +112,11 @@ public class ConversationJoinedState implements State {
     }
 
 
-    public void sendMessage(Controller controller, String text)
-    {
+    public void sendMessage(Controller controller, String text) {
         TextMessage message = new TextMessage(controller.getCurrentUser(), text);
         controller.getCurrentUser().sendSocketMessage(message.toString());
         controller.addMessageSent(message);
-        System.out.println("message sent : "+text);
+        System.out.println("message sent : " + text);
     }
 
     public String getReceivedMessageContent() {
@@ -132,41 +127,40 @@ public class ConversationJoinedState implements State {
         this.receivedMessageContent = receivedMessageContent;
     }
 
-    public void receiveMessage(Controller controller, String message){
+    public void receiveMessage(Controller controller, String message) {
 
-                System.out.println("message "+ message);
+        System.out.println("message " + message);
 
-                String[] arguments = message.split(":");
-                String type = arguments[1];
-                long timestamp = Long.parseLong(arguments[2]);
-                String sender = arguments[3];
-                String value = arguments[4];
+        String[] arguments = message.split(":");
+        String type = arguments[1];
+        long timestamp = Long.parseLong(arguments[2]);
+        String sender = arguments[3];
+        String value = arguments[4];
 
-                LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(timestamp, 0, ZoneId.systemDefault().getRules().getOffset(LocalDateTime.now()));
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("k'h'm");
-                String date = localDateTime.format(formatter);
+        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(timestamp, 0, ZoneId.systemDefault().getRules().getOffset(LocalDateTime.now()));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("k'h'm");
+        String date = localDateTime.format(formatter);
 
-                if (type.equals("text")) {
-                    System.out.println(sender + ":" + date + ": " + value);
-                    setReceivedMessageContent(sender + ":" + date + ": " + value);
-                    try{
-                        FileWriter write = new FileWriter(file, true);
-                        write.write(sender + ":" + date + ":" + value);
-                        write.write("\n");
-                        write.close();
+        if (type.equals("text")) {
+            System.out.println(sender + ":" + date + ": " + value);
+            setReceivedMessageContent(sender + ":" + date + ": " + value);
+            try {
+                FileWriter write = new FileWriter(file, true);
+                write.write(sender + ":" + date + ":" + value);
+                write.write("\n");
+                write.close();
 
 
-                    }catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                    controller.addMessageReceived(receivedMessageContent);
+            controller.addMessageReceived(receivedMessageContent);
 
-                    gui.getConversationOpenedViewState().receiveMessage();
-                } else {
-                    System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
-                }
+            gui.getConversationOpenedViewState().receiveMessage();
+        } else {
+            System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
+        }
 
 
     }

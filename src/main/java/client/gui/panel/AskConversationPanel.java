@@ -11,10 +11,11 @@ public class AskConversationPanel extends GuiPanel implements ActionListener {
 
     JButton enterConversationButton;
     JTextField name;
+
     public AskConversationPanel(Gui gui) {
         super(gui);
         setOpaque(true);
-        setPreferredSize(new Dimension(350,200));
+        setPreferredSize(new Dimension(350, 200));
         setBackground(new Color(0xCCE8E8));
         setLayout(new FlowLayout());
 
@@ -23,7 +24,7 @@ public class AskConversationPanel extends GuiPanel implements ActionListener {
         );
         this.add(welcomeLabel);
         name = new JTextField();
-        name.setPreferredSize(new Dimension(200,30));
+        name.setPreferredSize(new Dimension(200, 30));
         this.add(name);
         enterConversationButton = new JButton("Let's talk");
         enterConversationButton.addActionListener(this);
@@ -33,10 +34,9 @@ public class AskConversationPanel extends GuiPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==enterConversationButton)
-        {
+        if (e.getSource() == enterConversationButton) {
 
-            this.gui.getController().joiningConversationButtonClick(this.gui,name.getText());
+            this.gui.getController().joiningConversationButtonClick(this.gui, name.getText());
         }
     }
 }

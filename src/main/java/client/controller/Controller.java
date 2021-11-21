@@ -118,21 +118,20 @@ public class Controller {
         this.currentConversation = currentConversation;
     }
 
-    public void connectingButtonClick(Gui gui, String username, String ip, int port ){
+    public void connectingButtonClick(Gui gui, String username, String ip, int port) {
         this.currentState.connectingButtonClick(this, username, ip, port);
-       // gui.setCurrentViewState(new UserConnectedViewState(gui));
+        // gui.setCurrentViewState(new UserConnectedViewState(gui));
     }
 
-    public void joiningConversationButtonClick(Gui gui, String username){
+    public void joiningConversationButtonClick(Gui gui, String username) {
         this.currentState.joiningConversationButtonClick(this, username);
     }
 
-    public void retryConnectingButtonClick (Gui gui){
+    public void retryConnectingButtonClick(Gui gui) {
         this.currentState.retryConnectingButtonClick(this);
     }
 
-    public void quitConnectingButtonClick (Gui gui)
-    {
+    public void quitConnectingButtonClick(Gui gui) {
         this.currentState.quittingConnectingButtonClick(this);
     }
 
@@ -141,23 +140,22 @@ public class Controller {
             this.socketUtils.close();
     }
 
-    public void quittingConvButtonClick(Gui gui)
-    {
+    public void quittingConvButtonClick(Gui gui) {
+
         this.currentState.quittingConvButtonClick(this);
     }
 
-    public void sendingButtonClick(Gui gui, String textMessage)
-    {
+    public void sendingButtonClick(Gui gui, String textMessage) {
 
         this.currentState.sendingMessageButtonClick(this, textMessage);
     }
 
-   /* public void receivingButtonClick (Gui gui)
-    {
-        this.currentState.receivingMessageButtonClick(this);
-    }
+    /* public void receivingButtonClick (Gui gui)
+     {
+         this.currentState.receivingMessageButtonClick(this);
+     }
 
-    */
+     */
     public String getUsernameOtherUser() {
         return usernameOtherUser;
     }
@@ -182,23 +180,19 @@ public class Controller {
         this.messagesReceived = messagesReceived;
     }
 
-    public void clearMessagesSent()
-    {
+    public void clearMessagesSent() {
         this.messagesSent.clear();
     }
 
-    public void clearMessagesReceived()
-    {
+    public void clearMessagesReceived() {
         this.messagesReceived.clear();
     }
 
-    public void addMessageSent(TextMessage message)
-    {
+    public void addMessageSent(TextMessage message) {
         messagesSent.add(message);
     }
 
-    public void addMessageReceived(String message)
-    {
+    public void addMessageReceived(String message) {
         messagesReceived.add(message);
     }
 

@@ -10,8 +10,9 @@ import java.awt.event.ActionListener;
 
 public class InitViewState extends ViewState implements ActionListener {
 
-    private InitPanel initPanel;
+    private final InitPanel initPanel;
     private JButton button;
+
     public InitViewState(Gui gui) {
         super(gui);
         initPanel = new InitPanel(gui);

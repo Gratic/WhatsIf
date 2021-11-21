@@ -3,8 +3,6 @@ package client.controller.state;
 import client.controller.Controller;
 import client.gui.Gui;
 
-import java.io.IOException;
-
 /**
  * Quitting Conversation State. Trying to quit a conversation.
  * <p>
@@ -14,18 +12,15 @@ import java.io.IOException;
 public class QuittingConversationState implements State {
     @Override
     public void run(Controller c, Gui gui) {
+/*
         try {
             String message = c.getCurrentUser().receiveSocketLine();
 
             String[] arguments = message.split(":");
 
             String command = arguments[0];
-            if (command != null && command.equals("confirmQuitChatroom")) {
-                // Connection success
-                c.clearMessagesSent();
-                c.clearMessagesReceived();
-                c.setCurrentState(c.userConnectedState);
-            } else {
+            if (command != null && !command.equals("confirmQuitChatroom")) {
+
                 // Connection failed
                 c.setCurrentState(c.quittingConversationFailedState);
             }
@@ -33,5 +28,11 @@ public class QuittingConversationState implements State {
             exception.printStackTrace();
             c.setCurrentState(c.quittingConversationFailedState);
         }
+
+ */
+
+
     }
+
+
 }

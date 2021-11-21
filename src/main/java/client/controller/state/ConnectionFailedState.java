@@ -4,9 +4,6 @@ import client.controller.Controller;
 import client.gui.Gui;
 import client.gui.viewstate.ConnectingFailedViewState;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-import java.util.Scanner;
-
 /**
  * Connection Failed State. The application enters this state when it failed to connect to a user.
  * <p>

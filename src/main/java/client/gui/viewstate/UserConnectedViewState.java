@@ -2,18 +2,17 @@ package client.gui.viewstate;
 
 import client.controller.Controller;
 import client.gui.Gui;
-import client.gui.panel.*;
-import common.model.User;
+import client.gui.panel.AskConversationPanel;
+import client.gui.panel.UserConnectedPanel;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class UserConnectedViewState extends ViewState{
+public class UserConnectedViewState extends ViewState {
 
 
-    private UserConnectedPanel userConnectedPanel;
+    private final UserConnectedPanel userConnectedPanel;
     private AskConversationPanel askConversationPanel;
-    private Controller controller;
+    private final Controller controller;
 
     public UserConnectedViewState(Gui gui, Controller controller) {
         super(gui);

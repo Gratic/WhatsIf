@@ -7,7 +7,8 @@ import java.awt.*;
 
 public class MessagesScrollPanel extends JScrollPane {
 
-    private MessagesContainerPanel messagesContainerPanel;
+    private final MessagesContainerPanel messagesContainerPanel;
+
     public MessagesScrollPanel(Gui gui) {
         super();
         setOpaque(true);

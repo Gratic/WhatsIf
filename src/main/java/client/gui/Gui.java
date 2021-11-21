@@ -4,7 +4,6 @@ import client.controller.Controller;
 import client.gui.panel.MainPanel;
 import client.gui.viewstate.ConversationOpenedViewState;
 import client.gui.viewstate.InitViewState;
-import client.gui.viewstate.UserConnectedViewState;
 import client.gui.viewstate.ViewState;
 
 import javax.swing.*;
@@ -27,7 +26,6 @@ public class Gui {
 
     public Gui(Controller controller) {
         this.controller = controller;
-
 
 
         frame = new JFrame("WhatsIF");

@@ -4,33 +4,34 @@ import client.controller.Controller;
 import client.gui.Gui;
 import client.gui.panel.OpenedConversationPanel;
 import client.gui.panel.ReceivedMessagePanel;
-import client.gui.panel.SendingMessagePanel;
 import client.gui.panel.UserConnectedPanel;
-import jdk.jshell.Snippet;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ConversationOpenedViewState extends ViewState implements ActionListener {
 
-    private UserConnectedPanel userConnectedPanel;
-    private Controller controller;
+    private final UserConnectedPanel userConnectedPanel;
+    private final Controller controller;
     private OpenedConversationPanel openedConversationPanel;
     private JButton sendMessageButton;
     private JTextArea messageArea;
-    private JButton receiveMessageButton;
     private int previousNumberOfMessages = 0;
-    private File file;
+    private final File file;
     private BufferedReader reader;
     private Timer timer;
 
     public ConversationOpenedViewState(Gui gui, Controller c) {
         super(gui);
         this.controller = c;
-        file = new File("conversations/"+c.getCurrentUser().getUsername()+"_"+c.getUsernameOtherUser());
+
+        file = new File("conversations/" + c.getCurrentUser().getUsername() + "_" + c.getUsernameOtherUser());
 
 
         //System.out.println("j'ai changé d'état");
@@ -38,20 +39,17 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         //gui.getFrame().removeAll();
         userConnectedPanel = new UserConnectedPanel(gui, controller);
         createGuiComponents();
-        try{
-            if(file.length()!=0)
-            {
+        try {
+            if (file.length() != 0) {
                 reader = new BufferedReader(new FileReader(file));
                 String message = reader.readLine();
-                while(message!=null)
-                {
+                while (message != null) {
                     addMessagePanel(message);
                     message = reader.readLine();
                 }
             }
 
-        }catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         gui.getMainPanel().add(userConnectedPanel, BorderLayout.CENTER);
@@ -64,12 +62,9 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         openedConversationPanel = new OpenedConversationPanel(gui, controller);
         sendMessageButton = new JButton("Send");
         sendMessageButton.addActionListener(this);
-        receiveMessageButton = new JButton(("Receive"));
-        receiveMessageButton.addActionListener(this);
         openedConversationPanel.getSendingMessagePanel().add(sendMessageButton, BorderLayout.EAST);
-        openedConversationPanel.getSendingMessagePanel().add(receiveMessageButton, BorderLayout.WEST);
         messageArea = new JTextArea();
-        messageArea.setPreferredSize(new Dimension(600,100));
+        messageArea.setPreferredSize(new Dimension(600, 100));
         messageArea.setBorder(BorderFactory.createLineBorder(Color.black, 1));
         openedConversationPanel.getSendingMessagePanel().add(messageArea, BorderLayout.CENTER);
         openedConversationPanel.revalidate();
@@ -81,32 +76,24 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==sendMessageButton) {
-            System.out.println("clickéeeeee " + messageArea.getText());
+        if (e.getSource() == sendMessageButton) {
             this.gui.getController().sendingButtonClick(this.gui, messageArea.getText());
-
-
         }
     }
 
-    public void receiveMessage()
-    {
-        if(this.controller.getMessagesReceived().size()!=0 && this.controller.getMessagesReceived().size()!=previousNumberOfMessages){
-            for(String s : this.controller.getMessagesReceived())
-            {
-                System.out.println(s);
+    public void receiveMessage() {
+        if (this.controller.getMessagesReceived().size() != 0 && this.controller.getMessagesReceived().size() != previousNumberOfMessages) {
+            for (String s : this.controller.getMessagesReceived()) {
             }
-            previousNumberOfMessages=this.controller.getMessagesReceived().size();
-            String message = this.controller.getMessagesReceived().get(this.controller.getMessagesReceived().size()-1);
+            previousNumberOfMessages = this.controller.getMessagesReceived().size();
+            String message = this.controller.getMessagesReceived().get(this.controller.getMessagesReceived().size() - 1);
             addMessagePanel(message);
-        }else
-        {
+        } else {
             System.out.println("No new message found");
         }
     }
 
-    public void addMessagePanel(String message)
-    {
+    public void addMessagePanel(String message) {
         ReceivedMessagePanel received = new ReceivedMessagePanel(gui);
         JLabel messageLabel = new JLabel(message);
         received.add(messageLabel);

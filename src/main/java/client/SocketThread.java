@@ -1,12 +1,10 @@
 package client;
 
 import client.controller.Controller;
-import common.utils.ConnectionState;
-import server.action.*;
 
 import java.net.Socket;
 
-public class SocketThread extends Thread{
+public class SocketThread extends Thread {
 
     private final Socket clientSocket;
     private final Controller controller;
@@ -26,7 +24,7 @@ public class SocketThread extends Thread{
             while (inConversation) {
 
                 String line = controller.getCurrentUser().receiveSocketLine();
-                System.out.println("ligne : "+line);
+                System.out.println("ligne : " + line);
 
                 if (line == null) break;
 
@@ -38,16 +36,21 @@ public class SocketThread extends Thread{
 
                 switch (command) {
 
-                    case "confirmMessage" -> controller.conversationJoinedState.receiveMessage(controller,line);
-
-                    default -> System.out.println("Invalid Command: " + line);
+                    case "confirmMessage" -> controller.conversationJoinedState.receiveMessage(controller, line);
+                    case "confirmQuitChatroom" -> {
+                        inConversation = false;
+                        controller.clearMessagesSent();
+                        controller.clearMessagesReceived();
+                        controller.setCurrentState(controller.userConnectedState);
+                    }
+                    default -> controller.setCurrentState(controller.quittingConversationFailedState);
                 }
 
             }
         } catch (Exception e) {
             System.err.println("Error in Socket Connection: " + e);
         } finally {
-           //controller.getCurrentConversation().;
+            //controller.getCurrentConversation().;
         }
     }
 }

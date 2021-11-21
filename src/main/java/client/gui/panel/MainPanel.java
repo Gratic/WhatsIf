@@ -11,7 +11,7 @@ public class MainPanel extends JPanel {
         setOpaque(true);
         setBackground(new Color(243, 226, 226, 123));
         setLayout(new BorderLayout());
-       // setVisible(true);
+        // setVisible(true);
 
     }
 

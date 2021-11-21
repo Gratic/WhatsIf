@@ -2,8 +2,6 @@ package client.controller.state;
 
 import client.controller.Controller;
 import client.gui.Gui;
-import common.model.Conversation;
-import common.model.User;
 
 import java.io.IOException;
 

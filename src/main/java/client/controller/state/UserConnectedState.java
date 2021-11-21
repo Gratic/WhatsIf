@@ -4,8 +4,6 @@ import client.controller.Controller;
 import client.gui.Gui;
 import client.gui.viewstate.UserConnectedViewState;
 
-import java.util.Scanner;
-
 /**
  * User Connected State. The user is connected.
  * <p>

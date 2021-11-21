@@ -8,15 +8,16 @@ import java.awt.*;
 
 public class OpenedConversationPanel extends GuiPanel {
 
-    private SendingMessagePanel sendingMessagePanel;
-    private InfosConvPanel infosConvPanel;
-    private MessagesScrollPanel scroll;
+    private final SendingMessagePanel sendingMessagePanel;
+    private final InfosConvPanel infosConvPanel;
+    private final MessagesScrollPanel scroll;
     Controller controller;
+
     public OpenedConversationPanel(Gui gui, Controller controller) {
         super(gui);
         this.controller = controller;
         setOpaque(true);
-        setPreferredSize(new Dimension(350,200));
+        setPreferredSize(new Dimension(350, 200));
         setBackground(new Color(0xC9E4E7));
         setLayout(new BorderLayout());
 

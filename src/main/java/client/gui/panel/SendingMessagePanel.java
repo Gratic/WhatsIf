@@ -11,10 +11,11 @@ public class SendingMessagePanel extends GuiPanel implements ActionListener {
 
     JButton sendMessageButton;
     JTextArea messageArea;
+
     public SendingMessagePanel(Gui gui) {
         super(gui);
         setOpaque(true);
-        setPreferredSize(new Dimension(350,200));
+        setPreferredSize(new Dimension(350, 200));
         setBackground(new Color(0xDDEFED));
         setLayout(new BorderLayout());
 
@@ -23,8 +24,8 @@ public class SendingMessagePanel extends GuiPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("clické "+messageArea.getText());
-        this.gui.getController().sendingButtonClick(this.gui,messageArea.getText());
+        System.out.println("clické " + messageArea.getText());
+        this.gui.getController().sendingButtonClick(this.gui, messageArea.getText());
 
     }
 }

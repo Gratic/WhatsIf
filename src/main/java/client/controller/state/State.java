@@ -14,14 +14,14 @@ public interface State {
         controller.setCurrentState(controller.askUserLoginState);
     }
 
-    default void joiningConversationButtonClick(Controller controller, String username){
+    default void joiningConversationButtonClick(Controller controller, String username) {
         controller.setUsernameOtherUser(username);
         controller.setCurrentState(controller.askUserConversationState);
     }
 
-    default void sendingMessageButtonClick(Controller controller, String textMessage){
+    default void sendingMessageButtonClick(Controller controller, String textMessage) {
 
-        controller.conversationJoinedState.sendMessage(controller,textMessage);
+        controller.conversationJoinedState.sendMessage(controller, textMessage);
     }
 
     /*default void receivingMessageButtonClick(Controller controller)
@@ -29,19 +29,16 @@ public interface State {
         controller.conversationJoinedState.receiveMessage(controller);
     }*/
 
-    default void quittingConvButtonClick(Controller controller)
-    {
+    default void quittingConvButtonClick(Controller controller) {
         controller.getCurrentUser().sendSocketMessage("quitChatroom");
         controller.setCurrentState(controller.quittingConversationState);
     }
 
-    default void retryConnectingButtonClick(Controller controller)
-    {
+    default void retryConnectingButtonClick(Controller controller) {
         controller.setCurrentState(controller.initState);
     }
 
-    default void quittingConnectingButtonClick(Controller controller)
-    {
+    default void quittingConnectingButtonClick(Controller controller) {
         controller.setCurrentState(controller.terminationState);
     }
 

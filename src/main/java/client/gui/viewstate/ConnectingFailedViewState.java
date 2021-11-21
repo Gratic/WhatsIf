@@ -1,9 +1,6 @@
 package client.gui.viewstate;
 
-import client.controller.Controller;
 import client.gui.Gui;
-import client.gui.panel.OpenedConversationPanel;
-import client.gui.panel.UserConnectedPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +11,7 @@ public class ConnectingFailedViewState extends ViewState implements ActionListen
 
     private JButton retry;
     private JButton quit;
+
     public ConnectingFailedViewState(Gui gui) {
         super(gui);
         gui.getMainPanel().removeAll();
@@ -26,7 +24,7 @@ public class ConnectingFailedViewState extends ViewState implements ActionListen
         retry = new JButton("Retry");
         retry.addActionListener(this);
         gui.getMainPanel().add(retry, BorderLayout.WEST);
-        quit = new JButton ("Quit");
+        quit = new JButton("Quit");
         quit.addActionListener(this);
         gui.getMainPanel().add(quit, BorderLayout.EAST);
     }
@@ -34,9 +32,9 @@ public class ConnectingFailedViewState extends ViewState implements ActionListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==retry){
+        if (e.getSource() == retry) {
             this.gui.getController().retryConnectingButtonClick(this.gui);
-        }else if(e.getSource()==quit){
+        } else if (e.getSource() == quit) {
             this.gui.getController().quitConnectingButtonClick(this.gui);
         }
     }

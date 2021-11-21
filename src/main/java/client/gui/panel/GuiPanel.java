@@ -13,7 +13,7 @@ public abstract class GuiPanel extends JPanel {
     public GuiPanel(Gui gui) {
 
         this.gui = gui;
-        setBorder(BorderFactory.createLineBorder(Color.darkGray,2));
+        setBorder(BorderFactory.createLineBorder(Color.darkGray, 2));
     }
 }
 
