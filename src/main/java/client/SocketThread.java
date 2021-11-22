@@ -71,7 +71,7 @@ public class SocketThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            //controller.getCurrentConversation().;
+            controller.setCurrentState(controller.terminationState);
         }
     }
 }

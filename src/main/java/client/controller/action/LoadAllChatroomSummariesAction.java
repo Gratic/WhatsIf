@@ -28,6 +28,7 @@ public class LoadAllChatroomSummariesAction implements Action{
                 System.out.println("get messages=" + id);
                 System.out.println("get nbOfMessage=" + nbOfMessage);
                 System.out.println("get hashLastMessage=" + hashLastMessage);
+
                 if(!controller.getConversationsOfUser().containsKey(id)){
                     Conversation conv = new Conversation(id);
                     controller.getConversationsOfUser().put(id,conv);

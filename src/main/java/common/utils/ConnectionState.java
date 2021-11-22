@@ -52,7 +52,8 @@ public class ConnectionState implements Serializable {
         if (this.socketUtils != null)
             this.socketUtils.close();
 
-        this.socketUtils = new SocketUtils(currentSocket);
+        if(currentSocket != null)
+            this.socketUtils = new SocketUtils(currentSocket);
     }
 
     public String getCurrentCommand() {
@@ -119,10 +120,13 @@ public class ConnectionState implements Serializable {
         if(getCurrentUser() != null)
         {
             getCurrentUser().setConnected(false);
-            getCurrentUser().setSocket(null);
+            if(getCurrentUser().getSocket() != null)
+            {
+                closeSocket();
+                setCurrentSocket(null);
+                getCurrentUser().setSocket(null);
+            }
         }
-
-        closeSocket();
     }
 
     public void closeSocket() {
