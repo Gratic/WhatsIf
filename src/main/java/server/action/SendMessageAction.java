@@ -29,7 +29,9 @@ public class SendMessageAction implements Action {
             Message newMessage = new TextMessage(convId, Long.parseLong(timestamp), sender, value);
             if (newMessage.hashCode() == hash)
             {
-                currentConnection.getCurrentConversation().addMessage(newMessage);
+                conversation.addMessage(newMessage);
+
+                MainServer.conversationDao.persist(conversation);
 
                 // Making the confirmation command
                 int nbParticipants = conversation.numberOfParticipants();
