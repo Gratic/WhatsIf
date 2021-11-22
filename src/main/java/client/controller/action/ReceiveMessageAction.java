@@ -43,12 +43,13 @@ public class ReceiveMessageAction implements Action{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("k'h'm");
         String date = localDateTime.format(formatter);
         String receivedMessageContent = (sender + ":" + date + ": " + value);
-        if(gui.getCurrentState()==gui.getConversationOpenedViewState())
+
+        if(gui.getCurrentState()==gui.getConversationOpenedViewState() && controller.getCurrentConnection().getCurrentConversation().getId()==Long.parseLong(conversationId))
         {
             if (type.equals("text")) {
 
+
                 gui.getConversationOpenedViewState().receiveMessage(receivedMessageContent);
-                System.out.println("j'affiche le message");
 
             } else {
                 System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
