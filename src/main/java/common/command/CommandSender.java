@@ -74,11 +74,11 @@ public class CommandSender {
             {
                 if (conversation.getMessages().size() == 0)
                 {
-                    parts.add(conversation.getId() + ";" + conversation.getMessages().size() + ";" + 0);
+                    parts.add(conversation.getId() + ";" + conversation.getMessages().size() +";" + 0+ ";"+conversation.getNom());
                 }
                 else
                 {
-                    parts.add(conversation.getId() + ";" + conversation.getMessages().size() + ";" + conversation.getMessages().get(conversation.getMessages().size()-1).hashCode());
+                    parts.add(conversation.getId() + ";" + conversation.getMessages().size() + ";" + conversation.getMessages().get(conversation.getMessages().size()-1).hashCode()+";"+conversation.getNom());
                 }
             }
             message = message.concat(String.join(":", parts));

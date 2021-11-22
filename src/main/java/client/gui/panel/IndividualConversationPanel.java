@@ -20,7 +20,7 @@ public class IndividualConversationPanel extends GuiPanel implements MouseListen
         this.controller = controller;
         setOpaque(true);
         setPreferredSize(new Dimension(400, 80));
-        setBackground(new Color(0x425B62));
+        setBackground(new Color(0x96BAC4));
         addMouseListener(this);
         setLayout(new FlowLayout());
     }
