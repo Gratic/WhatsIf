@@ -45,8 +45,11 @@ public class ConnectingState implements State {
 
                 if (command != null && command.equals("confirmConnect") && returnValue.equals("0")) {
                     // Connection success
-                    c.setCurrentUser(new User(arguments[1], c.getSocket()));
+                    User user = new User(arguments[1], c.getSocket());
+                    c.setCurrentUser(user);
                     c.getCurrentUser().setConnected(true);
+
+                    c.getCurrentConnection().setCurrentUser(user);
 
                     System.out.println("Connecté !");
 

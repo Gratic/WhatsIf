@@ -24,8 +24,8 @@ public class SendingMessagePanel extends GuiPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("clické " + messageArea.getText());
-        this.gui.getController().sendingButtonClick(this.gui, messageArea.getText());
-
+        if(e.getSource()==sendMessageButton){
+            this.gui.getController().sendingButtonClick(this.gui, messageArea.getText());
+        }
     }
 }

@@ -94,4 +94,8 @@ public class Gui {
     public void setUserConnectedViewState(UserConnectedViewState userConnectedViewState) {
         this.userConnectedViewState = userConnectedViewState;
     }
+
+    public ViewState getCurrentState() {
+        return currentState;
+    }
 }

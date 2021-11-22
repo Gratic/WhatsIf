@@ -29,9 +29,10 @@ public class ReceiveMessageAction implements Action{
 
         long convId = Long.parseLong(conversationId);
         int hash = Integer.parseInt(messageHash);
-        Conversation conversation = MainServer.conversationDao.searchConversationWithId(convId);
+        Conversation conversation = controller.getConversationsOfUser().get(convId);
 
-        if (type.equals("text") && sender.equals(currentConnection.getCurrentUser().getUsername())) {
+
+        if (type.equals("text") ) {
             Message newMessage = new TextMessage(convId, Long.parseLong(timestamp), sender, value);
             if (newMessage.hashCode() == hash) {
                 controller.getConversationsOfUser().get(convId).addMessage(newMessage);
@@ -42,12 +43,17 @@ public class ReceiveMessageAction implements Action{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("k'h'm");
         String date = localDateTime.format(formatter);
         String receivedMessageContent = (sender + ":" + date + ": " + value);
-        if (type.equals("text")) {
+        if(gui.getCurrentState()==gui.getConversationOpenedViewState())
+        {
+            if (type.equals("text")) {
 
-            gui.getConversationOpenedViewState().receiveMessage(receivedMessageContent);
+                gui.getConversationOpenedViewState().receiveMessage(receivedMessageContent);
+                System.out.println("j'affiche le message");
 
-        } else {
-            System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
+            } else {
+                System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
+            }
+
         }
     }
 }

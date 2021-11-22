@@ -2,9 +2,13 @@ package client.gui.viewstate;
 
 import client.controller.Controller;
 import client.gui.Gui;
+import client.gui.panel.IndividualConversationPanel;
 import client.gui.panel.OpenedConversationPanel;
 import client.gui.panel.ReceivedMessagePanel;
 import client.gui.panel.UserConnectedPanel;
+import common.model.Conversation;
+import common.model.Message;
+import common.model.TextMessage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +18,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.List;
 
 public class ConversationOpenedViewState extends ViewState implements ActionListener {
 
@@ -22,39 +31,26 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
     private OpenedConversationPanel openedConversationPanel;
     private JButton sendMessageButton;
     private JTextArea messageArea;
-    private int previousNumberOfMessages = 0;
-   // private final File file;
-    private BufferedReader reader;
+    private Timer timer;
 
 
     public ConversationOpenedViewState(Gui gui, Controller c) {
         super(gui);
         this.controller = c;
-
-        //file = new File("conversations/" + c.getCurrentUser().getUsername() + "_" + c.getUsernameOtherUser());
-
-
-        //System.out.println("j'ai changé d'état");
         gui.getMainPanel().removeAll();
-        //gui.getFrame().removeAll();
         userConnectedPanel = new UserConnectedPanel(gui, controller);
         createGuiComponents();
-        /*
-        try {
-            if (file.length() != 0) {
-                reader = new BufferedReader(new FileReader(file));
-                String message = reader.readLine();
-                while (message != null) {
-                    addMessagePanel(message);
-                    message = reader.readLine();
-                }
+        loadPreviousMessages();
+
+        timer = new Timer(1000, new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                controller.updateConversationsTimer();
+                showConversations();
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
+        timer.start();
 
-         */
         gui.getMainPanel().add(userConnectedPanel, BorderLayout.CENTER);
 
         gui.getMainPanel().revalidate();
@@ -104,6 +100,56 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         openedConversationPanel.getScroll().repaint();
         openedConversationPanel.revalidate();
         openedConversationPanel.repaint();
+    }
+
+    public void showConversations() {
+        Map<Long, Conversation> conversationMap = controller.getConversationsOfUser();
+        userConnectedPanel.getConversationsPanel().removeAll();
+        for (Long conversationId : conversationMap.keySet()) {
+            IndividualConversationPanel conversationPanel = new IndividualConversationPanel(gui, controller);
+            Conversation conversation = conversationMap.get(conversationId);
+            conversationPanel.setConversation(conversationMap.get(conversationId));
+            int nbMessages = conversation.getMessages().size();
+            String text;
+            String sender;
+            if (nbMessages != 0) {
+                text = conversation.getMessages().get(conversation.getMessages().size() - 1).getValue();
+                sender = conversation.getMessages().get(conversation.getMessages().size() - 1).getSender();
+
+            } else {
+                text = "No message in the conversation";
+                sender = "";
+            }
+            //JLabel usernames = new JLabel(conversation.generateNom());
+            //System.out.println("nom : "+conversation.generateNom());
+            JLabel message = new JLabel(text);
+            JLabel senderUsername = new JLabel(sender + " : ");
+            // conversationPanel.add(usernames);
+            conversationPanel.add(senderUsername);
+            conversationPanel.add(message);
+            conversationPanel.revalidate();
+            conversationPanel.repaint();
+            userConnectedPanel.getConversationsPanel().add(conversationPanel);
+            userConnectedPanel.revalidate();
+            userConnectedPanel.repaint();
+        }
+    }
+
+    public void loadPreviousMessages()
+    {
+
+        List <Message> messages= controller.getCurrentConnection().getCurrentConversation().getMessages();
+        for(Message m : messages){
+            String sender = m.getSender();
+            Long timestamp = m.getTimestamp();
+            String value = m.getValue();
+            LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(timestamp, 0, ZoneId.systemDefault().getRules().getOffset(LocalDateTime.now()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("k'h'm");
+            String date = localDateTime.format(formatter);
+            String receivedMessageContent = (sender + ":" + date + ": " + value);
+            addMessagePanel(receivedMessageContent);
+        }
+
     }
 
 }

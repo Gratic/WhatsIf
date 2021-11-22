@@ -2,6 +2,7 @@ package client.controller.action;
 
 import client.controller.Controller;
 import client.gui.Gui;
+import client.gui.viewstate.ConversationOpenedViewState;
 import common.model.Conversation;
 import common.utils.ConnectionState;
 
@@ -18,6 +19,13 @@ public class CreateNewConversationAction implements Action{
             Long id = Long.parseLong(arguments[2]);
             Conversation conversation = new Conversation(id);
             controller.getConversationsOfUser().put(id,conversation);
+            controller.changeFocusConversation(conversation);
+            /*
+            currentConnection.setCurrentConversation(conversation);
+            controller.setCurrentState(controller.conversationOpenedState);
+
+             */
+
         }else
         {
             System.out.println("Impossible to create a new conversation");
