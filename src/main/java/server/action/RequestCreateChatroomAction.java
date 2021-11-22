@@ -1,5 +1,6 @@
 package server.action;
 
+import com.sun.tools.javac.Main;
 import common.command.CommandSender;
 import common.model.User;
 import common.utils.ConnectionState;
@@ -23,6 +24,7 @@ public class RequestCreateChatroomAction implements Action {
         if(convId != -1L)
         {
             commandSender.sendConfirmCreatedChatroom(0, convId);
+            MainServer.conversationDao.persist(MainServer.conversationDao.searchConversationWithId(convId));
         }
         else
         {
