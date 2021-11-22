@@ -23,10 +23,11 @@ public interface State {
 
     default void updateConversationsTimer(Controller controller){
 
-        CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
-        commandSender.sendGetChatroomSummaries(controller.getCurrentUser().getUsername());
-
-
+        if(controller.getCurrentUser() != null)
+        {
+            CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
+            commandSender.sendGetChatroomSummaries(controller.getCurrentUser().getUsername());
+        }
     }
 
     default void disconnectButtonClick(Controller controller) {

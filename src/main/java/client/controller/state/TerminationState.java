@@ -19,6 +19,7 @@ public class TerminationState implements State {
             user.closeSocket();
         }
 
+        c.setCurrentUser(null);
         c.closeSocket();
         c.setCurrentState(c.initState);
     }

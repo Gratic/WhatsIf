@@ -58,7 +58,8 @@ public class User implements Serializable {
         if (this.socketUtils != null)
             this.socketUtils.close();
 
-        this.socketUtils = new SocketUtils(socket);
+        if(socket != null)
+            this.socketUtils = new SocketUtils(socket);
     }
 
     /**
