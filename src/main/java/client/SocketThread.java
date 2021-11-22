@@ -24,7 +24,7 @@ public class SocketThread extends Thread {
     @Override
     public void run() {
         currentConnection = new ConnectionState(clientSocket);
-
+        controller.setCurrentConnection(currentConnection);
         try {
             while (currentConnection.isAlive()) {
 
@@ -50,6 +50,7 @@ public class SocketThread extends Thread {
                     case "confirmChatroom" ->{
 
                         actionToExecute = new CreateNewConversationAction();
+
                     }
                     case "chatroomSummaries" -> {
                         actionToExecute = new LoadAllChatroomSummariesAction();

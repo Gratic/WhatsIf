@@ -20,7 +20,7 @@ public class CreateNewConversationAction implements Action{
             Conversation conversation = new Conversation(id);
             controller.getConversationsOfUser().put(id,conversation);
             currentConnection.setCurrentConversation(conversation);
-            controller.gui.setCurrentViewState(new ConversationOpenedViewState(gui, controller));
+            controller.setCurrentState(controller.conversationOpenedState);
 
         }else
         {
