@@ -23,15 +23,12 @@ public class LoadAllChatroomSummariesAction implements Action{
                 Long id = Long.parseLong(parameters[0]);
                 int nbOfMessage = Integer.parseInt(parameters[1]);
                 int hashLastMessage = Integer.parseInt(parameters[2]);
-                //String conversationName = parameters[3];
-
-                System.out.println("get messages=" + id);
-                System.out.println("get nbOfMessage=" + nbOfMessage);
-                System.out.println("get hashLastMessage=" + hashLastMessage);
+                String conversationName = parameters[3];
 
                 if(!controller.getConversationsOfUser().containsKey(id)){
                     Conversation conv = new Conversation(id);
                     controller.getConversationsOfUser().put(id,conv);
+                    controller.getConversationsNameOfUser().put(id,conversationName);
 
                     commandSender.sendGetAllMessagesFromChatroom(id);
 

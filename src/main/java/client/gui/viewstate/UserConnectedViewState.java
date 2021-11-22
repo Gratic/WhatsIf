@@ -65,6 +65,7 @@ public class UserConnectedViewState extends ViewState{
     public void showConversations()
     {
         Map<Long, Conversation> conversationMap = controller.getConversationsOfUser();
+        Map<Long, String> conversationNamesMap = controller.getConversationsNameOfUser();
         userConnectedPanel.getConversationsPanel().removeAll();
         for(Long conversationId : conversationMap.keySet())
         {
@@ -76,17 +77,16 @@ public class UserConnectedViewState extends ViewState{
             String sender;
             if(nbMessages!=0){
                 text = conversation.getMessages().get(conversation.getMessages().size()-1).getValue();
-                sender = conversation.getMessages().get(conversation.getMessages().size()-1).getSender();
+                sender = conversation.getMessages().get(conversation.getMessages().size()-1).getSender()+" : ";
 
             }else {
                 text = "No message in the conversation";
                 sender="";
             }
-                //JLabel usernames = new JLabel(conversation.generateNom());
-                //System.out.println("nom : "+conversation.generateNom());
+                JLabel usernames = new JLabel(conversationNamesMap.get(conversationId));
                 JLabel message = new JLabel(text);
-                JLabel senderUsername = new JLabel(sender+" : ");
-               // conversationPanel.add(usernames);
+                JLabel senderUsername = new JLabel(sender);
+                conversationPanel.add(usernames);
                 conversationPanel.add(senderUsername);
                 conversationPanel.add(message);
                 conversationPanel.revalidate();

@@ -41,6 +41,7 @@ public class Controller {
 
     public Controller() {
         conversationsOfUser = new HashMap<>();
+        conversationsNameOfUser =  new HashMap<>();
         this.gui = new Gui(this);
         this.initState = new InitState();
         this.askUserLoginState = new ConnectingState();
@@ -179,4 +180,14 @@ public class Controller {
         this.getCurrentConnection().setCurrentConversation(null);
         this.setCurrentState(this.userConnectedState);
     }
+
+    public void emptyTheConnection()
+    {
+        this.getCurrentConnection().setCurrentUser(null);
+        this.getCurrentConnection().setCurrentCommand(null);
+        this.getCurrentConnection().setCurrentConversation(null);
+        this.getCurrentConnection().setAlive(false);
+        this.getCurrentConnection().setCurrentSocket(null);
+    }
+
 }

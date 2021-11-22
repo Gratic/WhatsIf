@@ -82,6 +82,8 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == sendMessageButton) {
             this.gui.getController().sendingButtonClick(this.gui, messageArea.getText());
+            messageArea.selectAll();
+            messageArea.replaceSelection("");
         }
     }
 
@@ -104,6 +106,7 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
 
     public void showConversations() {
         Map<Long, Conversation> conversationMap = controller.getConversationsOfUser();
+        Map<Long, String> conversationNamesMap = controller.getConversationsNameOfUser();
         userConnectedPanel.getConversationsPanel().removeAll();
         for (Long conversationId : conversationMap.keySet()) {
             IndividualConversationPanel conversationPanel = new IndividualConversationPanel(gui, controller);
@@ -114,17 +117,17 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
             String sender;
             if (nbMessages != 0) {
                 text = conversation.getMessages().get(conversation.getMessages().size() - 1).getValue();
-                sender = conversation.getMessages().get(conversation.getMessages().size() - 1).getSender();
+                sender = conversation.getMessages().get(conversation.getMessages().size() - 1).getSender()+" : ";
 
             } else {
                 text = "No message in the conversation";
                 sender = "";
             }
-            //JLabel usernames = new JLabel(conversation.generateNom());
-            //System.out.println("nom : "+conversation.generateNom());
+            JLabel usernames = new JLabel(conversationNamesMap.get(conversationId));
+            conversationPanel.add(usernames);
             JLabel message = new JLabel(text);
-            JLabel senderUsername = new JLabel(sender + " : ");
-            // conversationPanel.add(usernames);
+            JLabel senderUsername = new JLabel(sender );
+            conversationPanel.add(usernames);
             conversationPanel.add(senderUsername);
             conversationPanel.add(message);
             conversationPanel.revalidate();
