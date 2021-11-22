@@ -80,6 +80,7 @@ public class Conversation implements Serializable {
 
     public String generateNom()
     {
+
         return String.join(",", usernames);
     }
 
@@ -98,4 +99,6 @@ public class Conversation implements Serializable {
     {
         return usernames.size();
     }
+
+
 }

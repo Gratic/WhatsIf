@@ -19,8 +19,12 @@ public class CreateNewConversationAction implements Action{
             Long id = Long.parseLong(arguments[2]);
             Conversation conversation = new Conversation(id);
             controller.getConversationsOfUser().put(id,conversation);
+            controller.changeFocusConversation(conversation);
+            /*
             currentConnection.setCurrentConversation(conversation);
             controller.setCurrentState(controller.conversationOpenedState);
+
+             */
 
         }else
         {

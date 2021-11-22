@@ -14,30 +14,49 @@ public class LoadAllChatroomSummariesAction implements Action{
         String[] arguments = currentConnection.getCurrentArguments();
 
         int code = Integer.parseInt(arguments[1]);
+
         if(code==0){
+            int numberOfConversation = Integer.parseInt(arguments[2]);
+            for(int i = 0; i<numberOfConversation;i++) {
+                String[] parameters = arguments[i+3].split(";");
+                CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
+                Long id = Long.parseLong(parameters[0]);
+                int nbOfMessage = Integer.parseInt(parameters[1]);
+                int hashLastMessage = Integer.parseInt(parameters[2]);
+                //String conversationName = parameters[3];
 
+                System.out.println("get messages=" + id);
+                System.out.println("get nbOfMessage=" + nbOfMessage);
+                System.out.println("get hashLastMessage=" + hashLastMessage);
+                if(!controller.getConversationsOfUser().containsKey(id)){
+                    Conversation conv = new Conversation(id);
+                    controller.getConversationsOfUser().put(id,conv);
 
-            for(int i = 1; i<arguments.length;i++) {
-                if((i-1)%3==0)
-                {
-                    CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
-                    Long id = Long.parseLong(arguments[i]);
-                    if(!controller.getConversationsOfUser().containsKey(id)){
-                        Conversation conv = new Conversation(id);
-                        controller.getConversationsOfUser().put(id,conv);
-                        commandSender.sendGetAllMessagesFromChatroom(id);
+                    commandSender.sendGetAllMessagesFromChatroom(id);
 
-                    }else{
-                        Conversation conv = controller.getConversationsOfUser().get(id);
-                        int hash = conv.getMessages().get(conv.getMessages().size()-1).hashCode();
-                        commandSender.sendAllMessagesFromChatroomSinceHash(conv, hash);
+                }else{
+                    Conversation conv = controller.getConversationsOfUser().get(id);
+                    if(conv.getMessages().size() != nbOfMessage )
+                    {
+                        int hash;
+                        if(conv.getMessages().size()!=0){
+                            hash = conv.getMessages().get(conv.getMessages().size()-1).hashCode();
+
+                        }else
+                        {
+                            hash = 0;
+                        }
+
+                        if(hash != hashLastMessage)
+                            commandSender.sendAllMessagesFromChatroomSinceHash(conv, hash);
                     }
                 }
+
             }
 
             gui.getUserConnectedViewState().showConversations();
         }else if(code==1){
-            System.out.println("no conversation");
+            //System.out.println("no conversation");
         }else if(code==2)
         {
             System.out.println("error");

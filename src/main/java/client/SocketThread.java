@@ -23,8 +23,7 @@ public class SocketThread extends Thread {
 
     @Override
     public void run() {
-        currentConnection = new ConnectionState(clientSocket);
-        controller.setCurrentConnection(currentConnection);
+        currentConnection = controller.getCurrentConnection();
         try {
             while (currentConnection.isAlive()) {
 
@@ -70,7 +69,7 @@ public class SocketThread extends Thread {
 
             }
         } catch (Exception e) {
-            System.err.println("Error in Socket Connection: " + e);
+            e.printStackTrace();
         } finally {
             //controller.getCurrentConversation().;
         }

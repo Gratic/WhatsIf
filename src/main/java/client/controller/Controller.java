@@ -22,6 +22,7 @@ public class Controller {
     public final Gui gui;
     private SocketThread socketThread;
     private Map<Long, Conversation> conversationsOfUser;
+    private Map<Long, String> conversationsNameOfUser;
 
     public final InitState initState;
     public final ConnectingState askUserLoginState;
@@ -130,7 +131,6 @@ public class Controller {
     }
 
     public void sendingButtonClick(Gui gui, String textMessage) {
-
         this.currentState.sendingMessageButtonClick(this, textMessage);
     }
 
@@ -158,5 +158,25 @@ public class Controller {
     public void updateConversationsTimer()
     {
         this.getCurrentState().updateConversationsTimer(this);
+    }
+
+    public Map<Long, String> getConversationsNameOfUser() {
+        return conversationsNameOfUser;
+    }
+
+    public void setConversationsNameOfUser(Map<Long, String> conversationsNameOfUser) {
+        this.conversationsNameOfUser = conversationsNameOfUser;
+    }
+
+    public void changeFocusConversation (Conversation conversation)
+    {
+        this.getCurrentConnection().setCurrentConversation(conversation);
+        this.setCurrentState(this.conversationOpenedState);
+    }
+
+    public void quitConversation()
+    {
+        this.getCurrentConnection().setCurrentConversation(null);
+        this.setCurrentState(this.userConnectedState);
     }
 }

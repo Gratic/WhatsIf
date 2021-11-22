@@ -27,6 +27,7 @@ public class UserConnectedViewState extends ViewState{
         gui.getMainPanel().removeAll();
         userConnectedPanel = new UserConnectedPanel(gui, controller);
         createGuiComponents();
+
         timer = new Timer(1000, new ActionListener(){
             public void actionPerformed(ActionEvent ae){
                 controller.updateConversationsTimer();
@@ -34,6 +35,10 @@ public class UserConnectedViewState extends ViewState{
             }
         });
         timer.start();
+
+
+
+        controller.updateConversationsTimer();
 
         gui.getMainPanel().add(userConnectedPanel, BorderLayout.CENTER);
         gui.getMainPanel().revalidate();
@@ -63,16 +68,32 @@ public class UserConnectedViewState extends ViewState{
         userConnectedPanel.getConversationsPanel().removeAll();
         for(Long conversationId : conversationMap.keySet())
         {
-            IndividualConversationPanel conversationPanel = new IndividualConversationPanel(gui);
+            IndividualConversationPanel conversationPanel = new IndividualConversationPanel(gui, controller);
             Conversation conversation = conversationMap.get(conversationId);
-            String lastMessage = conversation.getMessages().get(conversation.getMessages().size()-1).getValue();
-            JLabel message = new JLabel(lastMessage);
-            conversationPanel.add(message);
-            conversationPanel.revalidate();
-            conversationPanel.repaint();
-            userConnectedPanel.getConversationsPanel().add(message);
-            userConnectedPanel.revalidate();
-            userConnectedPanel.repaint();
+            conversationPanel.setConversation(conversationMap.get(conversationId));
+            int nbMessages = conversation.getMessages().size();
+            String text;
+            String sender;
+            if(nbMessages!=0){
+                text = conversation.getMessages().get(conversation.getMessages().size()-1).getValue();
+                sender = conversation.getMessages().get(conversation.getMessages().size()-1).getSender();
+
+            }else {
+                text = "No message in the conversation";
+                sender="";
+            }
+                //JLabel usernames = new JLabel(conversation.generateNom());
+                //System.out.println("nom : "+conversation.generateNom());
+                JLabel message = new JLabel(text);
+                JLabel senderUsername = new JLabel(sender+" : ");
+               // conversationPanel.add(usernames);
+                conversationPanel.add(senderUsername);
+                conversationPanel.add(message);
+                conversationPanel.revalidate();
+                conversationPanel.repaint();
+                userConnectedPanel.getConversationsPanel().add(conversationPanel);
+                userConnectedPanel.revalidate();
+                userConnectedPanel.repaint();
         }
     }
 

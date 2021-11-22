@@ -42,7 +42,6 @@ public class ConversationOpenedState implements State {
 
     public void sendMessage(Controller controller, String text) {
         TextMessage message = new TextMessage(controller.getCurrentConnection().getCurrentConversation().getId(), controller.getCurrentUser().getUsername(), text);
-        controller.getCurrentUser().sendSocketMessage(message.toString());
         commandSender.sendMessage(message);
     }
 

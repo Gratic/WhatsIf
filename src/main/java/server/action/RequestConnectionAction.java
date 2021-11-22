@@ -25,6 +25,7 @@ public class RequestConnectionAction implements Action {
                 {
                     currentConnection.setCurrentUser(MainServer.userDao.searchByUsername(username));
                     currentConnection.getCurrentUser().setConnected(true);
+                    currentConnection.getCurrentUser().setSocket(currentConnection.getCurrentSocket());
                     System.out.println("connection successful");
                     commandSender.sendConfirmConnectedToUser(username, 0);
                 }
