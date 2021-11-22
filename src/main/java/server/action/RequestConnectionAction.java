@@ -31,10 +31,12 @@ public class RequestConnectionAction implements Action {
             }
             else
             {
-                currentConnection.setCurrentUser(new User(username, currentConnection.getCurrentSocket()));
+                MainServer.userDao.create(new User(username, currentConnection.getCurrentSocket()));
+                currentConnection.setCurrentUser(MainServer.userDao.searchByUsername(username));
                 currentConnection.getCurrentUser().setConnected(true);
                 System.out.println("connection successful");
                 commandSender.sendConfirmConnectedToUser(username, 0);
+                MainServer.userDao.persist(MainServer.userDao.searchByUsername(username));
             }
         }
     }

@@ -12,6 +12,7 @@ public class Conversation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private long id;
+    private String nom;
 
     private final List<String> usernames;
     private final List<Message> messages;
@@ -19,6 +20,7 @@ public class Conversation implements Serializable {
     public Conversation(long id)
     {
         this.id = id;
+        this.nom = nom;
 
         messages = Collections.synchronizedList(new ArrayList<>());
         usernames = Collections.synchronizedList(new ArrayList<>());
@@ -74,6 +76,17 @@ public class Conversation implements Serializable {
         }
 
         return result;
+    }
+
+    public String generateNom()
+    {
+        return String.join(",", usernames);
+    }
+
+    public String getNom()
+    {
+        nom = generateNom();
+        return nom;
     }
 
     public long getId()
