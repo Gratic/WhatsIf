@@ -8,20 +8,16 @@ public interface State {
     void run(Controller c, Gui gui);
 
     default void connectingButtonClick(Controller controller, String username, String ip, int port) {
-        controller.askUserLoginState.setUsername(username);
-        controller.askUserLoginState.setIp(ip);
-        controller.askUserLoginState.setPort(port);
+        controller.askUserLoginState.entry(username, ip, port);
         controller.setCurrentState(controller.askUserLoginState);
     }
 
-    default void joiningConversationButtonClick(Controller controller, String username) {
-        controller.setUsernameOtherUser(username);
-        controller.setCurrentState(controller.askUserConversationState);
+    default void creatingConversationButtonClick(Controller controller, String usernames) {
+        controller.userConnectedState.createNewChatroom(usernames);
     }
 
     default void sendingMessageButtonClick(Controller controller, String textMessage) {
-
-        controller.conversationJoinedState.sendMessage(controller, textMessage);
+        controller.conversationOpenedState.sendMessage(controller, textMessage);
     }
 
     /*default void receivingMessageButtonClick(Controller controller)
@@ -29,22 +25,17 @@ public interface State {
         controller.conversationJoinedState.receiveMessage(controller);
     }*/
 
+    /*
     default void quittingConvButtonClick(Controller controller) {
         controller.getCurrentUser().sendSocketMessage("quitChatroom");
         controller.setCurrentState(controller.quittingConversationState);
     }
 
-    default void retryConnectingButtonClick(Controller controller) {
-        controller.setCurrentState(controller.initState);
-    }
+     */
 
-    default void quittingConnectingButtonClick(Controller controller) {
-        controller.setCurrentState(controller.terminationState);
-    }
 
-    default void disconnectButtonClick(Controller controller)
-    {
-        controller.setCurrentState(controller.terminationState);
+    default void disconnectButtonClick(Controller controller) {
+        controller.userConnectedState.disconnectUser();
     }
 
 }

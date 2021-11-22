@@ -4,14 +4,8 @@ import client.SocketThread;
 import client.controller.Controller;
 import client.gui.Gui;
 import client.gui.viewstate.ConversationOpenedViewState;
-import common.model.TextMessage;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Conversation Joined State. Successfully joined a conversation. The current user is able to receive message and to send them.
@@ -19,34 +13,22 @@ import java.time.format.DateTimeFormatter;
  * After state(s) possible : Quitting Conversation
  * Before state(s) possible : Joining Conversation, Quitting Conversation Failed
  */
-public class ConversationJoinedState implements State {
+public class ConversationOpenedState implements State {
     private String message;
     private String receivedMessageContent;
-    private File file;
+   // private File file;
     private SocketThread thread;
     private Gui gui;
+    private int idConversation;
 
 
     @Override
     public void run(Controller c, Gui gui) {
         this.gui = gui;
         ConversationOpenedViewState conversationOpenedViewState = new ConversationOpenedViewState(gui, c);
-
         gui.setConversationOpenedViewState(conversationOpenedViewState);
         gui.setCurrentViewState(gui.getConversationOpenedViewState());
-        file = new File("conversations/" + c.getCurrentUser().getUsername() + "_" + c.getUsernameOtherUser());
-
-
-        thread = new SocketThread(c.getCurrentUser().getSocket(), c);
-        thread.start();
-
-
-
-
-
-
-
-
+        //file = new File("conversations/" + c.getCurrentUser().getUsername() + "_" + c.getUsernameOtherUser());
 
 
 /*
@@ -123,37 +105,13 @@ public class ConversationJoinedState implements State {
         return receivedMessageContent;
     }
 
-    public void setReceivedMessageContent(String receivedMessageContent) {
-        this.receivedMessageContent = receivedMessageContent;
+    public int getIdConversation() {
+        return idConversation;
     }
 
-    public void receiveMessage(Controller controller, String message) {
-
-        System.out.println("message " + message);
-
-        String[] arguments = message.split(":");
-        String type = arguments[1];
-        long timestamp = Long.parseLong(arguments[2]);
-        String sender = arguments[3];
-        String value = arguments[4];
-
-        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(timestamp, 0, ZoneId.systemDefault().getRules().getOffset(LocalDateTime.now()));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("k'h'm");
-        String date = localDateTime.format(formatter);
-
-        if (type.equals("text")) {
-            System.out.println(sender + ":" + date + ": " + value);
-            setReceivedMessageContent(sender + ":" + date + ": " + value);
-            try {
-                FileWriter write = new FileWriter(file, true);
-                write.write(sender + ":" + date + ":" + value);
-                write.write("\n");
-                write.close();
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void setIdConversation(int idConversation) {
+        this.idConversation = idConversation;
+    }
 
             controller.addMessageReceived(receivedMessageContent);
 

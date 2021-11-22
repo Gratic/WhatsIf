@@ -40,4 +40,8 @@ public class OpenedConversationPanel extends GuiPanel {
     public SendingMessagePanel getSendingMessagePanel() {
         return sendingMessagePanel;
     }
+
+    public InfosConvPanel getInfosConvPanel() {
+        return infosConvPanel;
+    }
 }

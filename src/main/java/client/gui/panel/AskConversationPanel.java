@@ -35,8 +35,7 @@ public class AskConversationPanel extends GuiPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == enterConversationButton) {
-
-            this.gui.getController().joiningConversationButtonClick(this.gui, name.getText());
+            this.gui.getController().creatingConversationButtonClick(this.gui, name.getText());
         }
     }
 }

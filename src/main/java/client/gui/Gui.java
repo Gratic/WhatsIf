@@ -1,9 +1,11 @@
 package client.gui;
 
 import client.controller.Controller;
+import client.gui.panel.InitPanel;
 import client.gui.panel.MainPanel;
 import client.gui.viewstate.ConversationOpenedViewState;
 import client.gui.viewstate.InitViewState;
+import client.gui.viewstate.UserConnectedViewState;
 import client.gui.viewstate.ViewState;
 
 import javax.swing.*;
@@ -22,7 +24,11 @@ public class Gui {
     public MainPanel mainPanel;
     public ViewState currentState;
 
+
     private ConversationOpenedViewState conversationOpenedViewState;
+    private InitViewState initViewState;
+    private UserConnectedViewState userConnectedViewState;
+
 
     public Gui(Controller controller) {
         this.controller = controller;
@@ -52,6 +58,7 @@ public class Gui {
     }
 
 
+
     public MainPanel getMainPanel() {
         return mainPanel;
     }
@@ -70,5 +77,21 @@ public class Gui {
 
     public void setConversationOpenedViewState(ConversationOpenedViewState conversationOpenedViewState) {
         this.conversationOpenedViewState = conversationOpenedViewState;
+    }
+
+    public InitViewState getInitViewState() {
+        return initViewState;
+    }
+
+    public void setInitViewState(InitViewState initViewState) {
+        this.initViewState = initViewState;
+    }
+
+    public UserConnectedViewState getUserConnectedViewState() {
+        return userConnectedViewState;
+    }
+
+    public void setUserConnectedViewState(UserConnectedViewState userConnectedViewState) {
+        this.userConnectedViewState = userConnectedViewState;
     }
 }

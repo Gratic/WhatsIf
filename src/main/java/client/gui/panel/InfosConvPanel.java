@@ -21,8 +21,7 @@ public class InfosConvPanel extends GuiPanel implements ActionListener {
         setLayout(new BorderLayout());
         setBorder(null);
 
-        JLabel otherUser = new JLabel("Conversation with " + controller.getUsernameOtherUser());
-        this.add(otherUser, BorderLayout.CENTER);
+
         quitConvButton = new JButton("Leave the conversation");
         quitConvButton.setBackground(Color.red);
         quitConvButton.setForeground(Color.white);
@@ -36,7 +35,7 @@ public class InfosConvPanel extends GuiPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == quitConvButton) {
             System.out.println("quit conv");
-            this.gui.getController().quittingConvButtonClick(this.gui);
+
 
         }
     }
