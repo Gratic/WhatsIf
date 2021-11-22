@@ -28,6 +28,7 @@ public class ConversationOpenedState implements State {
         ConversationOpenedViewState conversationOpenedViewState = new ConversationOpenedViewState(gui, c);
         gui.setConversationOpenedViewState(conversationOpenedViewState);
         gui.setCurrentViewState(gui.getConversationOpenedViewState());
+
     }
 
     public String getMessage() {

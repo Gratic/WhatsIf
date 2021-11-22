@@ -150,4 +150,13 @@ public class Controller {
     public void setConversationsOfUser(Map<Long, Conversation> conversationsOfUser) {
         this.conversationsOfUser = conversationsOfUser;
     }
+
+    public State getCurrentState() {
+        return currentState;
+    }
+
+    public void updateConversationsTimer()
+    {
+        this.getCurrentState().updateConversationsTimer(this);
+    }
 }

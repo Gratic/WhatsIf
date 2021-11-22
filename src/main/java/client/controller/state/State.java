@@ -2,6 +2,7 @@ package client.controller.state;
 
 import client.controller.Controller;
 import client.gui.Gui;
+import common.command.CommandSender;
 
 public interface State {
 
@@ -20,19 +21,13 @@ public interface State {
         controller.conversationOpenedState.sendMessage(controller, textMessage);
     }
 
-    /*default void receivingMessageButtonClick(Controller controller)
-    {
-        controller.conversationJoinedState.receiveMessage(controller);
-    }*/
+    default void updateConversationsTimer(Controller controller){
 
-    /*
-    default void quittingConvButtonClick(Controller controller) {
-        controller.getCurrentUser().sendSocketMessage("quitChatroom");
-        controller.setCurrentState(controller.quittingConversationState);
+        CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
+        commandSender.sendGetChatroomSummaries(controller.getCurrentUser().getUsername());
+
+
     }
-
-     */
-
 
     default void disconnectButtonClick(Controller controller) {
         controller.userConnectedState.disconnectUser();

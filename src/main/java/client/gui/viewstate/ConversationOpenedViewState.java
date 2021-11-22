@@ -22,39 +22,22 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
     private OpenedConversationPanel openedConversationPanel;
     private JButton sendMessageButton;
     private JTextArea messageArea;
-    private int previousNumberOfMessages = 0;
-   // private final File file;
-    private BufferedReader reader;
+    private Timer timer;
 
 
     public ConversationOpenedViewState(Gui gui, Controller c) {
         super(gui);
         this.controller = c;
-
-        //file = new File("conversations/" + c.getCurrentUser().getUsername() + "_" + c.getUsernameOtherUser());
-
-
-        //System.out.println("j'ai changé d'état");
         gui.getMainPanel().removeAll();
-        //gui.getFrame().removeAll();
         userConnectedPanel = new UserConnectedPanel(gui, controller);
         createGuiComponents();
-        /*
-        try {
-            if (file.length() != 0) {
-                reader = new BufferedReader(new FileReader(file));
-                String message = reader.readLine();
-                while (message != null) {
-                    addMessagePanel(message);
-                    message = reader.readLine();
-                }
+
+        timer = new Timer(1000, new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                controller.updateConversationsTimer();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-         */
+        });
+        timer.start();
         gui.getMainPanel().add(userConnectedPanel, BorderLayout.CENTER);
 
         gui.getMainPanel().revalidate();

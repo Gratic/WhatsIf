@@ -25,5 +25,7 @@ public class UserConnectedPanel extends GuiPanel {
         this.add(userPanel, BorderLayout.NORTH);
     }
 
-
+    public ConversationsPanel getConversationsPanel() {
+        return conversationsPanel;
+    }
 }

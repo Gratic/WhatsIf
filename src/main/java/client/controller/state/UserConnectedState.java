@@ -24,6 +24,7 @@ public class UserConnectedState implements State {
     private Controller controller;
     private CommandSender commandSender;
 
+
     @Override
     public void run(Controller c, Gui gui) {
 
@@ -37,29 +38,17 @@ public class UserConnectedState implements State {
         thread = new SocketThread(c.getCurrentUser().getSocket(), c);
         controller.setSocketThread(thread);
         thread.start();
-        commandSender.sendGetChatroomSummaries(c.getCurrentUser().getUsername());
 
-        Map<Long, Conversation> conversationsId = controller.getConversationsOfUser();
-
-        for(Long idConversation : conversationsId.keySet())
-        {
-            commandSender.sendGetAllMessagesFromChatroom(idConversation);
-
-        }
-
-        /*
-        if (thread.currentConnection.getCurrentConversation() != null) {
-            c.conversationOpenedState.setIdConversation(thread.currentConnection.getCurrentConversation().getId);
-            c.setCurrentState(c.conversationOpenedState);
-        }
-
-         */
 
     }
 
     public void createNewChatroom(String usernames) {
         String[] users = usernames.split(",");
-        List<String > participants = List.of(users);
+        List<String > participants = new ArrayList<>(List.of(users));
+        if(!participants.contains(controller.getCurrentUser().getUsername()))
+        {
+            participants.add(controller.getCurrentUser().getUsername());
+        }
         System.out.println("chatroom created");
         commandSender.sendCreateChatroom(participants);
 
