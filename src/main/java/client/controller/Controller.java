@@ -143,11 +143,11 @@ public class Controller {
         this.socketThread = socketThread;
     }
 
-    public int[] getConversationsOfUser() {
+    public Map<Long, Conversation> getConversationsOfUser() {
         return conversationsOfUser;
     }
 
-    public void setConversationsOfUser(int[] conversationsOfUser) {
+    public void setConversationsOfUser(Map<Long, Conversation> conversationsOfUser) {
         this.conversationsOfUser = conversationsOfUser;
     }
 }

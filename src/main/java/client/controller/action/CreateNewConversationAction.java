@@ -15,8 +15,9 @@ public class CreateNewConversationAction implements Action{
         int code = Integer.parseInt(arguments[1]);
         if(code==0)
         {
-            int id = Integer.parseInt(arguments[2]);
+            Long id = Long.parseLong(arguments[2]);
             Conversation conversation = new Conversation(id);
+            controller.getConversationsOfUser().put(id,conversation);
         }else
         {
             System.out.println("Impossible to create a new conversation");

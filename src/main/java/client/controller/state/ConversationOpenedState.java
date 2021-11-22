@@ -4,6 +4,8 @@ import client.SocketThread;
 import client.controller.Controller;
 import client.gui.Gui;
 import client.gui.viewstate.ConversationOpenedViewState;
+import common.command.CommandSender;
+import common.model.TextMessage;
 
 import java.io.File;
 
@@ -15,74 +17,17 @@ import java.io.File;
  */
 public class ConversationOpenedState implements State {
     private String message;
-    private String receivedMessageContent;
-   // private File file;
-    private SocketThread thread;
     private Gui gui;
-    private int idConversation;
+    private CommandSender commandSender;
 
 
     @Override
     public void run(Controller c, Gui gui) {
         this.gui = gui;
+        commandSender = new CommandSender(c.getCurrentConnection().getSocketUtils());
         ConversationOpenedViewState conversationOpenedViewState = new ConversationOpenedViewState(gui, c);
         gui.setConversationOpenedViewState(conversationOpenedViewState);
         gui.setCurrentViewState(gui.getConversationOpenedViewState());
-        //file = new File("conversations/" + c.getCurrentUser().getUsername() + "_" + c.getUsernameOtherUser());
-
-
-/*
-        try {
-            while (continueChatting) {
-                while (c.getCurrentUser().socketIncomingData()) {
-                    message = c.getCurrentUser().receiveSocketLine();
-
-                    String[] arguments = message.split(":");
-
-                    String command = arguments[0];
-                    if (command != null && command.equals("confirmMessage")) {
-                        String type = arguments[1];
-                        long timestamp = Long.parseLong(arguments[2]);
-                        String sender = arguments[3];
-                        String value = arguments[4];
-
-                        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(timestamp, 0, ZoneId.systemDefault().getRules().getOffset(LocalDateTime.now()));
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("k'h'm");
-                        String date = localDateTime.format(formatter);
-
-                        if (type.equals("text")) {
-                            System.out.println(sender + ":" + date + ": " + value);
-                        } else {
-                            System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
-                        }
-                    }
-
-                }
-
-
-
-                switch (userAction) {
-                    case "/reload" -> {
-                    }
-                    case "/quit" -> continueChatting = false;
-                    default -> {
-                        if(userAction!=""){
-                            TextMessage message = new TextMessage(c.getCurrentUser(), userAction);
-                            c.getCurrentUser().sendSocketMessage(message.toString());
-
-                            }
-                        }
-                }
-            }
-
-            c.getCurrentUser().sendSocketMessage("quitChatroom");
-            c.setCurrentState(c.quittingConversationState);
-        } catch (IOException e) {
-            e.printStackTrace();
-            c.setCurrentState(c.joiningConversationFailedState);
-        }
-
-*/
     }
 
     public String getMessage() {
@@ -97,29 +42,13 @@ public class ConversationOpenedState implements State {
     public void sendMessage(Controller controller, String text) {
         TextMessage message = new TextMessage(controller.getCurrentConnection().getCurrentConversation().getId(), controller.getCurrentUser().getUsername(), text);
         controller.getCurrentUser().sendSocketMessage(message.toString());
-        controller.addMessageSent(message);
-        System.out.println("message sent : " + text);
+        commandSender.sendMessage(message);
     }
 
-    public String getReceivedMessageContent() {
-        return receivedMessageContent;
-    }
-
-    public int getIdConversation() {
-        return idConversation;
-    }
-
-    public void setIdConversation(int idConversation) {
-        this.idConversation = idConversation;
-    }
-
-            controller.addMessageReceived(receivedMessageContent);
-
-            gui.getConversationOpenedViewState().receiveMessage();
-        } else {
-            System.out.println("WARNING: the message received is a type unknown. (" + type + ")");
-        }
 
 
-    }
+
+
+
+
 }

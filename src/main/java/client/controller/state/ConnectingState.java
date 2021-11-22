@@ -2,8 +2,10 @@ package client.controller.state;
 
 import client.controller.Controller;
 import client.gui.Gui;
+import common.command.CommandSender;
 import common.model.User;
 import common.utils.ConnectionState;
+import common.utils.SocketUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,13 +29,13 @@ public class ConnectingState implements State {
 
             try {
                 connectionSocket = new Socket(ip, port);
-                socOut = new PrintStream(connectionSocket.getOutputStream());
-                socIn = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
-
-                socOut.println("connect:" + username);
 
                 c.setSocket(connectionSocket);
                 c.setCurrentConnection(new ConnectionState(connectionSocket));
+                SocketUtils socketUtils = c.getCurrentConnection().getSocketUtils();
+
+                CommandSender commandSender = new CommandSender(socketUtils);
+                commandSender.sendConnectToUser(username);
 
                 String message = c.receiveSocketLine();
                 String[] arguments = message.split(":");
