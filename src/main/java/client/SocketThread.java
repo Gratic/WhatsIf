@@ -1,6 +1,11 @@
 package client;
 
 import client.controller.Controller;
+import client.controller.action.Action;
+import client.controller.action.CreateNewConversationAction;
+import client.controller.action.LoadAllChatroomSummariesAction;
+import client.controller.action.ReceiveMessageAction;
+import common.utils.ConnectionState;
 
 import java.net.Socket;
 
@@ -8,6 +13,7 @@ public class SocketThread extends Thread {
 
     private final Socket clientSocket;
     private final Controller controller;
+    public ConnectionState currentConnection;
 
     public SocketThread(Socket s, Controller controller) {
         this.clientSocket = s;
@@ -17,35 +23,48 @@ public class SocketThread extends Thread {
 
     @Override
     public void run() {
-        //ConnectionState currentConnection = new ConnectionState(clientSocket);
+        currentConnection = new ConnectionState(clientSocket);
 
-        boolean inConversation = true;
         try {
-            while (inConversation) {
+            while (currentConnection.isAlive()) {
 
 
-                String line = controller.getCurrentUser().receiveSocketLine();
-                System.out.println("ici aussi");
+                String line = currentConnection.receiveSocketLine();
 
 
                 if (line == null) break;
+
+                currentConnection.setCurrentCommand(line);
 
 
                 String[] arguments = line.split(":");
                 String command = arguments[0];
 
-
+                Action actionToExecute = null;
                 switch (command) {
 
-                    case "confirmMessage" -> controller.conversationJoinedState.receiveMessage(controller, line);
-                    case "confirmQuitChatroom" -> {
-                        inConversation = false;
-                        controller.clearMessagesSent();
-                        controller.clearMessagesReceived();
-                        controller.setCurrentState(controller.userConnectedState);
+                    case "confirmMessage" ->{
+
+                        actionToExecute = new ReceiveMessageAction();
                     }
+                    case "confirmChatroom" ->{
+
+                        actionToExecute = new CreateNewConversationAction();
+                    }
+                    case "chatroomSummaries" -> {
+                        actionToExecute = new LoadAllChatroomSummariesAction();
+                    }
+
+                    case "confirmDisconnect" ->{
+                        controller.setCurrentState(controller.terminationState);
+                    }
+
                     
-                    default -> controller.setCurrentState(controller.quittingConversationFailedState);
+                    default -> controller.setCurrentState(controller.terminationState);
+                }
+                if(actionToExecute!=null)
+                {
+                    actionToExecute.execute(currentConnection,controller,controller.gui);
                 }
 
             }

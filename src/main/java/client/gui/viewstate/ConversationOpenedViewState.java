@@ -23,15 +23,15 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
     private JButton sendMessageButton;
     private JTextArea messageArea;
     private int previousNumberOfMessages = 0;
-    private final File file;
+   // private final File file;
     private BufferedReader reader;
-    private Timer timer;
+
 
     public ConversationOpenedViewState(Gui gui, Controller c) {
         super(gui);
         this.controller = c;
 
-        file = new File("conversations/" + c.getCurrentUser().getUsername() + "_" + c.getUsernameOtherUser());
+        //file = new File("conversations/" + c.getCurrentUser().getUsername() + "_" + c.getUsernameOtherUser());
 
 
         //System.out.println("j'ai changé d'état");
@@ -39,6 +39,7 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         //gui.getFrame().removeAll();
         userConnectedPanel = new UserConnectedPanel(gui, controller);
         createGuiComponents();
+        /*
         try {
             if (file.length() != 0) {
                 reader = new BufferedReader(new FileReader(file));
@@ -52,6 +53,8 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+         */
         gui.getMainPanel().add(userConnectedPanel, BorderLayout.CENTER);
 
         gui.getMainPanel().revalidate();
@@ -66,6 +69,11 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         messageArea = new JTextArea();
         messageArea.setPreferredSize(new Dimension(600, 100));
         messageArea.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        JLabel otherUser = new JLabel("Conversation with " );
+        openedConversationPanel.getInfosConvPanel().add(otherUser, BorderLayout.CENTER);
+        openedConversationPanel.getInfosConvPanel().add(otherUser);
+        openedConversationPanel.revalidate();
+        openedConversationPanel.revalidate();
         openedConversationPanel.getSendingMessagePanel().add(messageArea, BorderLayout.CENTER);
         openedConversationPanel.revalidate();
         openedConversationPanel.repaint();
@@ -81,16 +89,8 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         }
     }
 
-    public void receiveMessage() {
-        if (this.controller.getMessagesReceived().size() != 0 && this.controller.getMessagesReceived().size() != previousNumberOfMessages) {
-            for (String s : this.controller.getMessagesReceived()) {
-            }
-            previousNumberOfMessages = this.controller.getMessagesReceived().size();
-            String message = this.controller.getMessagesReceived().get(this.controller.getMessagesReceived().size() - 1);
-            addMessagePanel(message);
-        } else {
-            System.out.println("No new message found");
-        }
+    public void receiveMessage(String message) {
+        addMessagePanel(message);
     }
 
     public void addMessagePanel(String message) {
@@ -105,4 +105,5 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         openedConversationPanel.revalidate();
         openedConversationPanel.repaint();
     }
+
 }

@@ -14,8 +14,8 @@ public class InitState implements State {
 
     @Override
     public void run(Controller c, Gui gui) {
-        System.out.println("init state");
-        gui.setCurrentViewState(new InitViewState(gui));
-
+        InitViewState initViewState = new InitViewState(gui);
+        gui.setInitViewState(initViewState);
+        gui.setCurrentViewState(initViewState);
     }
 }

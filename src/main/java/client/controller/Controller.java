@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.SocketThread;
 import client.controller.state.*;
 import client.gui.Gui;
 import common.model.Conversation;
@@ -11,27 +12,22 @@ import common.utils.SocketUtils;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Controller {
     private User currentUser;
-    private String usernameOtherUser;
     private Conversation currentConversation;
-    private List<TextMessage> messagesSent;
-    private List<String> messagesReceived;
-    private final Gui gui;
+    public final Gui gui;
+    private SocketThread socketThread;
+    private Map<Long, Conversation> conversationsOfUser;
 
     public final InitState initState;
-    public final AskUserLoginState askUserLoginState;
+    public final ConnectingState askUserLoginState;
     public final ConnectingState connectingState;
-    public final ConnectionFailedState connectionFailedState;
-    public final AskUserConversationState askUserConversationState;
     public final UserConnectedState userConnectedState;
-    public final JoiningConversationState joiningConversationState;
-    public final JoiningConversationFailedState joiningConversationFailedState;
-    public final ConversationJoinedState conversationJoinedState;
-    public final QuittingConversationState quittingConversationState;
-    public final QuittingConversationFailedState quittingConversationFailedState;
+    public final ConversationOpenedState conversationOpenedState;
     public final TerminationState terminationState;
 
     private State currentState;
@@ -43,20 +39,13 @@ public class Controller {
 
 
     public Controller() {
+        conversationsOfUser = new HashMap<>();
         this.gui = new Gui(this);
-        this.messagesSent = new ArrayList<>();
-        this.messagesReceived = new ArrayList<>();
         this.initState = new InitState();
-        this.askUserLoginState = new AskUserLoginState();
+        this.askUserLoginState = new ConnectingState();
         this.connectingState = new ConnectingState();
-        this.connectionFailedState = new ConnectionFailedState();
         this.userConnectedState = new UserConnectedState();
-        this.askUserConversationState = new AskUserConversationState();
-        this.joiningConversationState = new JoiningConversationState();
-        this.joiningConversationFailedState = new JoiningConversationFailedState();
-        this.conversationJoinedState = new ConversationJoinedState();
-        this.quittingConversationState = new QuittingConversationState();
-        this.quittingConversationFailedState = new QuittingConversationFailedState();
+        this.conversationOpenedState = new ConversationOpenedState();
         this.terminationState = new TerminationState();
         init();
     }
@@ -123,27 +112,17 @@ public class Controller {
         // gui.setCurrentViewState(new UserConnectedViewState(gui));
     }
 
-    public void joiningConversationButtonClick(Gui gui, String username) {
-        this.currentState.joiningConversationButtonClick(this, username);
+    public void creatingConversationButtonClick(Gui gui, String username) {
+        this.currentState.creatingConversationButtonClick(this, username);
     }
 
-    public void retryConnectingButtonClick(Gui gui) {
-        this.currentState.retryConnectingButtonClick(this);
-    }
-
-    public void quitConnectingButtonClick(Gui gui) {
-        this.currentState.quittingConnectingButtonClick(this);
-    }
 
     public void closeSocket() {
         if (this.socketUtils != null)
             this.socketUtils.close();
     }
 
-    public void quittingConvButtonClick(Gui gui) {
 
-        this.currentState.quittingConvButtonClick(this);
-    }
 
     public void disconnectButtonClick (Gui gui)
     {
@@ -155,50 +134,20 @@ public class Controller {
         this.currentState.sendingMessageButtonClick(this, textMessage);
     }
 
-    /* public void receivingButtonClick (Gui gui)
-     {
-         this.currentState.receivingMessageButtonClick(this);
-     }
 
-     */
-    public String getUsernameOtherUser() {
-        return usernameOtherUser;
+    public SocketThread getSocketThread() {
+        return socketThread;
     }
 
-    public void setUsernameOtherUser(String usernameOtherUser) {
-        this.usernameOtherUser = usernameOtherUser;
+    public void setSocketThread(SocketThread socketThread) {
+        this.socketThread = socketThread;
     }
 
-    public List<TextMessage> getMessagesSent() {
-        return messagesSent;
+    public Map<Long, Conversation> getConversationsOfUser() {
+        return conversationsOfUser;
     }
 
-    public void setMessagesSent(List<TextMessage> messagesSent) {
-        this.messagesSent = messagesSent;
+    public void setConversationsOfUser(Map<Long, Conversation> conversationsOfUser) {
+        this.conversationsOfUser = conversationsOfUser;
     }
-
-    public List<String> getMessagesReceived() {
-        return messagesReceived;
-    }
-
-    public void setMessagesReceived(List<String> messagesReceived) {
-        this.messagesReceived = messagesReceived;
-    }
-
-    public void clearMessagesSent() {
-        this.messagesSent.clear();
-    }
-
-    public void clearMessagesReceived() {
-        this.messagesReceived.clear();
-    }
-
-    public void addMessageSent(TextMessage message) {
-        messagesSent.add(message);
-    }
-
-    public void addMessageReceived(String message) {
-        messagesReceived.add(message);
-    }
-
 }
