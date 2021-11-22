@@ -72,7 +72,14 @@ public class CommandSender {
             List<String> parts = new ArrayList<>();
             for(Conversation conversation : conversations)
             {
-                parts.add(conversation.getId() + ";" + conversation.getMessages().size() + ";" + conversation.getMessages().get(conversation.getMessages().size()-1).hashCode());
+                if (conversation.getMessages().size() == 0)
+                {
+                    parts.add(conversation.getId() + ";" + conversation.getMessages().size() + ";" + 0);
+                }
+                else
+                {
+                    parts.add(conversation.getId() + ";" + conversation.getMessages().size() + ";" + conversation.getMessages().get(conversation.getMessages().size()-1).hashCode());
+                }
             }
             message = message.concat(String.join(":", parts));
         }
