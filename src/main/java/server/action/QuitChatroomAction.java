@@ -1,12 +1,12 @@
 package server.action;
 
+import common.command.CommandSender;
 import common.utils.ConnectionState;
 
 public class QuitChatroomAction implements Action {
     @Override
-    public void execute(ConnectionState currentConnection) {
+    public void execute(ConnectionState currentConnection, CommandSender commandSender) {
         if (currentConnection.getCurrentConversation() != null) {
-            currentConnection.getCurrentConversation().setIsInRoom(currentConnection.getCurrentUser(), false);
             currentConnection.setCurrentConversation(null);
             currentConnection.sendSocketMessage("confirmQuitChatroom");
         }

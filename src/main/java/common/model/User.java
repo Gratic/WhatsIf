@@ -14,9 +14,16 @@ import java.util.Objects;
  */
 public class User implements Serializable {
     private String username;
-    private Boolean isConnected;
+    private transient Boolean isConnected;
     private transient Socket socket;
     private transient SocketUtils socketUtils;
+
+    public User(String username) {
+        this.username = username;
+        this.isConnected = false;
+        this.socket = null;
+        this.socketUtils = null;
+    }
 
     public User(String username, Socket socket) {
         this.username = username;

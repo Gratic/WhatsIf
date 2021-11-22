@@ -1,5 +1,6 @@
 package server;
 
+import common.command.CommandSender;
 import common.utils.ConnectionState;
 import server.action.*;
 
@@ -19,6 +20,7 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         ConnectionState currentConnection = new ConnectionState(clientSocket);
+        CommandSender commandSender = new CommandSender(currentConnection.getSocketUtils());
 
         try {
             while (currentConnection.isAlive()) {
@@ -33,16 +35,18 @@ public class ClientThread extends Thread {
 
                 Action actionToExecute = null;
                 switch (command) {
-                    case "requestConnection" -> actionToExecute = new RequestConnectionAction();
-                    case "requestJoinChatroom" -> actionToExecute = new RequestJoinChatroom();
+                    case "connect" -> actionToExecute = new RequestConnectionAction();
+                    case "newChatroom" -> actionToExecute = new RequestCreateChatroomAction();
+                    case "getChatroomSummaries" -> actionToExecute = new RequestGetChatroomSummariesAction();
+                    case "getAllMessagesFromChatroom" -> actionToExecute = new RequestGetAllMessagesFromChatroomAction();
+                    case "getAllMessagesFromChatroomSinceHash" -> actionToExecute = new RequestGetAllMessagesFromChatroomSinceHashAction();
                     case "sendMessage" -> actionToExecute = new SendMessageAction();
-                    case "quitChatroom" -> actionToExecute = new QuitChatroomAction();
                     case "disconnect" -> actionToExecute = new DisconnectAction();
                     default -> System.out.println("Invalid Command: " + line);
                 }
 
                 if (actionToExecute != null)
-                    actionToExecute.execute(currentConnection);
+                    actionToExecute.execute(currentConnection, commandSender);
             }
         } catch (Exception e) {
             System.err.println("Error in Client Connection: " + e);

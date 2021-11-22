@@ -1,62 +1,60 @@
 package common.model;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Represents a chat room.
  */
 public class Conversation implements Serializable {
-    private User user1;
-    private User user2;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    private final Map<User, Boolean> isInRoom;
+    private long id;
 
-    private List<Message> messages;
+    private final List<String> usernames;
+    private final List<Message> messages;
 
-    public Conversation(User user1, User user2) {
-        this.user1 = user1;
-        this.user2 = user2;
+    public Conversation(long id)
+    {
+        this.id = id;
 
-        isInRoom = new HashMap<>();
+        messages = Collections.synchronizedList(new ArrayList<>());
+        usernames = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public User getUser1() {
-        return user1;
+    public Conversation(long id, List<String> usernames) {
+        this.id = id;
+
+        messages = Collections.synchronizedList(new ArrayList<>());
+        this.usernames = Collections.synchronizedList(new ArrayList<>());
+
+        for(String username : usernames)
+        {
+            addUsername(username);
+        }
     }
 
-    public void setUser1(User user1) {
-        this.user1 = user1;
+    public String getUsername(int index)
+    {
+        return usernames.get(index);
     }
 
-    public User getUser2() {
-        return user2;
-    }
-
-    public void setUser2(User user2) {
-        this.user2 = user2;
+    public void addUsername(String username)
+    {
+        if(!usernames.contains(username))
+        {
+            usernames.add(username);
+        }
     }
 
     public List<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
     public void addMessage(Message message) {
         this.messages.add(message);
-    }
-
-    public boolean getIsInRoom(User u) {
-        return isInRoom.getOrDefault(u, false);
-    }
-
-    public void setIsInRoom(User u, boolean value) {
-        isInRoom.put(u, value);
     }
 
     /**
@@ -65,18 +63,26 @@ public class Conversation implements Serializable {
      * @param u a user
      * @return User, the other user.
      */
-    public User getOtherUser(User u) {
-        if (user1.equals(u)) {
-            return user2;
-        } else if (user2.equals(u)) {
-            return user1;
+    public List<String> getOtherUsers(String u) {
+        List<String> result = new ArrayList<>();
+        for(String username : usernames)
+        {
+            if(!username.equals(u))
+            {
+                result.add(username);
+            }
         }
 
-        return null;
+        return result;
     }
 
-    public void sendMessage(TextMessage message)
+    public long getId()
     {
-        user1.sendSocketMessage(message.toString());
+        return id;
+    }
+
+    public int numberOfParticipants()
+    {
+        return usernames.size();
     }
 }

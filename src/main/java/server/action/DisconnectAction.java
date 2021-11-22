@@ -1,14 +1,14 @@
 package server.action;
 
+import common.command.CommandSender;
 import common.utils.ConnectionState;
 
 public class DisconnectAction implements Action {
     @Override
-    public void execute(ConnectionState currentConnection) {
+    public void execute(ConnectionState currentConnection, CommandSender commandSender) {
         if (currentConnection.getCurrentUser() != null) {
-            currentConnection.getCurrentUser().sendSocketMessage("confirmDisconnect");
-            currentConnection.getCurrentUser().setConnected(false);
-            currentConnection.getCurrentUser().closeSocket();
+            commandSender.sendConfirmeDisconnect();
+            currentConnection.close();
             currentConnection.setAlive(false);
         }
     }

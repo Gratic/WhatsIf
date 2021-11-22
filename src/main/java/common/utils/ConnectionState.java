@@ -79,6 +79,11 @@ public class ConnectionState implements Serializable {
         this.alive = alive;
     }
 
+    public SocketUtils getSocketUtils()
+    {
+        return socketUtils;
+    }
+
     /**
      * Utility function to send a message on the user's socket.
      *
@@ -114,9 +119,7 @@ public class ConnectionState implements Serializable {
         if(getCurrentUser() != null)
         {
             getCurrentUser().setConnected(false);
-
-            if(getCurrentConversation() != null)
-                getCurrentConversation().setIsInRoom(getCurrentUser(), false);
+            getCurrentUser().setSocket(null);
         }
 
         closeSocket();
@@ -125,5 +128,8 @@ public class ConnectionState implements Serializable {
     public void closeSocket() {
         if (this.socketUtils != null)
             this.socketUtils.close();
+
+        this.socketUtils = null;
+        this.currentSocket = null;
     }
 }
