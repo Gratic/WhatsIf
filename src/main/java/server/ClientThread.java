@@ -49,7 +49,7 @@ public class ClientThread extends Thread {
                     actionToExecute.execute(currentConnection, commandSender);
             }
         } catch (Exception e) {
-            System.err.println("Error in Client Connection: " + e);
+            e.printStackTrace();
         } finally {
             currentConnection.close();
         }
