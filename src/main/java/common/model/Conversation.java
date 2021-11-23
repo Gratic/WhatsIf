@@ -51,6 +51,11 @@ public class Conversation implements Serializable {
         }
     }
 
+    public void removeUsername(String username)
+    {
+        usernames.remove(username);
+    }
+
     public List<Message> getMessages() {
         return messages;
     }
@@ -100,5 +105,8 @@ public class Conversation implements Serializable {
         return usernames.size();
     }
 
-
+    public boolean userIsInConversation(String username)
+    {
+        return usernames.contains(username);
+    }
 }

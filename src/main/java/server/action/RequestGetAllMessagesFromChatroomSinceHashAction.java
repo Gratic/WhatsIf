@@ -1,6 +1,5 @@
 package server.action;
 
-import com.sun.tools.javac.Main;
 import common.command.CommandSender;
 import common.model.Conversation;
 import common.utils.ConnectionState;

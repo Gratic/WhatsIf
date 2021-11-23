@@ -41,6 +41,8 @@ public class ClientThread extends Thread {
                     case "getAllMessagesFromChatroom" -> actionToExecute = new RequestGetAllMessagesFromChatroomAction();
                     case "getAllMessagesFromChatroomSinceHash" -> actionToExecute = new RequestGetAllMessagesFromChatroomSinceHashAction();
                     case "sendMessage" -> actionToExecute = new SendMessageAction();
+                    case "quitChatroom" -> actionToExecute = new RequestQuitConversationAction();
+                    case "addUserToChatroom" -> actionToExecute = new RequestAddUserToChatroomAction();
                     case "disconnect" -> actionToExecute = new DisconnectAction();
                     default -> System.out.println("Invalid Command: " + line);
                 }
