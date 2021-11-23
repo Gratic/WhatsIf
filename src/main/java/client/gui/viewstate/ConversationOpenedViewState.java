@@ -54,6 +54,8 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         });
         timer.start();
 
+
+
         gui.getMainPanel().add(userConnectedPanel, BorderLayout.CENTER);
 
         gui.getMainPanel().revalidate();
