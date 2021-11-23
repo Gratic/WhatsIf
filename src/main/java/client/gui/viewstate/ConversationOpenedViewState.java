@@ -87,6 +87,7 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         add = new JButton("Add user to the conv");
         addUser.add(usernameToAdd, BorderLayout.CENTER);
         addUser.add(add, BorderLayout.EAST);
+        add.addActionListener(this);
 
 
 

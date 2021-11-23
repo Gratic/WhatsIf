@@ -141,7 +141,7 @@ public class Controller {
 
     public void addUserButtonClick(Gui gui, String username)
     {
-        this.currentState.addUserToTheConversation(this, username, currentConnection.getCurrentConversation().getId());
+        this.currentState.addUserToTheConversation(this, username);
     }
 
 
