@@ -136,4 +136,39 @@ public class CommandSender {
         String message = messageObj.toString();
         socketUtils.sendSocketMessage(message);
     }
+
+    public void sendQuitConversation(Conversation conv, String username)
+    {
+        String message = "quitChatroom:" + conv.getId() + ":" + username;
+        socketUtils.sendSocketMessage(message);
+    }
+
+    public void sendConfirmQuitConversation(int status, Conversation conv, String username)
+    {
+        String message = "confirmQuitChatroom:" + status;
+        if(status == 0)
+        {
+            message = message + ":" + conv.getId() + ":" + username;
+        }
+
+        socketUtils.sendSocketMessage(message);
+    }
+
+    public void sendAddUserToChatroom(Conversation conv, String username)
+    {
+        String message = "addUserToChatroom:" + conv.getId() + ":" + username;
+        socketUtils.sendSocketMessage(message);
+    }
+
+    public void sendConfirmAddUserToChatroom(int status, Conversation conv, String username)
+    {
+        String message = "confirmAddUserToChatroom:" + status;
+
+        if(status == 0)
+        {
+            message = message + ":" + conv.getId() + ":" + username;
+        }
+
+        socketUtils.sendSocketMessage(message);
+    }
 }
