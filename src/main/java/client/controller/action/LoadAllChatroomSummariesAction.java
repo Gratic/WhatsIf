@@ -27,13 +27,20 @@ public class LoadAllChatroomSummariesAction implements Action {
 
                 if (!controller.getConversationsOfUser().containsKey(id)) {
                     Conversation conv = new Conversation(id);
+                    conv.setNom(conversationName);
                     controller.getConversationsOfUser().put(id, conv);
                     controller.getConversationsNameOfUser().put(id, conversationName);
 
                     commandSender.sendGetAllMessagesFromChatroom(id);
 
                 } else {
+
                     Conversation conv = controller.getConversationsOfUser().get(id);
+                    if(!conversationName.equals(conv.getNom()))
+                    {
+                        conv.setNom(conversationName);
+                    }
+
                     if (conv.getMessages().size() != nbOfMessage) {
                         int hash;
                         if (conv.getMessages().size() != 0) {
