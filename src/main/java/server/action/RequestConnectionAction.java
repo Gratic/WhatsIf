@@ -13,25 +13,19 @@ public class RequestConnectionAction implements Action {
         if (!username.equals("")) {
             System.out.println("connect: " + username);
 
-            if(MainServer.userDao.exists(username))
-            {
-                if(MainServer.userDao.isConnected(username))
-                {
+            if (MainServer.userDao.exists(username)) {
+                if (MainServer.userDao.isConnected(username)) {
                     currentConnection.setCurrentUser(null);
                     System.out.println("connection failed");
                     commandSender.sendConfirmConnectedToUser(username, 1);
-                }
-                else
-                {
+                } else {
                     currentConnection.setCurrentUser(MainServer.userDao.searchByUsername(username));
                     currentConnection.getCurrentUser().setConnected(true);
                     currentConnection.getCurrentUser().setSocket(currentConnection.getCurrentSocket());
                     System.out.println("connection successful");
                     commandSender.sendConfirmConnectedToUser(username, 0);
                 }
-            }
-            else
-            {
+            } else {
                 MainServer.userDao.create(new User(username, currentConnection.getCurrentSocket()));
                 currentConnection.setCurrentUser(MainServer.userDao.searchByUsername(username));
                 currentConnection.getCurrentUser().setConnected(true);

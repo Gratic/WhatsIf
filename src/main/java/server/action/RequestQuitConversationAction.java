@@ -16,22 +16,16 @@ public class RequestQuitConversationAction implements Action {
         String username = arguments[2];
 
         Conversation conv = MainServer.conversationDao.searchConversationWithId(convId);
-        if(conv != null)
-        {
-            if(conv.userIsInConversation(username))
-            {
+        if (conv != null) {
+            if (conv.userIsInConversation(username)) {
                 conv.removeUsername(username);
                 MainServer.conversationDao.persist(conv);
 
                 commandSender.sendConfirmQuitConversation(0, conv, username);
-            }
-            else
-            {
+            } else {
                 commandSender.sendConfirmQuitConversation(1, null, null);
             }
-        }
-        else
-        {
+        } else {
             commandSender.sendConfirmQuitConversation(2, null, null);
         }
     }

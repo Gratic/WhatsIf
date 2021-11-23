@@ -27,19 +27,16 @@ public class SendMessageAction implements Action {
 
         if (type.equals("text") && sender.equals(currentConnection.getCurrentUser().getUsername())) {
             Message newMessage = new TextMessage(convId, Long.parseLong(timestamp), sender, value);
-            if (newMessage.hashCode() == hash)
-            {
+            if (newMessage.hashCode() == hash) {
                 conversation.addMessage(newMessage);
 
                 MainServer.conversationDao.persist(conversation);
 
                 // Making the confirmation command
                 int nbParticipants = conversation.numberOfParticipants();
-                for(int i = 0; i < nbParticipants; i++)
-                {
+                for (int i = 0; i < nbParticipants; i++) {
                     String participantUsername = conversation.getUsername(i);
-                    if(MainServer.userDao.isConnected(participantUsername))
-                    {
+                    if (MainServer.userDao.isConnected(participantUsername)) {
                         User user = MainServer.userDao.searchByUsername(participantUsername);
                         CommandSender comSender = new CommandSender(new SocketUtils(user.getSocket()));
                         comSender.sendConfirmMessage(newMessage);

@@ -18,12 +18,9 @@ public class RequestGetChatroomSummariesAction implements Action {
 
         List<Conversation> conversations = MainServer.conversationDao.searchConversationThatIncludeUsername(caller);
 
-        if(conversations.size() == 0)
-        {
+        if (conversations.size() == 0) {
             commandSender.sendChatroomSummaries(1, conversations);
-        }
-        else
-        {
+        } else {
             commandSender.sendChatroomSummaries(0, conversations);
         }
     }
