@@ -1,10 +1,7 @@
 package client;
 
 import client.controller.Controller;
-import client.controller.action.Action;
-import client.controller.action.CreateNewConversationAction;
-import client.controller.action.LoadAllChatroomSummariesAction;
-import client.controller.action.ReceiveMessageAction;
+import client.controller.action.*;
 import common.utils.ConnectionState;
 
 import java.net.Socket;
@@ -55,9 +52,17 @@ public class SocketThread extends Thread {
                         actionToExecute = new LoadAllChatroomSummariesAction();
                     }
 
+                    case "confirmQuitChatroom" -> {
+                        actionToExecute = new QuitChatroomAction();
+                    }
+
+                    case "confirmAddUserToChatroom" -> {
+                        actionToExecute = new BeingAddedInChatroomAction();
+                    }
                     case "confirmDisconnect" ->{
                         controller.setCurrentState(controller.terminationState);
                     }
+
 
                     
                     default -> controller.setCurrentState(controller.terminationState);

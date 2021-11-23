@@ -16,15 +16,15 @@ public class InfosConvPanel extends GuiPanel implements ActionListener {
         super(gui);
         this.controller = controller;
         setOpaque(true);
-        setPreferredSize(new Dimension(350, 20));
+        setPreferredSize(new Dimension(350, 100));
         setBackground(new Color(0xC9E4E7));
         setLayout(new BorderLayout());
         setBorder(null);
 
 
         quitConvButton = new JButton("Leave the conversation");
-        quitConvButton.setBackground(Color.red);
-        quitConvButton.setForeground(Color.white);
+        quitConvButton.setBackground(new Color(0xE7D3D3));
+        quitConvButton.setForeground(Color.BLACK);
         quitConvButton.setSize(10, 10);
         quitConvButton.addActionListener(this);
         this.add(quitConvButton, BorderLayout.EAST);

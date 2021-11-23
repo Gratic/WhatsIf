@@ -30,6 +30,17 @@ public interface State {
         }
     }
 
+    default void quitDefinitlyConv (Controller controller)
+    {
+        CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
+        commandSender.sendQuitConversation(controller.getCurrentConnection().getCurrentConversation(), controller.getCurrentUser().getUsername());
+    }
+
+    default void addUserToTheConversation (Controller controller, String username)
+    {
+        CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
+        commandSender.sendAddUserToChatroom(controller.getCurrentConnection().getCurrentConversation(),username);
+    }
     default void disconnectButtonClick(Controller controller) {
         controller.userConnectedState.disconnectUser();
     }
