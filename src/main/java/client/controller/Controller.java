@@ -118,6 +118,10 @@ public class Controller {
         this.currentState.creatingConversationButtonClick(this, username);
     }
 
+    public void quitDefinitlyConv(Gui gui)
+    {
+        this.currentState.quitDefinitlyConv(this);
+    }
 
     public void closeSocket() {
         if (this.socketUtils != null)
@@ -133,6 +137,11 @@ public class Controller {
 
     public void sendingButtonClick(Gui gui, String textMessage) {
         this.currentState.sendingMessageButtonClick(this, textMessage);
+    }
+
+    public void addUserButtonClick(Gui gui, String username)
+    {
+        this.currentState.addUserToTheConversation(this, username, currentConnection.getCurrentConversation().getId());
     }
 
 

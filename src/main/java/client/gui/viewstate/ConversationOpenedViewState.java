@@ -32,6 +32,9 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
     private JButton sendMessageButton;
     private JTextArea messageArea;
     private Timer timer;
+    private JButton quitConvButton;
+    private JTextField usernameToAdd;
+    private JButton add;
 
 
     public ConversationOpenedViewState(Gui gui, Controller c) {
@@ -65,9 +68,30 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         messageArea = new JTextArea();
         messageArea.setPreferredSize(new Dimension(600, 100));
         messageArea.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        JLabel otherUser = new JLabel("Conversation with " );
-        openedConversationPanel.getInfosConvPanel().add(otherUser, BorderLayout.CENTER);
-        openedConversationPanel.getInfosConvPanel().add(otherUser);
+        JLabel otherUser = new JLabel("Conversation with "+controller.getConversationsNameOfUser().get(controller.currentConnection.getCurrentConversation().getId()));
+
+        openedConversationPanel.getInfosConvPanel().add(otherUser, BorderLayout.SOUTH);
+
+        quitConvButton = new JButton("Leave definitly the conversation");
+        quitConvButton.addActionListener(this);
+        quitConvButton.setBounds(10,30,50,50);
+        quitConvButton.setBackground(new Color(0xEF8282));
+        openedConversationPanel.getInfosConvPanel().add(quitConvButton, BorderLayout.NORTH);
+
+        JPanel addUser = new JPanel();
+        addUser.setPreferredSize(new Dimension(350,30));
+        addUser.setBackground(new Color(0xC9E4E7));
+        addUser.setLayout(new BorderLayout());
+
+        usernameToAdd = new JTextField();
+        add = new JButton("Add user to the conv");
+        addUser.add(usernameToAdd, BorderLayout.CENTER);
+        addUser.add(add, BorderLayout.EAST);
+
+
+
+        openedConversationPanel.getInfosConvPanel().add(addUser,BorderLayout.CENTER);
+
         openedConversationPanel.revalidate();
         openedConversationPanel.revalidate();
         openedConversationPanel.getSendingMessagePanel().add(messageArea, BorderLayout.CENTER);
@@ -84,6 +108,12 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
             this.gui.getController().sendingButtonClick(this.gui, messageArea.getText());
             messageArea.selectAll();
             messageArea.replaceSelection("");
+        }else if (e.getSource()== quitConvButton)
+        {
+            this.gui.getController().quitDefinitlyConv(this.gui);
+        }else if (e.getSource() == add)
+        {
+            this.gui.getController().addUserButtonClick(this.gui, usernameToAdd.getText());
         }
     }
 
