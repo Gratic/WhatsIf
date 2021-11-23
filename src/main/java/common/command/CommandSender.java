@@ -76,7 +76,14 @@ public class CommandSender {
         socketUtils.sendSocketMessage(message);
     }
 
-    public void sendConfirmMessage(Message messageObj) {
+    public void sendGetAllMessagesFromChatroomSinceHash(long id, int hash)
+    {
+        String message = "getAllMessagesFromChatroomSinceHash:"+id+":"+hash;
+        socketUtils.sendSocketMessage(message);
+    }
+
+    public void sendConfirmMessage(Message messageObj)
+    {
         String message = "confirmMessage:" + messageObj.getConversationId() + ":" + messageObj.hashCode() + ":" + messageObj.getType() + ":" + messageObj.getTimestamp() + ":" + messageObj.getSender() + ":" + messageObj.getValue();
         socketUtils.sendSocketMessage(message);
     }

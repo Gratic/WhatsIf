@@ -43,8 +43,8 @@ public class LoadAllChatroomSummariesAction implements Action {
                             hash = 0;
                         }
 
-                        if (hash != hashLastMessage)
-                            commandSender.sendAllMessagesFromChatroomSinceHash(conv, hash);
+                        if(hash != hashLastMessage)
+                            commandSender.sendGetAllMessagesFromChatroomSinceHash(conv.getId(), hash);
                     }
                 }
 
