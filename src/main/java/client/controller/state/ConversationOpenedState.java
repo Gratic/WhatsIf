@@ -1,13 +1,10 @@
 package client.controller.state;
 
-import client.SocketThread;
 import client.controller.Controller;
 import client.gui.Gui;
 import client.gui.viewstate.ConversationOpenedViewState;
 import common.command.CommandSender;
 import common.model.TextMessage;
-
-import java.io.File;
 
 /**
  * Conversation Joined State. Successfully joined a conversation. The current user is able to receive message and to send them.
@@ -44,11 +41,6 @@ public class ConversationOpenedState implements State {
         TextMessage message = new TextMessage(controller.getCurrentConnection().getCurrentConversation().getId(), controller.getCurrentUser().getUsername(), text);
         commandSender.sendMessage(message);
     }
-
-
-
-
-
 
 
 }

@@ -21,26 +21,24 @@ public interface State {
         controller.conversationOpenedState.sendMessage(controller, textMessage);
     }
 
-    default void updateConversationsTimer(Controller controller){
+    default void updateConversationsTimer(Controller controller) {
 
-        if(controller.getCurrentUser() != null)
-        {
+        if (controller.getCurrentUser() != null) {
             CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
             commandSender.sendGetChatroomSummaries(controller.getCurrentUser().getUsername());
         }
     }
 
-    default void quitDefinitlyConv (Controller controller)
-    {
+    default void quitDefinitlyConv(Controller controller) {
         CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
         commandSender.sendQuitConversation(controller.getCurrentConnection().getCurrentConversation(), controller.getCurrentUser().getUsername());
     }
 
-    default void addUserToTheConversation (Controller controller, String username)
-    {
+    default void addUserToTheConversation(Controller controller, String username) {
         CommandSender commandSender = new CommandSender(controller.getCurrentConnection().getSocketUtils());
-        commandSender.sendAddUserToChatroom(controller.getCurrentConnection().getCurrentConversation(),username);
+        commandSender.sendAddUserToChatroom(controller.getCurrentConnection().getCurrentConversation(), username);
     }
+
     default void disconnectButtonClick(Controller controller) {
         controller.userConnectedState.disconnectUser();
     }

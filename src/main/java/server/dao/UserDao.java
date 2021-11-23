@@ -1,11 +1,8 @@
 package server.dao;
 
-import common.model.Conversation;
 import common.model.User;
 
 import java.io.*;
-import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,10 +17,8 @@ public class UserDao {
     private final static String userLocation = dataLocation + "users/";
     private static UserDao userDaoSingleton = null;
 
-    public static UserDao getInstance()
-    {
-        if(userDaoSingleton == null)
-        {
+    public static UserDao getInstance() {
+        if (userDaoSingleton == null) {
             userDaoSingleton = new UserDao();
         }
 
@@ -75,22 +70,17 @@ public class UserDao {
             return false;
     }
 
-    public boolean exists(String username)
-    {
+    public boolean exists(String username) {
         return users.containsKey(username);
     }
 
-    public void loadUsers()
-    {
+    public void loadUsers() {
         File f = new File(userLocation);
 
-        if(f.exists())
-        {
-            for(String path : f.list())
-            {
+        if (f.exists()) {
+            for (String path : f.list()) {
                 User user = loadUser(userLocation + path);
-                if(user != null)
-                {
+                if (user != null) {
                     user.setConnected(false);
                     users.put(user.getUsername(), user);
                 }
@@ -98,8 +88,7 @@ public class UserDao {
         }
     }
 
-    public User loadUser(String path)
-    {
+    public User loadUser(String path) {
         System.out.println(path);
         ObjectInputStream ois = null;
 
@@ -124,17 +113,15 @@ public class UserDao {
         return user;
     }
 
-    public void persist(User user)
-    {
+    public void persist(User user) {
         File f = new File(userLocation);
-        if(!f.exists())
-        {
+        if (!f.exists()) {
             f.mkdirs();
         }
 
         ObjectOutputStream oos = null;
         try {
-            final FileOutputStream fichier = new FileOutputStream(userLocation + user.getUsername()+".conv");
+            final FileOutputStream fichier = new FileOutputStream(userLocation + user.getUsername() + ".conv");
             oos = new ObjectOutputStream(fichier);
             oos.writeObject(user);
             oos.flush();
@@ -152,10 +139,8 @@ public class UserDao {
         }
     }
 
-    public void persistAll()
-    {
-        for(User user : users.values())
-        {
+    public void persistAll() {
+        for (User user : users.values()) {
             persist(user);
         }
     }
