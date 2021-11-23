@@ -4,16 +4,13 @@ import client.SocketThread;
 import client.controller.state.*;
 import client.gui.Gui;
 import common.model.Conversation;
-import common.model.TextMessage;
 import common.model.User;
 import common.utils.ConnectionState;
 import common.utils.SocketUtils;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Controller {
@@ -41,7 +38,7 @@ public class Controller {
 
     public Controller() {
         conversationsOfUser = new HashMap<>();
-        conversationsNameOfUser =  new HashMap<>();
+        conversationsNameOfUser = new HashMap<>();
         this.gui = new Gui(this);
         this.initState = new InitState();
         this.askUserLoginState = new ConnectingState();
@@ -118,8 +115,7 @@ public class Controller {
         this.currentState.creatingConversationButtonClick(this, username);
     }
 
-    public void quitDefinitlyConv(Gui gui)
-    {
+    public void quitDefinitlyConv(Gui gui) {
         this.currentState.quitDefinitlyConv(this);
     }
 
@@ -129,9 +125,7 @@ public class Controller {
     }
 
 
-
-    public void disconnectButtonClick (Gui gui)
-    {
+    public void disconnectButtonClick(Gui gui) {
         this.currentState.disconnectButtonClick(this);
     }
 
@@ -139,8 +133,7 @@ public class Controller {
         this.currentState.sendingMessageButtonClick(this, textMessage);
     }
 
-    public void addUserButtonClick(Gui gui, String username)
-    {
+    public void addUserButtonClick(Gui gui, String username) {
         this.currentState.addUserToTheConversation(this, username);
     }
 
@@ -165,8 +158,7 @@ public class Controller {
         return currentState;
     }
 
-    public void updateConversationsTimer()
-    {
+    public void updateConversationsTimer() {
         this.getCurrentState().updateConversationsTimer(this);
     }
 
@@ -178,20 +170,17 @@ public class Controller {
         this.conversationsNameOfUser = conversationsNameOfUser;
     }
 
-    public void changeFocusConversation (Conversation conversation)
-    {
+    public void changeFocusConversation(Conversation conversation) {
         this.getCurrentConnection().setCurrentConversation(conversation);
         this.setCurrentState(this.conversationOpenedState);
     }
 
-    public void quitConversation()
-    {
+    public void quitConversation() {
         this.getCurrentConnection().setCurrentConversation(null);
         this.setCurrentState(this.userConnectedState);
     }
 
-    public void emptyTheConnection()
-    {
+    public void emptyTheConnection() {
         this.getCurrentConnection().setCurrentUser(null);
         this.getCurrentConnection().setCurrentCommand(null);
         this.getCurrentConnection().setCurrentConversation(null);

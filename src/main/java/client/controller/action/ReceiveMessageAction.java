@@ -6,15 +6,13 @@ import common.model.Conversation;
 import common.model.Message;
 import common.model.TextMessage;
 import common.utils.ConnectionState;
-import server.MainServer;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class ReceiveMessageAction implements Action{
+public class ReceiveMessageAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, Controller controller, Gui gui) throws IOException {
 
@@ -32,7 +30,7 @@ public class ReceiveMessageAction implements Action{
         Conversation conversation = controller.getConversationsOfUser().get(convId);
 
 
-        if (type.equals("text") ) {
+        if (type.equals("text")) {
             Message newMessage = new TextMessage(convId, Long.parseLong(timestamp), sender, value);
             if (newMessage.hashCode() == hash) {
                 controller.getConversationsOfUser().get(convId).addMessage(newMessage);
@@ -44,8 +42,7 @@ public class ReceiveMessageAction implements Action{
         String date = localDateTime.format(formatter);
         String receivedMessageContent = (sender + ":" + date + ": " + value);
 
-        if(gui.getCurrentState()==gui.getConversationOpenedViewState() && controller.getCurrentConnection().getCurrentConversation().getId()==Long.parseLong(conversationId))
-        {
+        if (gui.getCurrentState() == gui.getConversationOpenedViewState() && controller.getCurrentConnection().getCurrentConversation().getId() == Long.parseLong(conversationId)) {
             if (type.equals("text")) {
 
 

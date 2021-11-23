@@ -1,7 +1,6 @@
 package client.gui;
 
 import client.controller.Controller;
-import client.gui.panel.InitPanel;
 import client.gui.panel.MainPanel;
 import client.gui.viewstate.ConversationOpenedViewState;
 import client.gui.viewstate.InitViewState;
@@ -56,7 +55,6 @@ public class Gui {
     public void setCurrentViewState(ViewState currentViewState) {
         this.currentState = currentViewState;
     }
-
 
 
     public MainPanel getMainPanel() {

@@ -2,7 +2,9 @@ package common.model;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Represents a chat room.
@@ -11,14 +13,13 @@ public class Conversation implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private long id;
+    private final long id;
     private String nom;
 
     private final List<String> usernames;
     private final List<Message> messages;
 
-    public Conversation(long id)
-    {
+    public Conversation(long id) {
         this.id = id;
         this.nom = nom;
 
@@ -32,27 +33,22 @@ public class Conversation implements Serializable {
         messages = Collections.synchronizedList(new ArrayList<>());
         this.usernames = Collections.synchronizedList(new ArrayList<>());
 
-        for(String username : usernames)
-        {
+        for (String username : usernames) {
             addUsername(username);
         }
     }
 
-    public String getUsername(int index)
-    {
+    public String getUsername(int index) {
         return usernames.get(index);
     }
 
-    public void addUsername(String username)
-    {
-        if(!usernames.contains(username))
-        {
+    public void addUsername(String username) {
+        if (!usernames.contains(username)) {
             usernames.add(username);
         }
     }
 
-    public void removeUsername(String username)
-    {
+    public void removeUsername(String username) {
         usernames.remove(username);
     }
 
@@ -72,10 +68,8 @@ public class Conversation implements Serializable {
      */
     public List<String> getOtherUsers(String u) {
         List<String> result = new ArrayList<>();
-        for(String username : usernames)
-        {
-            if(!username.equals(u))
-            {
+        for (String username : usernames) {
+            if (!username.equals(u)) {
                 result.add(username);
             }
         }
@@ -83,30 +77,25 @@ public class Conversation implements Serializable {
         return result;
     }
 
-    public String generateNom()
-    {
+    public String generateNom() {
 
         return String.join(",", usernames);
     }
 
-    public String getNom()
-    {
+    public String getNom() {
         nom = generateNom();
         return nom;
     }
 
-    public long getId()
-    {
+    public long getId() {
         return id;
     }
 
-    public int numberOfParticipants()
-    {
+    public int numberOfParticipants() {
         return usernames.size();
     }
 
-    public boolean userIsInConversation(String username)
-    {
+    public boolean userIsInConversation(String username) {
         return usernames.contains(username);
     }
 }

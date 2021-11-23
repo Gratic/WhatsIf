@@ -5,13 +5,10 @@ import client.controller.Controller;
 import client.gui.Gui;
 import client.gui.viewstate.UserConnectedViewState;
 import common.command.CommandSender;
-import common.model.Conversation;
 import common.utils.SocketUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * User Connected State. The user is connected.
@@ -44,9 +41,8 @@ public class UserConnectedState implements State {
 
     public void createNewChatroom(String usernames) {
         String[] users = usernames.split(",");
-        List<String > participants = new ArrayList<>(List.of(users));
-        if(!participants.contains(controller.getCurrentUser().getUsername()))
-        {
+        List<String> participants = new ArrayList<>(List.of(users));
+        if (!participants.contains(controller.getCurrentUser().getUsername())) {
             participants.add(controller.getCurrentUser().getUsername());
         }
         System.out.println("chatroom created");
@@ -58,8 +54,6 @@ public class UserConnectedState implements State {
     public void disconnectUser() {
         commandSender.sendDisconnect();
     }
-
-
 
 
 }

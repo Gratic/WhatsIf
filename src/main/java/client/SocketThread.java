@@ -39,11 +39,11 @@ public class SocketThread extends Thread {
                 Action actionToExecute = null;
                 switch (command) {
 
-                    case "confirmMessage" ->{
+                    case "confirmMessage" -> {
 
                         actionToExecute = new ReceiveMessageAction();
                     }
-                    case "confirmChatroom" ->{
+                    case "confirmChatroom" -> {
 
                         actionToExecute = new CreateNewConversationAction();
 
@@ -59,17 +59,15 @@ public class SocketThread extends Thread {
                     case "confirmAddUserToChatroom" -> {
                         actionToExecute = new BeingAddedInChatroomAction();
                     }
-                    case "confirmDisconnect" ->{
+                    case "confirmDisconnect" -> {
                         controller.setCurrentState(controller.terminationState);
                     }
 
 
-                    
                     default -> controller.setCurrentState(controller.terminationState);
                 }
-                if(actionToExecute!=null)
-                {
-                    actionToExecute.execute(currentConnection,controller,controller.gui);
+                if (actionToExecute != null) {
+                    actionToExecute.execute(currentConnection, controller, controller.gui);
                 }
 
             }

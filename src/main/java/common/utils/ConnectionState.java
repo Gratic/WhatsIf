@@ -2,7 +2,6 @@ package common.utils;
 
 import common.model.Conversation;
 import common.model.User;
-import common.utils.SocketUtils;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -52,7 +51,7 @@ public class ConnectionState implements Serializable {
         if (this.socketUtils != null)
             this.socketUtils.close();
 
-        if(currentSocket != null)
+        if (currentSocket != null)
             this.socketUtils = new SocketUtils(currentSocket);
     }
 
@@ -80,8 +79,7 @@ public class ConnectionState implements Serializable {
         this.alive = alive;
     }
 
-    public SocketUtils getSocketUtils()
-    {
+    public SocketUtils getSocketUtils() {
         return socketUtils;
     }
 
@@ -93,7 +91,6 @@ public class ConnectionState implements Serializable {
     public void sendSocketMessage(String message) {
         this.socketUtils.sendSocketMessage(message);
     }
-
 
 
     /**
@@ -117,11 +114,9 @@ public class ConnectionState implements Serializable {
     }
 
     public void close() {
-        if(getCurrentUser() != null)
-        {
+        if (getCurrentUser() != null) {
             getCurrentUser().setConnected(false);
-            if(getCurrentUser().getSocket() != null)
-            {
+            if (getCurrentUser().getSocket() != null) {
                 closeSocket();
                 setCurrentSocket(null);
                 getCurrentUser().setSocket(null);

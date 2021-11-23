@@ -1,6 +1,5 @@
 package common.model;
 
-import common.utils.ConnectionState;
 import common.utils.Pair;
 import common.utils.SocketUtils;
 
@@ -58,7 +57,7 @@ public class User implements Serializable {
         if (this.socketUtils != null)
             this.socketUtils.close();
 
-        if(socket != null)
+        if (socket != null)
             this.socketUtils = new SocketUtils(socket);
     }
 
@@ -80,8 +79,6 @@ public class User implements Serializable {
     public String receiveSocketLine() throws IOException {
         return this.socketUtils.receiveSocketLine();
     }
-
-
 
 
     /**

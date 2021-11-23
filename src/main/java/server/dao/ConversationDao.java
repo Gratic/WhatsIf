@@ -1,13 +1,9 @@
 package server.dao;
 
 import common.model.Conversation;
-import common.model.User;
-import common.utils.Pair;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,10 +20,8 @@ public class ConversationDao {
     private final static String convLocation = dataLocation + "conversations/";
     private static ConversationDao conversationDaoSingleton = null;
 
-    public static ConversationDao getInstance()
-    {
-        if(conversationDaoSingleton == null)
-        {
+    public static ConversationDao getInstance() {
+        if (conversationDaoSingleton == null) {
             conversationDaoSingleton = new ConversationDao();
             loadId();
         }
@@ -35,8 +29,7 @@ public class ConversationDao {
         return conversationDaoSingleton;
     }
 
-    private ConversationDao()
-    {
+    private ConversationDao() {
         conversations = new ConcurrentHashMap<>();
         loadConversations();
     }
@@ -61,18 +54,14 @@ public class ConversationDao {
         return currentId;
     }
 
-    public List<Conversation> searchConversationThatIncludeUsername(String username)
-    {
+    public List<Conversation> searchConversationThatIncludeUsername(String username) {
         List<Conversation> result = new ArrayList<>();
 
-        for(Conversation conversation : conversations.values())
-        {
+        for (Conversation conversation : conversations.values()) {
             int nbParticipants = conversation.numberOfParticipants();
-            for(int i = 0; i < nbParticipants; i++)
-            {
+            for (int i = 0; i < nbParticipants; i++) {
                 String user = conversation.getUsername(i);
-                if(user.equals(username))
-                {
+                if (user.equals(username)) {
                     result.add(conversation);
                     break;
                 }
@@ -82,22 +71,17 @@ public class ConversationDao {
         return result;
     }
 
-    public Conversation searchConversationWithId(long id)
-    {
+    public Conversation searchConversationWithId(long id) {
         return conversations.getOrDefault(id, null);
     }
 
-    public void loadConversations()
-    {
+    public void loadConversations() {
         File f = new File(convLocation);
 
-        if(f.exists())
-        {
-            for(String path : f.list())
-            {
+        if (f.exists()) {
+            for (String path : f.list()) {
                 Conversation conversation = loadConversation(convLocation + path);
-                if(conversation != null)
-                {
+                if (conversation != null) {
                     conversations.put(conversation.getId(), conversation);
                 }
             }
@@ -105,8 +89,7 @@ public class ConversationDao {
 
     }
 
-    public Conversation loadConversation(String path)
-    {
+    public Conversation loadConversation(String path) {
         System.out.println(path);
         ObjectInputStream ois = null;
 
@@ -131,17 +114,15 @@ public class ConversationDao {
         return conversation;
     }
 
-    public void persist(Conversation conversation)
-    {
+    public void persist(Conversation conversation) {
         File f = new File(convLocation);
-        if(!f.exists())
-        {
+        if (!f.exists()) {
             f.mkdirs();
         }
 
         ObjectOutputStream oos = null;
         try {
-            final FileOutputStream fichier = new FileOutputStream(convLocation + conversation.getId()+".conv");
+            final FileOutputStream fichier = new FileOutputStream(convLocation + conversation.getId() + ".conv");
             oos = new ObjectOutputStream(fichier);
             oos.writeObject(conversation);
             oos.flush();
@@ -159,29 +140,22 @@ public class ConversationDao {
         }
     }
 
-    public void persistAll()
-    {
-        for(Conversation conversation : conversations.values())
-        {
+    public void persistAll() {
+        for (Conversation conversation : conversations.values()) {
             persist(conversation);
         }
     }
 
-    public static void loadId()
-    {
+    public static void loadId() {
         File f = new File(idLocation);
-        if(!f.exists())
-        {
+        if (!f.exists()) {
             f.mkdirs();
         }
 
         File fId = new File(idLocation + "conversationDao.id");
-        if(!fId.exists())
-        {
+        if (!fId.exists()) {
             nextID = 0L;
-        }
-        else
-        {
+        } else {
             try {
                 BufferedReader fIdr = new BufferedReader(new FileReader(fId));
 
@@ -196,11 +170,9 @@ public class ConversationDao {
         }
     }
 
-    public static void persistId()
-    {
+    public static void persistId() {
         File f = new File(idLocation);
-        if(!f.exists())
-        {
+        if (!f.exists()) {
             f.mkdirs();
         }
 
@@ -208,7 +180,7 @@ public class ConversationDao {
 
         try {
             FileWriter fIdw = new FileWriter(fId);
-            fIdw.write(String.valueOf(nextID) + "\n");
+            fIdw.write(nextID + "\n");
             fIdw.flush();
             fIdw.close();
         } catch (IOException e) {

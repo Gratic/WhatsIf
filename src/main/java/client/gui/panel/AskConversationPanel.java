@@ -1,7 +1,6 @@
 package client.gui.panel;
 
 import client.gui.Gui;
-import client.gui.viewstate.ConversationOpenedViewState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,5 +38,10 @@ public class AskConversationPanel extends GuiPanel implements ActionListener {
             this.gui.getController().creatingConversationButtonClick(this.gui, name.getText());
             this.gui.getUserConnectedViewState().stopTimer();
         }
+    }
+
+    @Override
+    public String getName() {
+        return name.getText();
     }
 }

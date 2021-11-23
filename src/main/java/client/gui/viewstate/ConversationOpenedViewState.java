@@ -8,21 +8,16 @@ import client.gui.panel.ReceivedMessagePanel;
 import client.gui.panel.UserConnectedPanel;
 import common.model.Conversation;
 import common.model.Message;
-import common.model.TextMessage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 public class ConversationOpenedViewState extends ViewState implements ActionListener {
 
@@ -31,7 +26,7 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
     private OpenedConversationPanel openedConversationPanel;
     private JButton sendMessageButton;
     private JTextArea messageArea;
-    private Timer timer;
+    private final Timer timer;
     private JButton quitConvButton;
     private JTextField usernameToAdd;
     private JButton add;
@@ -45,15 +40,14 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         createGuiComponents();
         loadPreviousMessages();
 
-        timer = new Timer(1000, new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
+        timer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
                 controller.updateConversationsTimer();
                 showConversations();
             }
 
         });
         timer.start();
-
 
 
         gui.getMainPanel().add(userConnectedPanel, BorderLayout.CENTER);
@@ -70,18 +64,18 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         messageArea = new JTextArea();
         messageArea.setPreferredSize(new Dimension(600, 100));
         messageArea.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        JLabel otherUser = new JLabel("Conversation with "+controller.getConversationsNameOfUser().get(controller.currentConnection.getCurrentConversation().getId()));
+        JLabel otherUser = new JLabel("Conversation with " + controller.getConversationsNameOfUser().get(controller.currentConnection.getCurrentConversation().getId()));
 
         openedConversationPanel.getInfosConvPanel().add(otherUser, BorderLayout.SOUTH);
 
         quitConvButton = new JButton("Leave definitly the conversation");
         quitConvButton.addActionListener(this);
-        quitConvButton.setBounds(10,30,50,50);
+        quitConvButton.setBounds(10, 30, 50, 50);
         quitConvButton.setBackground(new Color(0xEF8282));
         openedConversationPanel.getInfosConvPanel().add(quitConvButton, BorderLayout.NORTH);
 
         JPanel addUser = new JPanel();
-        addUser.setPreferredSize(new Dimension(350,30));
+        addUser.setPreferredSize(new Dimension(350, 30));
         addUser.setBackground(new Color(0xC9E4E7));
         addUser.setLayout(new BorderLayout());
 
@@ -92,8 +86,7 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         add.addActionListener(this);
 
 
-
-        openedConversationPanel.getInfosConvPanel().add(addUser,BorderLayout.CENTER);
+        openedConversationPanel.getInfosConvPanel().add(addUser, BorderLayout.CENTER);
 
         openedConversationPanel.revalidate();
         openedConversationPanel.revalidate();
@@ -111,11 +104,9 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
             this.gui.getController().sendingButtonClick(this.gui, messageArea.getText());
             messageArea.selectAll();
             messageArea.replaceSelection("");
-        }else if (e.getSource()== quitConvButton)
-        {
+        } else if (e.getSource() == quitConvButton) {
             this.gui.getController().quitDefinitlyConv(this.gui);
-        }else if (e.getSource() == add)
-        {
+        } else if (e.getSource() == add) {
             this.gui.getController().addUserButtonClick(this.gui, usernameToAdd.getText());
         }
     }
@@ -150,7 +141,7 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
             String sender;
             if (nbMessages != 0) {
                 text = conversation.getMessages().get(conversation.getMessages().size() - 1).getValue();
-                sender = conversation.getMessages().get(conversation.getMessages().size() - 1).getSender()+" : ";
+                sender = conversation.getMessages().get(conversation.getMessages().size() - 1).getSender() + " : ";
 
             } else {
                 text = "No message in the conversation";
@@ -159,7 +150,7 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
             JLabel usernames = new JLabel(conversationNamesMap.get(conversationId));
             conversationPanel.add(usernames);
             JLabel message = new JLabel(text);
-            JLabel senderUsername = new JLabel(sender );
+            JLabel senderUsername = new JLabel(sender);
             conversationPanel.add(usernames);
             conversationPanel.add(senderUsername);
             conversationPanel.add(message);
@@ -171,11 +162,10 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         }
     }
 
-    public void loadPreviousMessages()
-    {
+    public void loadPreviousMessages() {
 
-        List <Message> messages= controller.getCurrentConnection().getCurrentConversation().getMessages();
-        for(Message m : messages){
+        List<Message> messages = controller.getCurrentConnection().getCurrentConversation().getMessages();
+        for (Message m : messages) {
             String sender = m.getSender();
             Long timestamp = m.getTimestamp();
             String value = m.getValue();
@@ -187,5 +177,7 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         }
 
     }
+
+
 
 }

@@ -1,16 +1,10 @@
 package server;
 
-import common.model.Conversation;
-import common.model.Message;
-import common.model.TextMessage;
-import common.model.User;
 import server.dao.ConversationDao;
 import server.dao.UserDao;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * MainServer is the starting point.
