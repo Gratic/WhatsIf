@@ -20,7 +20,6 @@ public class QuitChatroomAction implements Action{
             Map<Long, Conversation> conversationMap = controller.getConversationsOfUser();
             conversationMap.remove(convId);
             controller.setCurrentState(controller.userConnectedState);
-           // gui.getUserConnectedViewState().showConversations();
         }
     }
 }
