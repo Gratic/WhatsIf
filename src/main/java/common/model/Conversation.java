@@ -57,7 +57,18 @@ public class Conversation implements Serializable {
     }
 
     public void addMessage(Message message) {
-        this.messages.add(message);
+        boolean duplicate = false;
+        for(Message unMessage : messages)
+        {
+            if(unMessage.hashCode() == message.hashCode())
+            {
+                duplicate = true;
+                break;
+            }
+        }
+
+        if(!duplicate)
+            this.messages.add(message);
     }
 
     /**
