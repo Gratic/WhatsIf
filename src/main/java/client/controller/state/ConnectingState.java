@@ -12,6 +12,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 
+/**
+ * Connecting state, accessed when a user tries to connect
+ * <p>
+ * After state(s) possible : UserConnectedState, InitState
+ * Before state(s) possible : InitState
+ */ 
 public class ConnectingState implements State {
 
     Socket connectionSocket = null;

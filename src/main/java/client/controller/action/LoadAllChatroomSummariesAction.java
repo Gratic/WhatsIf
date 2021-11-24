@@ -7,7 +7,12 @@ import common.model.Conversation;
 import common.utils.ConnectionState;
 
 import java.io.IOException;
-
+/**
+ * Action used to load summaries of the conversations of the current user
+ * Summaries of conversations contain for each conversation its id, number of messages in the conversation and
+ * hash of the last message in the conversation.
+ * Used to get the list of the conversations the user is in when the user is connected.
+ */
 public class LoadAllChatroomSummariesAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, Controller controller, Gui gui) throws IOException {

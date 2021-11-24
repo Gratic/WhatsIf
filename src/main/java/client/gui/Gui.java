@@ -10,6 +10,9 @@ import client.gui.viewstate.ViewState;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Graphical user interface of the application
+ */
 public class Gui {
 
     protected Controller controller;

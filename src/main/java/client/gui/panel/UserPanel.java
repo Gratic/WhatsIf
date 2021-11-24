@@ -32,6 +32,10 @@ public class UserPanel extends GuiPanel implements ActionListener {
 
     }
 
+    /**
+     * Disconnect the user when the button is clicked
+     * @param e action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == disconnect) {

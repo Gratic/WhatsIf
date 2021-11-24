@@ -9,8 +9,8 @@ import common.model.TextMessage;
 /**
  * Conversation Joined State. Successfully joined a conversation. The current user is able to receive message and to send them.
  * <p>
- * After state(s) possible : Quitting Conversation
- * Before state(s) possible : Joining Conversation, Quitting Conversation Failed
+ * After state(s) possible : UserConnectedState, TerminationState
+ * Before state(s) possible : UserConnectedState
  */
 public class ConversationOpenedState implements State {
     private String message;

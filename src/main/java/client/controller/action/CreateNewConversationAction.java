@@ -6,7 +6,10 @@ import common.model.Conversation;
 import common.utils.ConnectionState;
 
 import java.io.IOException;
-
+/**
+ * Action called when the current user creates a new chatroom
+ * Add the conversation to the list of conversations of the current user
+ */
 public class CreateNewConversationAction implements Action {
 
     @Override

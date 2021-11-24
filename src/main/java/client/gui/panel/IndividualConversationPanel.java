@@ -24,10 +24,13 @@ public class IndividualConversationPanel extends GuiPanel implements MouseListen
         setLayout(new FlowLayout());
     }
 
+    /**
+     * Change the focused conversation when a conversation panel is clicked
+     * @param e action event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         controller.changeFocusConversation(conversation);
-        System.out.println("conversation changed");
 
 
     }

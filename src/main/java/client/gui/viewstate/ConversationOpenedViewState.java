@@ -19,6 +19,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * View state when a conversation is opened.
+ * Displays the messages of the conversation and the user can send a message, add an user or quit the conversation
+ */
 public class ConversationOpenedViewState extends ViewState implements ActionListener {
 
     private final UserConnectedPanel userConnectedPanel;
@@ -98,6 +102,13 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         userConnectedPanel.repaint();
     }
 
+    /**
+     * Actions made when buttons are clicked
+     * If the send message button is clicked : send the message and clear the text area
+     * If the quit conv button is cliked : the user quits definitly the conversation
+     * If the add button is clicked : the user to which the username corresponds is added to the conversation
+     * @param e action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == sendMessageButton) {
@@ -111,10 +122,15 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         }
     }
 
+
     public void receiveMessage(String message) {
         addMessagePanel(message);
     }
 
+    /**
+     * Display a message in the opened conversation
+     * @param message the message to display
+     */
     public void addMessagePanel(String message) {
         ReceivedMessagePanel received = new ReceivedMessagePanel(gui);
         JLabel messageLabel = new JLabel(message);
@@ -128,6 +144,9 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         openedConversationPanel.repaint();
     }
 
+    /**
+     * Function called every second, refresh the display of the conversations of the user
+     */
     public void showConversations() {
         Map<Long, Conversation> conversationMap = controller.getConversationsOfUser();
         Map<Long, String> conversationNamesMap = controller.getConversationsNameOfUser();
@@ -162,6 +181,9 @@ public class ConversationOpenedViewState extends ViewState implements ActionList
         }
     }
 
+    /**
+     * Load the history of messages in the conversation and displays them
+     */
     public void loadPreviousMessages() {
 
         List<Message> messages = controller.getCurrentConnection().getCurrentConversation().getMessages();
