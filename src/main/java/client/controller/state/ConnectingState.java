@@ -13,9 +13,10 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 /**
- * Initial state. The application starts in this state.
+ * Connecting state, accessed when a user tries to connect
  * <p>
- * After state(s) possible : Connecting State
+ * After state(s) possible : UserConnectedState, InitState
+ * Before state(s) possible : InitState
  */ 
 public class ConnectingState implements State {
 

@@ -7,8 +7,8 @@ import common.model.User;
 /**
  * Termination State. Last state before termination of the application in normal execution.
  * <p>
- * After state(s) possible : None
- * Before state(s) possible : Initial, User Connected
+ * After state(s) possible : InitState
+ * Before state(s) possible : Initial, User Connected, ConversationOpenedState
  */
 public class TerminationState implements State {
     @Override
