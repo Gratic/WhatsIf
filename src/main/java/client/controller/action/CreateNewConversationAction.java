@@ -17,7 +17,7 @@ public class CreateNewConversationAction implements Action {
             Long id = Long.parseLong(arguments[2]);
             Conversation conversation = new Conversation(id);
             controller.getConversationsOfUser().put(id, conversation);
-            String name = gui.getUserConnectedViewState().getAskConversationPanel().getName();
+            String name = gui.getUserConnectedViewState().getAskConversationPanel().getName()+","+controller.getCurrentUser().getUsername();
             controller.getConversationsNameOfUser().put(id, name);
 
             controller.changeFocusConversation(conversation);
