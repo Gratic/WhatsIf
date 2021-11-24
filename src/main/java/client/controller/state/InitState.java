@@ -7,7 +7,7 @@ import client.gui.viewstate.InitViewState;
 /**
  * Initial state. The application starts in this state.
  * <p>
- * After state(s) possible : AskUserLoginState
+ * After state(s) possible : Connecting State
  */
 public class InitState implements State {
 

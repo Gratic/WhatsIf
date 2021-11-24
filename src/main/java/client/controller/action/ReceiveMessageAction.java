@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+/**
+ *Receive a message sent to the current user and add it to the right conversation
+ */
 public class ReceiveMessageAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, Controller controller, Gui gui) throws IOException {

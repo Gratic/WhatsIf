@@ -12,6 +12,11 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 
+/**
+ * Initial state. The application starts in this state.
+ * <p>
+ * After state(s) possible : Connecting State
+ */ 
 public class ConnectingState implements State {
 
     Socket connectionSocket = null;

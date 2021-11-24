@@ -7,6 +7,10 @@ import common.utils.ConnectionState;
 
 import java.io.IOException;
 
+/**
+ * Action called when the current user is being added in a chatroom
+ * Add the conversation to the list of conversations of the current user
+ */
 public class BeingAddedInChatroomAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, Controller controller, Gui gui) throws IOException {

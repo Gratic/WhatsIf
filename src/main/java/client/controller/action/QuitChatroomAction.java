@@ -7,7 +7,9 @@ import common.utils.ConnectionState;
 
 import java.io.IOException;
 import java.util.Map;
-
+/**
+ *Delete a conversation from the list of conversations of the user.
+ */
 public class QuitChatroomAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, Controller controller, Gui gui) throws IOException {
