@@ -13,6 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
+/**
+ * User connected view state
+ * Displays the list of conversations of the user and the field necessary to create a new chatroom
+ */
 public class UserConnectedViewState extends ViewState {
 
 
@@ -54,12 +58,18 @@ public class UserConnectedViewState extends ViewState {
 
     }
 
+    /**
+     * stops the timer
+     */
     public void stopTimer() {
         if (timer != null) {
             timer.stop();
         }
     }
 
+    /**
+     * Function called every second, refresh the display of the conversations of the user
+     */
     public void showConversations() {
         Map<Long, Conversation> conversationMap = controller.getConversationsOfUser();
         Map<Long, String> conversationNamesMap = controller.getConversationsNameOfUser();

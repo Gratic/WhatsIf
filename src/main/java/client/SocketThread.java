@@ -6,6 +6,10 @@ import common.utils.ConnectionState;
 
 import java.net.Socket;
 
+/**
+ * SocketThread manages a connection with the serer.
+ * Receive the confirmations from the server.
+ */
 public class SocketThread extends Thread {
 
     private final Socket clientSocket;

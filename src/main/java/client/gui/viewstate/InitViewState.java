@@ -8,10 +8,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Initial view state
+ * Display the fields necessary to connect
+ */
 public class InitViewState extends ViewState implements ActionListener {
 
     private final InitPanel initPanel;
     private JButton button;
+
 
     public InitViewState(Gui gui) {
         super(gui);

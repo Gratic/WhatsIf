@@ -49,6 +49,9 @@ public class Controller {
         init();
     }
 
+    /**
+     * Initialize the controller and set the current state to init state
+     */
     public void init() {
         gui.init();
         setCurrentState(initState);
@@ -59,6 +62,9 @@ public class Controller {
         runCurrentState();
     }
 
+    /**
+     * Run the current state
+     */
     public void runCurrentState() {
         this.currentState.run(this, gui);
     }
@@ -78,7 +84,10 @@ public class Controller {
 
     }
 
-    
+    /**
+     * Get the current conversation of the user
+     * @return the cuurrent connection
+     */
     public ConnectionState getCurrentConnection() {
         return currentConnection;
     }

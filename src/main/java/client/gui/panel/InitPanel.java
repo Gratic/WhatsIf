@@ -47,11 +47,14 @@ public class InitPanel extends GuiPanel implements ActionListener {
 
     }
 
+    /**
+     * Send a connecion request when the button is clicked
+     * @param e action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // load action
         if (e.getSource() == beginButton) {
-            System.out.println("Bouton clické");
             System.out.println(usernameEntry.getText());
             String username = usernameEntry.getText();
             String ip = ipEntry.getText();
