@@ -56,6 +56,13 @@ public class Conversation implements Serializable {
         return messages;
     }
 
+    /**
+     * Add a message to the conversation.
+     *
+     * Their can't be a message with the same hash as one in the conversation.
+     *
+     * @param message message
+     */
     public void addMessage(Message message) {
         boolean duplicate = false;
         for(Message unMessage : messages)

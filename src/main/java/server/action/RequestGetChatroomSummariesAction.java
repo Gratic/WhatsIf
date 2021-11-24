@@ -8,6 +8,12 @@ import server.MainServer;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * In charge of sending the summaries of conversations to a user.
+ *
+ * If status is 0 everything is okay.
+ * If status is 1 their is no conversation.
+ */
 public class RequestGetChatroomSummariesAction implements Action {
 
     @Override

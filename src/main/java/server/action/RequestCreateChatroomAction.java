@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * In charge of creating a chatroom.
+ *
+ * Status is 0 if everything is okay.
+ * Status is 1 the creation of conversation failed.
+ */
 public class RequestCreateChatroomAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, CommandSender commandSender) throws IOException {

@@ -5,6 +5,12 @@ import common.model.User;
 import common.utils.ConnectionState;
 import server.MainServer;
 
+/**
+ * In charge of connecting a user and making connected into the UserDAO.
+ *
+ * Status is 0 when everything is okay.
+ * Status is 1 when the user is already connected.
+ */
 public class RequestConnectionAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, CommandSender commandSender) {

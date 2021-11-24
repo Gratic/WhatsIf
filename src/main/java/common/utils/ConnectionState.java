@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.Socket;
 
+/**
+ * Represents the status of a connection.
+ */
 public class ConnectionState implements Serializable {
     private User currentUser;
     private Conversation currentConversation;
@@ -113,6 +116,9 @@ public class ConnectionState implements Serializable {
         return this.socketUtils.socketIncomingData();
     }
 
+    /**
+     * Closes everything.
+     */
     public void close() {
         if (getCurrentUser() != null) {
             getCurrentUser().setConnected(false);
@@ -124,6 +130,9 @@ public class ConnectionState implements Serializable {
         }
     }
 
+    /**
+     * Closes the socket.
+     */
     public void closeSocket() {
         if (this.socketUtils != null)
             this.socketUtils.close();

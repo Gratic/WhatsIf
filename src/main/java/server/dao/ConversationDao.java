@@ -10,6 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * ConversationDao manages Conversations.
+ *
+ * Responsible for the CRUD of Conversations.
  */
 public class ConversationDao {
     private final Map<Long, Conversation> conversations;
@@ -20,6 +22,12 @@ public class ConversationDao {
     private final static String convLocation = dataLocation + "conversations/";
     private static ConversationDao conversationDaoSingleton = null;
 
+    /**
+     * Singleton design pattern.
+     * The first time this method is called, creates an instance.
+     *
+     * @return the current instance
+     */
     public static ConversationDao getInstance() {
         if (conversationDaoSingleton == null) {
             conversationDaoSingleton = new ConversationDao();
@@ -54,6 +62,13 @@ public class ConversationDao {
         return currentId;
     }
 
+    /**
+     * Returns the conversation which among participant a user has the same username as the given username.
+     * If no user is found return a empty list.
+     *
+     * @param username the username
+     * @return a List of conversations, can be empty
+     */
     public List<Conversation> searchConversationThatIncludeUsername(String username) {
         List<Conversation> result = new ArrayList<>();
 
@@ -71,10 +86,19 @@ public class ConversationDao {
         return result;
     }
 
+    /**
+     * Returns the conversation with the corresponding id.
+     *
+     * @param id the id
+     * @return the conversation with the corresponding id.
+     */
     public Conversation searchConversationWithId(long id) {
         return conversations.getOrDefault(id, null);
     }
 
+    /**
+     * Load all conversations from the directory /data/server/conversations.
+     */
     public void loadConversations() {
         File f = new File(convLocation);
 
@@ -89,6 +113,12 @@ public class ConversationDao {
 
     }
 
+    /**
+     * Load a conversation which file is at given path.
+     *
+     * @param path the path of the file.
+     * @return a Conversation.
+     */
     public Conversation loadConversation(String path) {
         System.out.println(path);
         ObjectInputStream ois = null;
@@ -114,6 +144,11 @@ public class ConversationDao {
         return conversation;
     }
 
+    /**
+     * Persist a single conversation.
+     *
+     * @param conversation the conversation to persist.
+     */
     public void persist(Conversation conversation) {
         File f = new File(convLocation);
         if (!f.exists()) {
@@ -140,12 +175,18 @@ public class ConversationDao {
         }
     }
 
+    /**
+     * Persist all conversations.
+     */
     public void persistAll() {
         for (Conversation conversation : conversations.values()) {
             persist(conversation);
         }
     }
 
+    /**
+     * Load the id.
+     */
     public static void loadId() {
         File f = new File(idLocation);
         if (!f.exists()) {
@@ -170,6 +211,9 @@ public class ConversationDao {
         }
     }
 
+    /**
+     * Persist the id.
+     */
     public static void persistId() {
         File f = new File(idLocation);
         if (!f.exists()) {

@@ -7,6 +7,14 @@ import server.MainServer;
 
 import java.io.IOException;
 
+/**
+ * In charge of adding a user to a conversation when the user request it.
+ *
+ * Status is 0 when everything is okay.
+ * Status is 1 when the user is already in the conversation.
+ * Status is 2 when the user doesn't exist.
+ * Status is 3 when the conversation doesn't exist.
+ */
 public class RequestAddUserToChatroomAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, CommandSender commandSender) throws IOException {
