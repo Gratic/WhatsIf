@@ -7,6 +7,9 @@ import server.MainServer;
 
 import java.io.IOException;
 
+/**
+ * In charge of sending all messages from a conversation to a user.
+ */
 public class RequestGetAllMessagesFromChatroomAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, CommandSender commandSender) throws IOException {

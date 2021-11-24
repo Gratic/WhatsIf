@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * UserDao manages Users.
+ *
+ * Responsible for the CRUD of users.
  */
 public class UserDao {
     private final Map<String, User> users;
@@ -17,6 +19,12 @@ public class UserDao {
     private final static String userLocation = dataLocation + "users/";
     private static UserDao userDaoSingleton = null;
 
+    /**
+     * Singleton design pattern.
+     * The first time this method is called, creates an instance.
+     *
+     * @return the current instance.
+     */
     public static UserDao getInstance() {
         if (userDaoSingleton == null) {
             userDaoSingleton = new UserDao();
@@ -70,10 +78,19 @@ public class UserDao {
             return false;
     }
 
+    /**
+     * Returns true if the user exists, else false.
+     *
+     * @param username username
+     * @return returns true if the user exists, else false.
+     */
     public boolean exists(String username) {
         return users.containsKey(username);
     }
 
+    /**
+     * Load all users from the directory /data/server/users.
+     */
     public void loadUsers() {
         File f = new File(userLocation);
 
@@ -88,6 +105,12 @@ public class UserDao {
         }
     }
 
+    /**
+     * Load a user given a path.
+     *
+     * @param path path to a user data file.
+     * @return a user.
+     */
     public User loadUser(String path) {
         System.out.println(path);
         ObjectInputStream ois = null;
@@ -113,6 +136,11 @@ public class UserDao {
         return user;
     }
 
+    /**
+     * Persist a user.
+     *
+     * @param user the user to persist.
+     */
     public void persist(User user) {
         File f = new File(userLocation);
         if (!f.exists()) {
@@ -139,6 +167,9 @@ public class UserDao {
         }
     }
 
+    /**
+     * Persist all users.
+     */
     public void persistAll() {
         for (User user : users.values()) {
             persist(user);
