@@ -7,6 +7,13 @@ import server.MainServer;
 
 import java.io.IOException;
 
+/**
+ * In charge of deleting a user from a conversation.
+ *
+ * If status is 0 everything is okay.
+ * If status is 1 the user is not in the conversation.
+ * If status is 2 the conversation doesn't exist.
+ */
 public class RequestQuitConversationAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, CommandSender commandSender) throws IOException {

@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 
+/**
+ * Utility class to manipulate a socket.
+ */
 public class SocketUtils {
     private final Socket socket;
     private PrintStream socOut;
@@ -56,15 +59,11 @@ public class SocketUtils {
         return this.socIn.ready();
     }
 
-    public void close() {
-        if (socket != null && !socket.isClosed()) {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
+    /**
+     * Close a socket.
+     */
+    public void close() {
         if (socIn != null) {
             try {
                 socIn.close();
@@ -75,6 +74,14 @@ public class SocketUtils {
 
         if (socOut != null) {
             socOut.close();
+        }
+
+        if (socket != null && !socket.isClosed()) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

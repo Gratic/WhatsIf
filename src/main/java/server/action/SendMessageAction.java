@@ -9,6 +9,9 @@ import common.utils.ConnectionState;
 import common.utils.SocketUtils;
 import server.MainServer;
 
+/**
+ * In charge of sending message to all user in the conversation.
+ */
 public class SendMessageAction implements Action {
     @Override
     public void execute(ConnectionState currentConnection, CommandSender commandSender) {
